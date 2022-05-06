@@ -32,6 +32,8 @@ import {
   Carousel,
   CarouselItem,
   Popover,
+  Checkbox,
+  InputNumber,
 
   Message,
   MessageBox,
@@ -71,6 +73,8 @@ const element = {
     Vue.use(Carousel)
     Vue.use(CarouselItem)
     Vue.use(Popover)
+    Vue.use(Checkbox)
+    Vue.use(InputNumber)
 
     Vue.prototype.$message = Message;
     Vue.prototype.$confirm = MessageBox.confirm;

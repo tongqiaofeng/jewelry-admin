@@ -97,7 +97,7 @@
         :model="deliveryData"
         :rules="deliveryRules"
         ref="deliveryForm"
-        label-width="140px"
+        label-width="180px"
       >
         <el-form-item label="设计图片：" prop="designId">
           <el-button
@@ -529,6 +529,17 @@
             </el-form-item>
           </el-col>
           <el-col :span="12">
+            <el-form-item label="建议批发价(CNY)" prop="adviceWholesalePrice">
+              <el-input
+                v-model="deliveryData.adviceWholesalePrice"
+                placeholder="请输入建议批发金额"
+                @change="getNum"
+              ></el-input>
+            </el-form-item>
+          </el-col>
+        </el-row>
+        <el-row :gutter="10">
+          <el-col :span="12">
             <el-form-item label="建议销售价(CNY)" prop="adviseSellPrice">
               <el-input
                 v-model="deliveryData.adviseSellPrice"
@@ -537,13 +548,25 @@
               ></el-input>
             </el-form-item>
           </el-col>
+          <el-col :span="12">
+            <el-form-item label="代理价(CNY)" prop="agentPrice">
+              <el-input
+                v-model="deliveryData.agentPrice"
+                placeholder="请输入代理价"
+                @change="getNum"
+              ></el-input>
+            </el-form-item>
+          </el-col>
         </el-row>
         <el-row :gutter="10">
           <el-col :span="12">
-            <el-form-item label="建议批发价(CNY)" prop="adviceWholesalePrice">
+            <el-form-item
+              label="建议柜台最低销售价(CNY)"
+              prop="counterLowestSellPrice"
+            >
               <el-input
-                v-model="deliveryData.adviceWholesalePrice"
-                placeholder="请输入建议批发金额"
+                v-model="deliveryData.counterLowestSellPrice"
+                placeholder="请输入"
                 @change="getNum"
               ></el-input>
             </el-form-item>
@@ -586,6 +609,29 @@
             v-model="deliveryData.totalPriceNote"
             placeholder="请输入成本备注内容"
           ></el-input>
+        </el-form-item>
+        <el-form-item label-width="0" prop="activityInfo">
+          <div
+            style="display: flex;justify-content: space-between;color:#606266;font-size:14px;"
+          >
+            <div>
+              <div
+                style="margin: 0;margin-right: 12px;line-height: 20px;text-align:right;"
+              >
+                活动信息
+              </div>
+              <div
+                style="width: 168px;margin: 0;margin-right: 12px;line-height: 20px;text-align:right;"
+              >
+                (多个信息用,隔开)
+              </div>
+            </div>
+            <el-input
+              type="textarea"
+              v-model="deliveryData.activityInfo"
+              placeholder="请输入活动信息内容"
+            ></el-input>
+          </div>
         </el-form-item>
         <el-form-item label="备注：" prop="note">
           <el-input
@@ -1434,6 +1480,66 @@
                       fontWeight: isUpdate == 0 ? 'normal' : 'bold',
                     }"
                   >
+                    建议柜台最低销售价
+                  </div>
+                  <div class="one-right">
+                    <el-input
+                      :readonly="
+                        isUpdate == 0
+                          ? true
+                          : inventoryCheckDetail.isUpdate !== 2
+                          ? false
+                          : true
+                      "
+                      v-model="inventoryCheckDetail.counterLowestSellPrice"
+                      clearable
+                    >
+                    </el-input>
+                  </div>
+                </div>
+                <div class="div-one" v-show="certificateshow2 == false">
+                  <div
+                    class="one-left"
+                    :style="{
+                      color:
+                        isUpdate == 0
+                          ? '#606266'
+                          : inventoryCheckDetail.isUpdate !== 2
+                          ? '#3d82fe'
+                          : '#606266',
+                      fontWeight: isUpdate == 0 ? 'normal' : 'bold',
+                    }"
+                  >
+                    代理价
+                  </div>
+                  <div class="one-right">
+                    <el-input
+                      :readonly="
+                        isUpdate == 0
+                          ? true
+                          : inventoryCheckDetail.isUpdate !== 2
+                          ? false
+                          : true
+                      "
+                      v-model="inventoryCheckDetail.agentPrice"
+                      clearable
+                    >
+                    </el-input>
+                  </div>
+                </div>
+                <div class="div-one" v-show="certificateshow2 == false">
+                  <div
+                    class="one-left"
+                    :style="{
+                      color:
+                        isUpdate == 0
+                          ? '#606266'
+                          : inventoryCheckDetail.isUpdate !== 2
+                          ? '#3d82fe'
+                          : '#606266',
+                      fontWeight: isUpdate == 0 ? 'normal' : 'bold',
+                    }"
+                  >
                     批发单价
                   </div>
                   <div class="one-right">
@@ -1639,14 +1745,6 @@
                     style="margin: 0;color:#919090;margin-left:92px;word-break: break-all;word-wrap: break-word"
                   >
                     {{ activity.note }}
-                    <!-- <el-popover v-if="activity.note !== ''"
-                                      placement="bottom-start"
-                                      title="出库备注信息"
-                                      width="200"
-                                      trigger="hover"
-                                      :content="activity.note">
-                            <el-button slot="reference">备注</el-button>
-                          </el-popover> -->
                   </p>
                 </el-timeline-item>
               </el-timeline>
@@ -1731,6 +1829,7 @@ export default {
         tagPrice: "",
         adviceWholesalePrice: "",
         totalPriceNote: "",
+        activityInfo: "",
         totalCnRate: "",
         totalCnPrice: "",
         totalHkRate: "",
@@ -1739,6 +1838,8 @@ export default {
         currency: "CNY",
         productLabel: [],
         detailImg: [],
+        agentPrice: "",
+        counterLowestSellPrice: "",
       },
       deliveryRules: {
         warehouseId: [
@@ -1990,6 +2091,7 @@ export default {
     // 成品入库
     stockInSubmit(formName) {
       this.params = {};
+      console.log(this.deliveryData.productLabel);
 
       if (this.deliveryData.type == 0) {
         this.params = {
@@ -2013,12 +2115,15 @@ export default {
           params: this.deliveryData.materialParams,
           certificateNumber: this.deliveryData.certificateNumber,
           totalPriceNote: this.deliveryData.totalPriceNote,
+          activityInfo: this.deliveryData.activityInfo,
           totalCnRate: this.deliveryData.totalCnRate,
           totalCnPrice: this.deliveryData.totalCnPrice,
           totalHkRate: this.deliveryData.totalHkRate,
           totalHkPrice: this.deliveryData.totalHkPrice,
           productLabel: this.deliveryData.productLabel.join("|"),
           detailImg: this.deliveryData.detailImg.join("|"),
+          agentPrice: this.deliveryData.agentPrice,
+          counterLowestSellPrice: this.deliveryData.counterLowestSellPrice,
         };
       } else {
         this.params = {
@@ -2049,12 +2154,15 @@ export default {
           params: this.deliveryData.materialParams,
           certificateNumber: this.deliveryData.certificateNumber,
           totalPriceNote: this.deliveryData.totalPriceNote,
+          activityInfo: this.deliveryData.activityInfo,
           totalCnRate: this.deliveryData.totalCnRate,
           totalCnPrice: this.deliveryData.totalCnPrice,
           totalHkRate: this.deliveryData.totalHkRate,
           totalHkPrice: this.deliveryData.totalHkPrice,
           productLabel: this.deliveryData.productLabel.join("|"),
           detailImg: this.deliveryData.detailImg.join("|"),
+          agentPrice: this.deliveryData.agentPrice,
+          counterLowestSellPrice: this.deliveryData.counterLowestSellPrice,
         };
       }
 
@@ -2165,6 +2273,7 @@ export default {
       this.deliveryData.tagPrice = "";
       this.deliveryData.adviceWholesalePrice = "";
       this.deliveryData.totalPriceNote = "";
+      this.deliveryData.activityInfo = "";
       this.deliveryData.totalCnRate = "";
       this.deliveryData.totalCnPrice = "";
       this.deliveryData.totalHkRate = "";
@@ -2172,6 +2281,8 @@ export default {
       this.deliveryData.saleCommission = "";
       this.deliveryData.currency = "CNY";
       this.deliveryData.detailImg = [];
+      this.deliveryData.agentPrice = "";
+      this.deliveryData.counterLowestSellPrice = "";
     },
     // 数量变化
     changeNum(index) {
@@ -2440,11 +2551,14 @@ export default {
             productNumber: this.inventoryCheckDetail.productNumber,
             note: this.inventoryCheckDetail.note,
             img: this.imgList.join("|"),
-            totalPriceNote: this.inventoryCheckDetail.totalPriceNote,
+            activityInfo: this.inventoryCheckDetail.activityInfo,
             totalCnRate: this.inventoryCheckDetail.totalCnRate,
             totalCnPrice: this.inventoryCheckDetail.totalCnPrice,
             totalHkRate: this.inventoryCheckDetail.totalHkRate,
             totalHkPrice: this.inventoryCheckDetail.totalHkPrice,
+            agentPrice: this.inventoryCheckDetail.agentPrice,
+            counterLowestSellPrice: this.inventoryCheckDetail
+              .counterLowestSellPrice,
           })
           .then((res) => {
             console.log("修改材料信息");
@@ -2946,7 +3060,7 @@ export default {
       border-bottom: 1px solid #ccc;
 
       .one-left {
-        width: 140px;
+        width: 160px;
         border-right: 1px solid #ccc;
         text-align: center;
         background-color: #f2f2f2;

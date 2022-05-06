@@ -6,7 +6,7 @@
         :model="stockInFormData"
         :rules="stockInRules"
         ref="stockInForm"
-        label-width="140px"
+        label-width="160px"
         class="demo-ruleForm"
       >
         <el-row :gutter="10">
@@ -133,32 +133,46 @@
         <el-row :gutter="10">
           <el-col :span="20" v-show="numberorweight == true">
             <el-form-item label="总数量：" prop="number">
-              <el-input
+              <el-input-number
+                style="width: 100%;"
+                :controls="false"
                 v-model="stockInFormData.number"
                 placeholder="请输入"
                 @input="priceTotal"
-              ></el-input>
+              >
+              </el-input-number>
             </el-form-item>
           </el-col>
           <el-col :span="20" v-show="numberorweight == false">
             <el-form-item label="总数量：" prop="number">
-              <el-input
+              <el-input-number
+                style="width: 100%;"
+                :controls="false"
                 v-model="stockInFormData.number"
                 placeholder="请输入"
                 @input="priceTotal"
-              ></el-input>
+              >
+              </el-input-number>
             </el-form-item>
             <el-form-item label="总重量：" prop="weight">
-              <el-input
-                v-model="stockInFormData.weight"
-                placeholder="请输入"
-                @input="priceTotal"
-                ><i
-                  slot="suffix"
-                  style="color: #606266;margin-right:5%;font-style:normal;"
-                  >{{ stockInFormData.chargeUnit }}</i
-                ></el-input
-              >
+              <div style="display: flex;">
+                <el-input-number
+                  style="width: 100%;"
+                  :controls="false"
+                  v-model="stockInFormData.weight"
+                  placeholder="请输入"
+                  @input="priceTotal"
+                >
+                </el-input-number>
+                <!-- <i
+                slot="suffix"
+                style="color: #606266;margin-right:5%;font-style:normal;"
+                >{{ stockInFormData.chargeUnit }}</i
+              > -->
+                <div style="font-size: 16px;margin-left: 5px;">
+                  {{ stockInFormData.chargeUnit }}
+                </div>
+              </div>
             </el-form-item>
           </el-col>
         </el-row>
@@ -183,6 +197,27 @@
             <el-form-item label="批发单价：" prop="wholesalePrice">
               <el-input
                 v-model="stockInFormData.wholesalePrice"
+                placeholder="请输入"
+              ></el-input>
+            </el-form-item>
+          </el-col>
+        </el-row>
+        <el-row :gutter="10" v-show="certificateshow == false">
+          <el-col :span="12">
+            <el-form-item
+              label="建议柜台最低销售价："
+              prop="counterLowestSellPrice"
+            >
+              <el-input
+                v-model="stockInFormData.counterLowestSellPrice"
+                placeholder="请输入"
+              ></el-input>
+            </el-form-item>
+          </el-col>
+          <el-col :span="12">
+            <el-form-item label="代理价：" prop="agentPrice">
+              <el-input
+                v-model="stockInFormData.agentPrice"
                 placeholder="请输入"
               ></el-input>
             </el-form-item>
@@ -1191,6 +1226,66 @@
                       fontWeight: isUpdate == 0 ? 'normal' : 'bold',
                     }"
                   >
+                    建议柜台最低销售价
+                  </div>
+                  <div class="one-right">
+                    <el-input
+                      :readonly="
+                        isUpdate == 0
+                          ? true
+                          : inventoryCheckDetail.isUpdate !== 2
+                          ? false
+                          : true
+                      "
+                      v-model="inventoryCheckDetail.counterLowestSellPrice"
+                      clearable
+                    >
+                    </el-input>
+                  </div>
+                </div>
+                <div class="div-one" v-show="certificateshow2 == false">
+                  <div
+                    class="one-left"
+                    :style="{
+                      color:
+                        isUpdate == 0
+                          ? '#606266'
+                          : inventoryCheckDetail.isUpdate !== 2
+                          ? '#3d82fe'
+                          : '#606266',
+                      fontWeight: isUpdate == 0 ? 'normal' : 'bold',
+                    }"
+                  >
+                    代理价
+                  </div>
+                  <div class="one-right">
+                    <el-input
+                      :readonly="
+                        isUpdate == 0
+                          ? true
+                          : inventoryCheckDetail.isUpdate !== 2
+                          ? false
+                          : true
+                      "
+                      v-model="inventoryCheckDetail.agentPrice"
+                      clearable
+                    >
+                    </el-input>
+                  </div>
+                </div>
+                <div class="div-one" v-show="certificateshow2 == false">
+                  <div
+                    class="one-left"
+                    :style="{
+                      color:
+                        isUpdate == 0
+                          ? '#606266'
+                          : inventoryCheckDetail.isUpdate !== 2
+                          ? '#3d82fe'
+                          : '#606266',
+                      fontWeight: isUpdate == 0 ? 'normal' : 'bold',
+                    }"
+                  >
                     批发单价
                   </div>
                   <div class="one-right">
@@ -1461,8 +1556,8 @@ export default {
         chargeUnit: "",
         unitPrice: "",
         currency: "CNY",
-        number: "",
-        weight: "",
+        number: undefined,
+        weight: undefined,
         totalPrice: "",
         retailPrice: "",
         wholesalePrice: "",
@@ -1482,6 +1577,8 @@ export default {
         imgurls: [],
         stockInTime: "",
         note: "",
+        agentPrice: "",
+        counterLowestSellPrice: "",
       },
       stockInRules: {
         materialId: [
@@ -1682,6 +1779,9 @@ export default {
             totalHkPrice: this.inventoryCheckDetail.totalHkPrice,
             note: this.inventoryCheckDetail.note,
             img: this.imgList.join("|"),
+            agentPrice: this.inventoryCheckDetail.agentPrice,
+            counterLowestSellPrice: this.inventoryCheckDetail
+              .counterLowestSellPrice,
           })
           .then((res) => {
             console.log("修改材料信息");
@@ -1815,6 +1915,9 @@ export default {
               note: this.stockInFormData.note,
               img: this.stockInFormData.imgurls.join("|"),
               stockInTime: this.stockInFormData.stockInTime,
+              agentPrice: this.stockInFormData.agentPrice,
+              counterLowestSellPrice: this.stockInFormData
+                .counterLowestSellPrice,
             })
             .then((res) => {
               console.log("材料入库");
@@ -1875,25 +1978,19 @@ export default {
           this.stockInRules.weight[0].required = false;
           this.numberorweight = true;
           this.stockInFormData.weight = 0;
-          console.log(
-            "改变价格1",
-            this.stockInFormData.unitPrice,
-            this.stockInFormData.number
-          );
-          this.stockInFormData.totalPrice = (
-            this.stockInFormData.unitPrice * this.stockInFormData.number
-          ).toFixed(2);
+          if (this.stockInFormData.unitPrice && this.stockInFormData.number) {
+            this.stockInFormData.totalPrice = (
+              this.stockInFormData.unitPrice * this.stockInFormData.number
+            ).toFixed(2);
+          }
         } else {
-          console.log(
-            "改变价格2",
-            this.stockInFormData.unitPrice,
-            this.stockInFormData.weight
-          );
           this.stockInRules.weight[0].required = true;
           this.numberorweight = false;
-          this.stockInFormData.totalPrice = (
-            this.stockInFormData.unitPrice * this.stockInFormData.weight
-          ).toFixed(2);
+          if (this.stockInFormData.unitPrice && this.stockInFormData.weight) {
+            this.stockInFormData.totalPrice = (
+              this.stockInFormData.unitPrice * this.stockInFormData.weight
+            ).toFixed(2);
+          }
         }
       }
       this.stockInFormData.number = 1;
@@ -1909,13 +2006,17 @@ export default {
     priceTotal() {
       this.stockInFormData.totalPrice = 0;
       if (this.stockInFormData.chargeUnit == "粒") {
-        this.stockInFormData.totalPrice = (
-          this.stockInFormData.unitPrice * this.stockInFormData.number
-        ).toFixed(2);
+        if (this.stockInFormData.unitPrice && this.stockInFormData.number) {
+          this.stockInFormData.totalPrice = (
+            this.stockInFormData.unitPrice * this.stockInFormData.number
+          ).toFixed(2);
+        }
       } else {
-        this.stockInFormData.totalPrice = (
-          this.stockInFormData.unitPrice * this.stockInFormData.weight
-        ).toFixed(2);
+        if (this.stockInFormData.unitPrice && this.stockInFormData.weight) {
+          this.stockInFormData.totalPrice = (
+            this.stockInFormData.unitPrice * this.stockInFormData.weight
+          ).toFixed(2);
+        }
       }
       this.currencyChange();
     },
@@ -2277,7 +2378,7 @@ export default {
       border-bottom: 1px solid #ccc;
 
       .one-left {
-        width: 140px;
+        width: 160px;
         border-right: 1px solid #ccc;
         text-align: center;
         background-color: #f2f2f2;
@@ -2312,6 +2413,10 @@ export default {
 </style>
 <style lang="scss">
 #user-admin {
+  .el-input-number .el-input__inner {
+    text-align: left;
+  }
+
   .el-dialog__body {
     height: 500px;
     overflow: auto;

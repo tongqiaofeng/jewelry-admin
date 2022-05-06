@@ -1173,6 +1173,44 @@
                       fontWeight: isUpdate == 0 ? 'normal' : 'bold',
                     }"
                   >
+                    建议柜台最低销售价
+                  </div>
+                  <div class="one-right">
+                    <el-input
+                      :readonly="isUpdate == 0 ? true : false"
+                      v-model="deviceDetail.counterLowestSellPrice"
+                      clearable
+                    >
+                    </el-input>
+                  </div>
+                </div>
+                <div class="div-one" v-show="certificateshow2 == false">
+                  <div
+                    class="one-left"
+                    :style="{
+                      color: isUpdate == 0 ? '#606266' : '#3d82fe',
+                      fontWeight: isUpdate == 0 ? 'normal' : 'bold',
+                    }"
+                  >
+                    代理价
+                  </div>
+                  <div class="one-right">
+                    <el-input
+                      :readonly="isUpdate == 0 ? true : false"
+                      v-model="deviceDetail.agentPrice"
+                      clearable
+                    >
+                    </el-input>
+                  </div>
+                </div>
+                <div class="div-one" v-show="certificateshow2 == false">
+                  <div
+                    class="one-left"
+                    :style="{
+                      color: isUpdate == 0 ? '#606266' : '#3d82fe',
+                      fontWeight: isUpdate == 0 ? 'normal' : 'bold',
+                    }"
+                  >
                     批发单价
                   </div>
                   <div class="one-right">
@@ -1582,7 +1620,6 @@ export default {
       img: this.$store.state.baseUrl,
       img1: require("../assets/imgs/list.png"),
       img2: require("../assets/imgs/camer.png"),
-      cliHeight: 500,
 
       state: 5,
       materialstate: "",
@@ -1743,7 +1780,6 @@ export default {
   },
 
   created() {
-    this.cliHeight = document.body.clientHeight - 185;
     this.warehouseKeywordCheck();
     this.getWarehouseFactoryList();
     this.getMaterialList();
@@ -1862,6 +1898,7 @@ export default {
               });
 
               this.backList();
+              sessionStorage.setItem("scrollTopHeight", 0);
               this.warehouseKeywordCheck();
             })
             .catch((err) => {
@@ -1972,7 +2009,7 @@ export default {
         if (val.chargeUnit == "件") {
           num = 1;
         } else {
-          num = val.number;
+          num = val.number > 1 ? 0 : val.number;
         }
         this.deliveryData.stockInIdList.push({
           id: val.id,
@@ -2084,6 +2121,14 @@ export default {
               }
             });
           }
+
+          this.$nextTick(() => {
+            document.getElementById(
+              "mainContainer"
+            ).scrollTop = sessionStorage.getItem("scrollTopHeight");
+
+            console.log(document.getElementById("mainContainer").offsetTop);
+          });
         })
         .catch((err) => {
           console.log(err);
@@ -2092,6 +2137,8 @@ export default {
     // 查看材料详情
     checkDeviceDetails(row, column) {
       if (column.label == "出库") {
+        document.getElementById("mainContainer").scrollTop = 0;
+
         this.handleImgSelectionChange(row);
       }
     },
@@ -2219,6 +2266,8 @@ export default {
             totalCnPrice: this.deviceDetail.totalCnPrice,
             totalHkRate: this.deviceDetail.totalHkRate,
             totalHkPrice: this.deviceDetail.totalHkPrice,
+            agentPrice: this.deviceDetail.agentPrice,
+            counterLowestSellPrice: this.deviceDetail.counterLowestSellPrice,
           })
           .then((res) => {
             console.log("修改材料信息");
@@ -2606,7 +2655,7 @@ circle {
     border-bottom: 1px solid #ccc;
 
     .one-left {
-      width: 140px;
+      width: 160px;
       border-right: 1px solid #ccc;
       text-align: center;
       background-color: #f2f2f2;
@@ -2625,7 +2674,7 @@ circle {
     border-bottom: 1px solid #ccc;
 
     .one-left {
-      width: 140px;
+      width: 160px;
       border-right: 1px solid #ccc;
       text-align: center;
       background-color: #f2f2f2;

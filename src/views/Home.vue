@@ -383,7 +383,11 @@
             </li>
           </ul>
         </el-aside>
-        <el-main class="home-container-main" id="mainContainer">
+        <el-main
+          class="home-container-main"
+          id="mainContainer"
+          @scroll.native="containerScrollTop"
+        >
           <!-- 原材料库存查询 -->
           <StockInquiry
             v-if="pageSelect == 1"
@@ -472,10 +476,16 @@ export default {
     };
   },
   methods: {
+    containerScrollTop(e) {
+      if (e.target.scrollTop != 0) {
+        sessionStorage.setItem("scrollTopHeight", e.target.scrollTop);
+      }
+    },
     // 原材料库存
     checkedPage01() {
       this.pageSelect = 1;
       this.stockInquiryParam.sel = 0;
+      sessionStorage.setItem("scrollTopHeight", 0);
 
       this.backTop();
     },
@@ -483,6 +493,8 @@ export default {
     checkedPage07() {
       this.pageSelect = 7;
       this.stockInquiryParam.sel = 0;
+      sessionStorage.setItem("scrollTopHeight", 0);
+
       this.backTop();
     },
     // 待入库

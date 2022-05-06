@@ -30,7 +30,6 @@
                 @change="storageChange"
                 :popper-append-to-body="false"
               >
-                <!-- //存在出库记录 -->
                 <el-option
                   v-for="item in storageList"
                   v-show="item.isOwn != 0"
@@ -39,6 +38,9 @@
                   :value="item.id"
                 ></el-option>
               </el-select>
+            </el-form-item>
+            <el-form-item label="">
+              <el-checkbox v-model="isActivity">参与活动商品</el-checkbox>
             </el-form-item>
             <el-form-item label="入库时间：">
               <el-date-picker
@@ -217,13 +219,7 @@
                       </div>
                     </template>
                   </el-table-column>
-                  <el-table-column label="出库记录" prop="isOut">
-                    <template slot-scope="scope">
-                      <div>
-                        <span v-if="scope.row.isOut == 0">无出库记录</span>
-                        <span v-else>存在出库记录</span>
-                      </div>
-                    </template>
+                  <el-table-column label="活动信息" prop="activityInfo">
                   </el-table-column>
                   <el-table-column label="状态">
                     <template slot-scope="scope">
@@ -346,13 +342,7 @@
               </div>
             </template>
           </el-table-column>
-          <el-table-column label="出库记录" prop="isOut">
-            <template slot-scope="scope">
-              <div>
-                <span v-if="scope.row.isOut == 0">无出库记录</span>
-                <span v-else>存在出库记录</span>
-              </div>
-            </template>
+          <el-table-column label="活动信息" prop="activityInfo">
           </el-table-column>
           <el-table-column label="状态">
             <template slot-scope="scope">
@@ -1024,13 +1014,6 @@
               >
                 <el-table-column prop="name" label="名称"> </el-table-column>
                 <el-table-column prop="number" label="数量"> </el-table-column>
-                <el-table-column label="查看详情">
-                  <template>
-                    <div>
-                      <span title="查看材料信息" class="look">查看</span>
-                    </div>
-                  </template>
-                </el-table-column>
               </el-table>
               <p class="font-title-style">备注信息</p>
               <div class="font-div">
@@ -1048,6 +1031,28 @@
                     <el-input
                       type="textarea"
                       v-model="deviceDetail.note"
+                      :readonly="isUpdate == 0 ? true : false"
+                    >
+                    </el-input>
+                  </div>
+                </div>
+              </div>
+              <p class="font-title-style">活动信息</p>
+              <div class="font-div">
+                <div class="div-one-note" id="one-note">
+                  <div
+                    class="one-left"
+                    :style="{
+                      color: isUpdate == 0 ? '#606266' : '#3d82fe',
+                      fontWeight: isUpdate == 0 ? 'normal' : 'bold',
+                    }"
+                  >
+                    活动信息
+                  </div>
+                  <div class="one-right">
+                    <el-input
+                      type="textarea"
+                      v-model="deviceDetail.activityInfo"
                       :readonly="isUpdate == 0 ? true : false"
                     >
                     </el-input>
@@ -1237,6 +1242,25 @@
                       fontWeight: isUpdate == 0 ? 'normal' : 'bold',
                     }"
                   >
+                    建议批发价(CNY)
+                  </div>
+                  <div class="one-right">
+                    <el-input
+                      :readonly="isUpdate == 0 ? true : false"
+                      v-model="deviceDetail.adviceWholesalePrice"
+                      clearable
+                    >
+                    </el-input>
+                  </div>
+                </div>
+                <div class="div-one">
+                  <div
+                    class="one-left"
+                    :style="{
+                      color: isUpdate == 0 ? '#606266' : '#3d82fe',
+                      fontWeight: isUpdate == 0 ? 'normal' : 'bold',
+                    }"
+                  >
                     建议销售价(CNY)
                   </div>
                   <div class="one-right">
@@ -1256,12 +1280,31 @@
                       fontWeight: isUpdate == 0 ? 'normal' : 'bold',
                     }"
                   >
-                    建议批发价(CNY)
+                    代理价(CNY)
                   </div>
                   <div class="one-right">
                     <el-input
                       :readonly="isUpdate == 0 ? true : false"
-                      v-model="deviceDetail.adviceWholesalePrice"
+                      v-model="deviceDetail.agentPrice"
+                      clearable
+                    >
+                    </el-input>
+                  </div>
+                </div>
+                <div class="div-one">
+                  <div
+                    class="one-left"
+                    :style="{
+                      color: isUpdate == 0 ? '#606266' : '#3d82fe',
+                      fontWeight: isUpdate == 0 ? 'normal' : 'bold',
+                    }"
+                  >
+                    建议柜台最低销售价(CNY)
+                  </div>
+                  <div class="one-right">
+                    <el-input
+                      :readonly="isUpdate == 0 ? true : false"
+                      v-model="deviceDetail.counterLowestSellPrice"
                       clearable
                     >
                     </el-input>
@@ -1871,6 +1914,22 @@
                 </div>
                 <div class="div-one">
                   <div class="one-left">
+                    建议柜台最低销售价
+                  </div>
+                  <div class="one-right">
+                    {{ deviceDetails.counterLowestSellPrice }}
+                  </div>
+                </div>
+                <div class="div-one">
+                  <div class="one-left">
+                    代理价
+                  </div>
+                  <div class="one-right">
+                    {{ deviceDetails.agentPrice }}
+                  </div>
+                </div>
+                <div class="div-one">
+                  <div class="one-left">
                     批发单价
                   </div>
                   <div class="one-right">
@@ -2080,6 +2139,7 @@ export default {
         },
       ],
       storageIdList: [],
+      isActivity: false,
       time: "",
 
       siteSel: 0,
@@ -2402,6 +2462,7 @@ export default {
                 duration: 1500,
               });
               this.backList();
+              sessionStorage.setItem("scrollTopHeight", 0);
               this.warehouseKeywordCheck();
             })
             .catch((err) => {
@@ -2896,6 +2957,7 @@ export default {
           startTime: this.time == null ? "" : this.time[0],
           endTime: this.time == null ? "" : this.time[1],
           keyword: this.keyword,
+          isActivity: this.isActivity == true ? 1 : 0,
         })
         .then((res) => {
           console.log("成品列表查询");
@@ -2915,6 +2977,13 @@ export default {
               }
             });
           }
+
+          this.$nextTick(() => {
+            document.getElementById(
+              "mainContainer"
+            ).scrollTop = sessionStorage.getItem("scrollTopHeight");
+            console.log(document.getElementById("mainContainer").offsetTop);
+          });
         })
         .catch((err) => {
           console.log(err);
@@ -2923,6 +2992,8 @@ export default {
     // 查看成品详情
     checkproductDetails(val, column) {
       if (column.label == "出库") {
+        document.getElementById("mainContainer").scrollTop = 0;
+
         this.handleImgSelectionChange(val);
       }
     },
@@ -3074,12 +3145,15 @@ export default {
           params: this.deviceDetail.params,
           certificateNumber: this.deviceDetail.certificateNumber,
           totalPriceNote: this.deviceDetail.totalPriceNote,
+          activityInfo: this.deviceDetail.activityInfo,
           totalCnRate: this.deviceDetail.totalCnRate,
           totalCnPrice: this.deviceDetail.totalCnPrice,
           totalHkRate: this.deviceDetail.totalHkRate,
           totalHkPrice: this.deviceDetail.totalHkPrice,
           productLabel: this.labelSelList.join("|"),
           detailImg: this.detailImgList.join("|"),
+          agentPrice: this.deviceDetail.agentPrice,
+          counterLowestSellPrice: this.deviceDetail.counterLowestSellPrice,
         };
         this.$axios
           .post(this.$store.state.baseUrl + "/productSave", this.params)
@@ -3326,7 +3400,7 @@ circle {
     line-height: 100px;
     border-bottom: 1px solid #ccc;
     .one-left {
-      width: 140px;
+      width: 160px;
       border-right: 1px solid #ccc;
       text-align: center;
       background-color: #f2f2f2;
@@ -3343,7 +3417,7 @@ circle {
     border-bottom: 1px solid #ccc;
 
     .one-left {
-      width: 140px;
+      width: 160px;
       border-right: 1px solid #ccc;
       text-align: center;
       background-color: #f2f2f2;

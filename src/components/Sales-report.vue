@@ -776,13 +776,6 @@
             >
               <el-table-column prop="name" label="名称"> </el-table-column>
               <el-table-column prop="number" label="数量"> </el-table-column>
-              <el-table-column label="查看详情">
-                <template>
-                  <div>
-                    <span title="查看材料信息" class="look">查看</span>
-                  </div>
-                </template>
-              </el-table-column>
             </el-table>
             <p class="font-title-style">备注信息</p>
             <div class="font-div">
@@ -800,6 +793,28 @@
                   <el-input
                     type="textarea"
                     v-model="inventoryCheckDetail.note"
+                    :readonly="isUpdate == 0 ? true : false"
+                  >
+                  </el-input>
+                </div>
+              </div>
+            </div>
+            <p class="font-title-style">活动信息</p>
+            <div class="font-div">
+              <div class="div-one-note" id="one-note">
+                <div
+                  class="one-left"
+                  :style="{
+                    color: isUpdate == 0 ? '#606266' : '#3d82fe',
+                    fontWeight: isUpdate == 0 ? 'normal' : 'bold',
+                  }"
+                >
+                  活动信息
+                </div>
+                <div class="one-right">
+                  <el-input
+                    type="textarea"
+                    v-model="inventoryCheckDetail.activityInfo"
                     :readonly="isUpdate == 0 ? true : false"
                   >
                   </el-input>
@@ -989,6 +1004,25 @@
                     fontWeight: isUpdate == 0 ? 'normal' : 'bold',
                   }"
                 >
+                  建议批发价(CNY)
+                </div>
+                <div class="one-right">
+                  <el-input
+                    :readonly="isUpdate == 0 ? true : false"
+                    v-model="inventoryCheckDetail.adviceWholesalePrice"
+                    clearable
+                  >
+                  </el-input>
+                </div>
+              </div>
+              <div class="div-one">
+                <div
+                  class="one-left"
+                  :style="{
+                    color: isUpdate == 0 ? '#606266' : '#3d82fe',
+                    fontWeight: isUpdate == 0 ? 'normal' : 'bold',
+                  }"
+                >
                   建议销售价(CNY)
                 </div>
                 <div class="one-right">
@@ -1008,12 +1042,31 @@
                     fontWeight: isUpdate == 0 ? 'normal' : 'bold',
                   }"
                 >
-                  建议批发价(CNY)
+                  代理价(CNY)
                 </div>
                 <div class="one-right">
                   <el-input
                     :readonly="isUpdate == 0 ? true : false"
-                    v-model="inventoryCheckDetail.adviceWholesalePrice"
+                    v-model="inventoryCheckDetail.agentPrice"
+                    clearable
+                  >
+                  </el-input>
+                </div>
+              </div>
+              <div class="div-one">
+                <div
+                  class="one-left"
+                  :style="{
+                    color: isUpdate == 0 ? '#606266' : '#3d82fe',
+                    fontWeight: isUpdate == 0 ? 'normal' : 'bold',
+                  }"
+                >
+                  建议柜台最低销售价(CNY)
+                </div>
+                <div class="one-right">
+                  <el-input
+                    :readonly="isUpdate == 0 ? true : false"
+                    v-model="inventoryCheckDetail.counterLowestSellPrice"
                     clearable
                   >
                   </el-input>
@@ -1873,6 +1926,44 @@
                     fontWeight: isUpdate == 0 ? 'normal' : 'bold',
                   }"
                 >
+                  建议柜台最低销售价
+                </div>
+                <div class="one-right">
+                  <el-input
+                    :readonly="isUpdate == 0 ? true : false"
+                    v-model="deviceDetail.counterLowestSellPrice"
+                    clearable
+                  >
+                  </el-input>
+                </div>
+              </div>
+              <div class="div-one" v-show="certificateshow2 == false">
+                <div
+                  class="one-left"
+                  :style="{
+                    color: isUpdate == 0 ? '#606266' : '#3d82fe',
+                    fontWeight: isUpdate == 0 ? 'normal' : 'bold',
+                  }"
+                >
+                  代理价
+                </div>
+                <div class="one-right">
+                  <el-input
+                    :readonly="isUpdate == 0 ? true : false"
+                    v-model="deviceDetail.agentPrice"
+                    clearable
+                  >
+                  </el-input>
+                </div>
+              </div>
+              <div class="div-one" v-show="certificateshow2 == false">
+                <div
+                  class="one-left"
+                  :style="{
+                    color: isUpdate == 0 ? '#606266' : '#3d82fe',
+                    fontWeight: isUpdate == 0 ? 'normal' : 'bold',
+                  }"
+                >
                   批发单价
                 </div>
                 <div class="one-right">
@@ -2518,6 +2609,22 @@
               </div>
               <div class="div-one">
                 <div class="one-left">
+                  建议柜台最低销售价
+                </div>
+                <div class="one-right">
+                  {{ deviceDetails.counterLowestSellPrice }}
+                </div>
+              </div>
+              <div class="div-one">
+                <div class="one-left">
+                  代理价
+                </div>
+                <div class="one-right">
+                  {{ deviceDetails.agentPrice }}
+                </div>
+              </div>
+              <div class="div-one">
+                <div class="one-left">
                   批发单价
                 </div>
                 <div class="one-right">
@@ -2953,6 +3060,8 @@ export default {
             totalCnPrice: this.deviceDetail.totalCnPrice,
             totalHkRate: this.deviceDetail.totalHkRate,
             totalHkPrice: this.deviceDetail.totalHkPrice,
+            agentPrice: this.deviceDetail.agentPrice,
+            counterLowestSellPrice: this.deviceDetail.counterLowestSellPrice,
           })
           .then((res) => {
             console.log("修改材料信息");
@@ -3034,6 +3143,7 @@ export default {
           processCost: this.inventoryCheckDetail.processCost,
           designId: this.inventoryCheckDetail.designId,
           note: this.inventoryCheckDetail.note,
+          activityInfo: this.inventoryCheckDetail.activityInfo,
           solder: this.inventoryCheckDetail.solder,
           group: this.inventoryCheckDetail.group,
           customer: this.inventoryCheckDetail.customer,
@@ -3063,6 +3173,9 @@ export default {
           totalHkPrice: this.inventoryCheckDetail.totalHkPrice,
           productLabel: this.labelSelList.join("|"),
           detailImg: this.detailImgList.join("|"),
+          agentPrice: this.inventoryCheckDetail.agentPrice,
+          counterLowestSellPrice: this.inventoryCheckDetail
+            .counterLowestSellPrice,
         };
         this.$axios
           .post(this.$store.state.baseUrl + "/productSave", this.params)
@@ -3729,7 +3842,7 @@ export default {
     border-bottom: 1px solid #ccc;
 
     .one-left {
-      width: 140px;
+      width: 160px;
       border-right: 1px solid #ccc;
       text-align: center;
       background-color: #f2f2f2;

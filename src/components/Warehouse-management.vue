@@ -1151,6 +1151,66 @@
                           fontWeight: isUpdate == 0 ? 'normal' : 'bold',
                         }"
                       >
+                        建议柜台最低销售价
+                      </div>
+                      <div class="one-right">
+                        <el-input
+                          :readonly="
+                            isUpdate == 0
+                              ? true
+                              : inventoryCheckDetail.isUpdate !== 2
+                              ? false
+                              : true
+                          "
+                          v-model="inventoryCheckDetail.counterLowestSellPrice"
+                          clearable
+                        >
+                        </el-input>
+                      </div>
+                    </div>
+                    <div class="div-one" v-show="certificateshow2 == false">
+                      <div
+                        class="one-left"
+                        :style="{
+                          color:
+                            isUpdate == 0
+                              ? '#606266'
+                              : inventoryCheckDetail.isUpdate !== 2
+                              ? '#3d82fe'
+                              : '#606266',
+                          fontWeight: isUpdate == 0 ? 'normal' : 'bold',
+                        }"
+                      >
+                        代理价
+                      </div>
+                      <div class="one-right">
+                        <el-input
+                          :readonly="
+                            isUpdate == 0
+                              ? true
+                              : inventoryCheckDetail.isUpdate !== 2
+                              ? false
+                              : true
+                          "
+                          v-model="inventoryCheckDetail.agentPrice"
+                          clearable
+                        >
+                        </el-input>
+                      </div>
+                    </div>
+                    <div class="div-one" v-show="certificateshow2 == false">
+                      <div
+                        class="one-left"
+                        :style="{
+                          color:
+                            isUpdate == 0
+                              ? '#606266'
+                              : inventoryCheckDetail.isUpdate !== 2
+                              ? '#3d82fe'
+                              : '#606266',
+                          fontWeight: isUpdate == 0 ? 'normal' : 'bold',
+                        }"
+                      >
                         批发单价
                       </div>
                       <div class="one-right">
@@ -1725,7 +1785,7 @@ export default {
         if (row.chargeUnit == "件") {
           num = 1;
         } else {
-          num = row.number;
+          num = row.number > 1 ? 0 : row.number;
         }
         this.deliveryData.stockInIdList.push({
           id: row.id,
@@ -1750,7 +1810,7 @@ export default {
           if (row.chargeUnit == "件") {
             num = 1;
           } else {
-            num = row.number;
+            num = row.number > 1 ? 0 : row.number;
           }
           this.deliveryData.stockInIdList.push({
             id: row.id,
@@ -1872,6 +1932,9 @@ export default {
             totalHkPrice: this.inventoryCheckDetail.totalHkPrice,
             note: this.inventoryCheckDetail.note,
             img: this.imgList.join("|"),
+            agentPrice: this.inventoryCheckDetail.agentPrice,
+            counterLowestSellPrice: this.inventoryCheckDetail
+              .counterLowestSellPrice,
           })
           .then((res) => {
             console.log("修改材料信息");
@@ -2180,7 +2243,7 @@ export default {
       border-bottom: 1px solid #ccc;
 
       .one-left {
-        width: 140px;
+        width: 160px;
         border-right: 1px solid #ccc;
         text-align: center;
         background-color: #f2f2f2;
