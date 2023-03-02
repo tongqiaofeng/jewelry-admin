@@ -7,7 +7,7 @@
             <div class="top-img">
               <img src="../assets/imgs/login/logo02.png" />
             </div>
-            <div style="padding-top: 10px;margin-left: 5px;">
+            <div style="padding-top: 10px; margin-left: 5px">
               <span class="top-span-login">珠宝后台管理系统</span>
             </div>
           </div>
@@ -83,6 +83,7 @@
   </div>
 </template>
 <script>
+import { userLogin } from "_req/api/user.js";
 export default {
   data() {
     return {
@@ -98,7 +99,7 @@ export default {
     // 组件内守卫
     // 已登录状态回到登录状态，即 登出
     next((vm) => {
-      vm.$store.dispatch("setToken", null);
+      vm.$store.dispatch("setUserStatus", null);
     });
   },
   mounted() {
@@ -119,54 +120,23 @@ export default {
           duration: 2000,
         });
       } else {
-        this.$axios
-          .post(this.$store.state.baseUrl + "/userLogin", {
-            user: this.loginForm.user,
-            psw: this.loginForm.psw,
-          })
+        userLogin(this.loginForm)
           .then((res) => {
             console.log("登陆成功啦");
             console.log(res);
-            this.$message.success({
-              message: "登陆成功",
-              showClose: true,
-              duration: 2000,
-            });
-            // 将用户昵称和token等放入sessionStorage
-            sessionStorage.setItem("nick", res.data.nick);
-            sessionStorage.setItem("token", res.data.token);
-            // 系统管理员权限
-            sessionStorage.setItem("isAdmin", res.data.isAdmin);
-            sessionStorage.setItem(
-              "warehouseAdmin",
-              res.data.warehouseFactoryMsg
-            );
 
-            // 将用户昵称、用户角色及token等放入vuex
-            this.$store.dispatch("setNick", res.data.user);
-            this.$store.dispatch("setToken", res.data.token);
+            if (res.data.data.isAdmin == 1 || res.data.data.isMedia == 1) {
+              this.$message.success("登陆成功");
 
-            this.$store.state.isLogin = true;
-            console.log(this.$store.state.isLogin);
-
-            this.$router.push("/home");
-            // 页面回到顶部
-            (function smoothscroll() {
-              var currentScroll =
-                document.documentElement.scrollTop || document.body.scrollTop;
-              if (currentScroll > 0) {
-                window.requestAnimationFrame(smoothscroll);
-                window.scrollTo(0, currentScroll - currentScroll / 5);
-              }
-            })();
+              // 将用户昵称、用户角色及token等放入vuex
+              this.$store.dispatch("setUserStatus", res.data.data);
+              this.$router.push("/home");
+            } else {
+              this.$message.error("您没有权限访问该程序");
+            }
           })
-          .catch((err) => {
-            this.$message.error({
-              message: err.data.message,
-              showClose: true,
-              duration: 2000,
-            });
-            this.$store.dispatch("setToken", null);
+          .catch(() => {
+            this.$store.dispatch("setUserStatus", null);
             this.loginForm.password = "";
           });
       }

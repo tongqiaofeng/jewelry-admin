@@ -40,7 +40,7 @@ router.beforeEach((to, from, next) => {
   const type = to.meta.type
   // 判断该路由是否需要登录权限
   if (type === 'login') {
-    if (sessionStorage.getItem("token")) {
+    if (store.state.token) {
       next()
     } else {
       next('/')
@@ -49,59 +49,20 @@ router.beforeEach((to, from, next) => {
     next() // 确保一定要有next()被调用
   }
 
-  let allowBack = false //    给个默认值true
+  // 禁止退出当前程序
+  let allowBack = true //    给个默认值true
   if (to.meta.allowBack !== undefined) {
     allowBack = to.meta.allowBack
   }
+
   if (!allowBack) {
+    console.log('当前路由', allowBack, location.href);
     history.pushState(null, null, location.href)
   }
-  store.dispatch('updateAppSetting', { //   updateAppSetting 只是store里面的一个action， 用来改变store里的allowBack的值的，具体怎么改这个值 要根据各位的实际情况而定
-    allowBack: allowBack
+  store.dispatch('updateAppSetting', {
+    allowBack
   })
 })
-
-// http 请求拦截器
-axios.interceptors.request.use(config => {
-  // 在发送请求前
-  // console.log(location);
-  let pathname = location.pathname
-  // console.log(pathname);
-  if (sessionStorage.getItem('token')) {
-    if (pathname !== '#/' && pathname !== '#/login') {
-      config.headers.common['token'] = sessionStorage.getItem('token')
-    }
-  }
-
-  return config
-}, err => {
-  return Promise.reject(err)
-})
-
-// 响应拦截器
-axios.interceptors.response.use(
-  response => {
-    return response
-  },
-  error => {
-    if (error.response) {
-      switch (error.response.status) {
-        case 401:
-          // 这里写清除token的代码
-          sessionStorage.setItem("token", null)
-          sessionStorage.setItem("role", null)
-          console.log(router.currentRoute.fullPath)
-          router.replace({
-            path: '/login',
-            query: {
-              redirect: router.currentRoute.fullPath //登录成功后跳入浏览的当前页面
-            }
-          })
-      }
-    }
-    return Promise.reject(error.response)
-  }
-)
 
 new Vue({
   router,

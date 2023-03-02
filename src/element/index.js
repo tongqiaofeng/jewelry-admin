@@ -34,8 +34,11 @@ import {
   Popover,
   Checkbox,
   InputNumber,
+  Collapse,
+  CollapseItem,
 
   Message,
+  Loading,
   MessageBox,
   Notification,
 } from 'element-ui'
@@ -75,6 +78,10 @@ const element = {
     Vue.use(Popover)
     Vue.use(Checkbox)
     Vue.use(InputNumber)
+    Vue.use(Collapse)
+    Vue.use(CollapseItem)
+
+    Vue.use(Loading.directive)
 
     Vue.prototype.$message = Message;
     Vue.prototype.$confirm = MessageBox.confirm;

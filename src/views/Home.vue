@@ -6,7 +6,7 @@
           <div class="left-con">
             <p class="left-font-one">珠宝后台管理系统</p>
           </div>
-          <div style="display: flex;">
+          <div style="display: flex">
             <div class="right-div" @click="updateUserClick">
               <span class="span1">{{ userNick }}</span>
               <div class="span-img">
@@ -19,11 +19,11 @@
               <li class="updateLi1">
                 <div class="updateP" @click="pswUpdate">
                   <div class="nick-img">
-                    <div class="update-nick-img" style="display: flex;">
-                      <div style="margin-top: 3px;">
+                    <div class="update-nick-img" style="display: flex">
+                      <div style="margin-top: 3px">
                         <img
                           src="../assets/imgs/update-psw.png"
-                          style="width: 17px;height: 20px;"
+                          style="width: 17px; height: 20px"
                         />
                       </div>
                       <span class="span-psw">修改密码</span>
@@ -31,14 +31,14 @@
                   </div>
                 </div>
                 <el-dialog
-                  class="uuupdate"
+                  id="updatePsw"
                   title="修改密码"
                   :visible.sync="pswDialogVisible"
                   :append-to-body="true"
                   :close-on-press-escape="false"
                   :close-on-click-modal="false"
                 >
-                  <div style="width:100%;display:flex;">
+                  <div style="width: 100%; display: flex">
                     <p class="font">旧密码：</p>
                     <input
                       class="update-nick"
@@ -47,7 +47,7 @@
                       placeholder="请输入旧密码"
                     />
                   </div>
-                  <div style="width:100%;margin-top:15px;display:flex;">
+                  <div style="width: 100%; margin-top: 15px; display: flex">
                     <p class="font">新密码：</p>
                     <input
                       class="update-nick"
@@ -59,7 +59,7 @@
                   <span slot="footer" class="dialog-footer">
                     <el-button
                       @click="pswDialogVisible = false"
-                      style="margin-left: 35%;"
+                      style="margin-left: 35%"
                       >取 消</el-button
                     >
                     <el-button type="primary" @click="updatePsw" v-preventClick
@@ -71,11 +71,11 @@
               <li class="updateLi1">
                 <div class="updateP" @click="logOut">
                   <div class="psw-img">
-                    <div class="update-nick-img" style="display: flex;">
-                      <div style="margin-top: 3px;">
+                    <div class="update-nick-img" style="display: flex">
+                      <div style="margin-top: 3px">
                         <img
                           src="../assets/imgs/logOut.png"
-                          style="width: 17px;height: 18px;"
+                          style="width: 17px; height: 18px"
                         />
                       </div>
                       <span>退出登录</span>
@@ -90,43 +90,15 @@
       <el-container>
         <el-aside width="218px">
           <ul class="aside-ul-dad">
-            <li class="dad-li">
-              <div style="width: 100%;">
+            <li class="dad-li" v-if="isMedia != 1 && systemAdmin == 1">
+              <div style="width: 100%">
                 <p class="dad-li-font">统一管理</p>
               </div>
               <ul class="aside-ul-son">
                 <li
                   class="son-li"
-                  @click="checkedPage02"
-                  :style="{
-                    backgroundColor:
-                      pageSelect == 2 ? '#303e53' : 'transparent',
-                  }"
-                >
-                  <p class="son-li-line" v-if="pageSelect == 2"></p>
-                  <div
-                    class="son-li-center"
-                    :style="{ marginLeft: pageSelect == 2 ? '-52px' : '32px' }"
-                  >
-                    <div class="center-img-div">
-                      <img
-                        class="center-img"
-                        src="../assets/imgs/home/pending.png"
-                      />
-                    </div>
-                    <p class="center-font">待入库</p>
-                  </div>
-                  <div class="son-li-right">
-                    <img
-                      class="right-img"
-                      src="../assets/imgs/home/right.png"
-                    />
-                  </div>
-                </li>
-                <li
-                  class="son-li"
                   v-if="systemAdmin == 1"
-                  @click="checkedPage09"
+                  @click="pageJump(9)"
                   :style="{
                     backgroundColor:
                       pageSelect == 9 ? '#303e53' : 'transparent',
@@ -154,14 +126,14 @@
                 </li>
               </ul>
             </li>
-            <li class="dad-li">
-              <div style="width: 100%;">
+            <li class="dad-li" v-if="isMedia != 1 && systemAdmin == 1">
+              <div style="width: 100%">
                 <p class="dad-li-font">原材料管理</p>
               </div>
               <ul class="aside-ul-son">
                 <li
                   class="son-li"
-                  @click="checkedPage01"
+                  @click="pageJump(1)"
                   :style="{
                     backgroundColor:
                       pageSelect == 1 ? '#303e53' : 'transparent',
@@ -189,7 +161,7 @@
                 </li>
                 <li
                   class="son-li"
-                  @click="checkedPage03"
+                  @click="pageJump(3)"
                   :style="{
                     backgroundColor:
                       pageSelect == 3 ? '#303e53' : 'transparent',
@@ -217,7 +189,35 @@
                 </li>
                 <li
                   class="son-li"
-                  @click="checkedPage04"
+                  @click="pageJump(27)"
+                  :style="{
+                    backgroundColor:
+                      pageSelect == 27 ? '#303e53' : 'transparent',
+                  }"
+                >
+                  <p class="son-li-line" v-if="pageSelect == 27"></p>
+                  <div
+                    class="son-li-center"
+                    :style="{ marginLeft: pageSelect == 27 ? '-38px' : '32px' }"
+                  >
+                    <div class="center-img-div">
+                      <img
+                        class="center-img"
+                        src="../assets/imgs/home/04.png"
+                      />
+                    </div>
+                    <p class="center-font">采购记录</p>
+                  </div>
+                  <div class="son-li-right">
+                    <img
+                      class="right-img"
+                      src="../assets/imgs/home/right.png"
+                    />
+                  </div>
+                </li>
+                <li
+                  class="son-li"
+                  @click="pageJump(4)"
                   :style="{
                     backgroundColor:
                       pageSelect == 4 ? '#303e53' : 'transparent',
@@ -243,16 +243,44 @@
                     />
                   </div>
                 </li>
+                <li
+                  class="son-li"
+                  @click="pageJump(28)"
+                  :style="{
+                    backgroundColor:
+                      pageSelect == 28 ? '#303e53' : 'transparent',
+                  }"
+                >
+                  <p class="son-li-line" v-if="pageSelect == 28"></p>
+                  <div
+                    class="son-li-center"
+                    :style="{ marginLeft: pageSelect == 28 ? '-38px' : '32px' }"
+                  >
+                    <div class="center-img-div">
+                      <img
+                        class="center-img"
+                        src="../assets/imgs/home/04.png"
+                      />
+                    </div>
+                    <p class="center-font">销售记录</p>
+                  </div>
+                  <div class="son-li-right">
+                    <img
+                      class="right-img"
+                      src="../assets/imgs/home/right.png"
+                    />
+                  </div>
+                </li>
               </ul>
             </li>
-            <li class="dad-li">
-              <div style="width: 100%;">
+            <li class="dad-li" v-if="isMedia != 1 && systemAdmin == 1">
+              <div style="width: 100%">
                 <p class="dad-li-font">成品管理</p>
               </div>
               <ul class="aside-ul-son">
                 <li
                   class="son-li"
-                  @click="checkedPage07"
+                  @click="pageJump(7)"
                   :style="{
                     backgroundColor:
                       pageSelect == 7 ? '#303e53' : 'transparent',
@@ -281,7 +309,7 @@
 
                 <li
                   class="son-li"
-                  @click="checkedPage06"
+                  @click="pageJump(6)"
                   :style="{
                     backgroundColor:
                       pageSelect == 6 ? '#303e53' : 'transparent',
@@ -309,7 +337,7 @@
                 </li>
                 <li
                   class="son-li"
-                  @click="checkedPage08"
+                  @click="pageJump(8)"
                   :style="{
                     backgroundColor:
                       pageSelect == 8 ? '#303e53' : 'transparent',
@@ -335,25 +363,528 @@
                     />
                   </div>
                 </li>
+                <li
+                  class="son-li"
+                  @click="pageJump(29)"
+                  :style="{
+                    backgroundColor:
+                      pageSelect == 29 ? '#303e53' : 'transparent',
+                  }"
+                >
+                  <p class="son-li-line" v-if="pageSelect == 29"></p>
+                  <div
+                    class="son-li-center"
+                    :style="{ marginLeft: pageSelect == 29 ? '-38px' : '32px' }"
+                  >
+                    <div class="center-img-div">
+                      <img
+                        class="center-img"
+                        src="../assets/imgs/home/04.png"
+                      />
+                    </div>
+                    <p class="center-font">销售记录</p>
+                  </div>
+                  <div class="son-li-right">
+                    <img
+                      class="right-img"
+                      src="../assets/imgs/home/right.png"
+                    />
+                  </div>
+                </li>
               </ul>
             </li>
+
+            <li class="dad-li" v-if="isMedia != 1 && systemAdmin == 1">
+              <div style="width: 100%">
+                <p class="dad-li-font">借入/借出</p>
+              </div>
+              <ul class="aside-ul-son">
+                <li
+                  class="son-li"
+                  @click="pageJump(22)"
+                  :style="{
+                    backgroundColor:
+                      pageSelect == 22 ? '#303e53' : 'transparent',
+                  }"
+                >
+                  <p class="son-li-line" v-if="pageSelect == 22"></p>
+                  <div
+                    class="son-li-center"
+                    :style="{ marginLeft: pageSelect == 22 ? '-38px' : '32px' }"
+                  >
+                    <div class="center-img-div">
+                      <img
+                        class="center-img"
+                        src="../assets/imgs/home/01.png"
+                      />
+                    </div>
+                    <p class="center-font">借入记录</p>
+                  </div>
+                  <div class="son-li-right">
+                    <img
+                      class="right-img"
+                      src="../assets/imgs/home/right.png"
+                    />
+                  </div>
+                </li>
+
+                <li
+                  class="son-li"
+                  @click="pageJump(23)"
+                  :style="{
+                    backgroundColor:
+                      pageSelect == 23 ? '#303e53' : 'transparent',
+                  }"
+                >
+                  <p class="son-li-line" v-if="pageSelect == 23"></p>
+                  <div
+                    class="son-li-center"
+                    :style="{ marginLeft: pageSelect == 23 ? '-38px' : '32px' }"
+                  >
+                    <div class="center-img-div">
+                      <img
+                        class="center-img"
+                        src="../assets/imgs/home/04.png"
+                      />
+                    </div>
+                    <p class="center-font">借出记录</p>
+                  </div>
+                  <div class="son-li-right">
+                    <img
+                      class="right-img"
+                      src="../assets/imgs/home/right.png"
+                    />
+                  </div>
+                </li>
+              </ul>
+            </li>
+
+            <li class="dad-li" v-if="isMedia != 1 && systemAdmin == 1">
+              <div style="width: 100%">
+                <p class="dad-li-font">盘点管理</p>
+              </div>
+              <ul class="aside-ul-son">
+                <li
+                  class="son-li"
+                  @click="pageJump(24)"
+                  :style="{
+                    backgroundColor:
+                      pageSelect == 24 ? '#303e53' : 'transparent',
+                  }"
+                >
+                  <p class="son-li-line" v-if="pageSelect == 24"></p>
+                  <div
+                    class="son-li-center"
+                    :style="{ marginLeft: pageSelect == 24 ? '-38px' : '32px' }"
+                  >
+                    <div class="center-img-div">
+                      <img
+                        class="center-img"
+                        src="../assets/imgs/home/01.png"
+                      />
+                    </div>
+                    <p class="center-font">新增盘点</p>
+                  </div>
+                  <div class="son-li-right">
+                    <img
+                      class="right-img"
+                      src="../assets/imgs/home/right.png"
+                    />
+                  </div>
+                </li>
+
+                <li
+                  class="son-li"
+                  @click="pageJump(25)"
+                  :style="{
+                    backgroundColor:
+                      pageSelect == 25 ? '#303e53' : 'transparent',
+                  }"
+                >
+                  <p class="son-li-line" v-if="pageSelect == 25"></p>
+                  <div
+                    class="son-li-center"
+                    :style="{ marginLeft: pageSelect == 25 ? '-38px' : '32px' }"
+                  >
+                    <div class="center-img-div">
+                      <img
+                        class="center-img"
+                        src="../assets/imgs/home/04.png"
+                      />
+                    </div>
+                    <p class="center-font">盘点记录</p>
+                  </div>
+                  <div class="son-li-right">
+                    <img
+                      class="right-img"
+                      src="../assets/imgs/home/right.png"
+                    />
+                  </div>
+                </li>
+              </ul>
+            </li>
+
+            <li class="dad-li" v-if="isMedia != 1 && systemAdmin == 1">
+              <div style="width: 100%">
+                <p class="dad-li-font">账单管理</p>
+              </div>
+              <ul class="aside-ul-son">
+                <li
+                  class="son-li"
+                  @click="pageJump(20)"
+                  :style="{
+                    backgroundColor:
+                      pageSelect == 20 ? '#303e53' : 'transparent',
+                  }"
+                >
+                  <p class="son-li-line" v-if="pageSelect == 20"></p>
+                  <div
+                    class="son-li-center"
+                    :style="{ marginLeft: pageSelect == 20 ? '-38px' : '32px' }"
+                  >
+                    <div class="center-img-div">
+                      <img
+                        class="center-img"
+                        src="../assets/imgs/home/01.png"
+                      />
+                    </div>
+                    <p class="center-font">账单录入</p>
+                  </div>
+                  <div class="son-li-right">
+                    <img
+                      class="right-img"
+                      src="../assets/imgs/home/right.png"
+                    />
+                  </div>
+                </li>
+
+                <li
+                  class="son-li"
+                  @click="pageJump(21)"
+                  :style="{
+                    backgroundColor:
+                      pageSelect == 21 ? '#303e53' : 'transparent',
+                  }"
+                >
+                  <p class="son-li-line" v-if="pageSelect == 21"></p>
+                  <div
+                    class="son-li-center"
+                    :style="{ marginLeft: pageSelect == 21 ? '-38px' : '32px' }"
+                  >
+                    <div class="center-img-div">
+                      <img
+                        class="center-img"
+                        src="../assets/imgs/home/04.png"
+                      />
+                    </div>
+                    <p class="center-font">账单管理</p>
+                  </div>
+                  <div class="son-li-right">
+                    <img
+                      class="right-img"
+                      src="../assets/imgs/home/right.png"
+                    />
+                  </div>
+                </li>
+              </ul>
+            </li>
+
+            <li class="dad-li" v-if="isMedia == 1 || systemAdmin == 1">
+              <div style="width: 100%">
+                <p class="dad-li-font">订单管理</p>
+              </div>
+              <ul class="aside-ul-son">
+                <li
+                  class="son-li"
+                  @click="pageJump(19)"
+                  :style="{
+                    backgroundColor:
+                      pageSelect == 19 ? '#303e53' : 'transparent',
+                  }"
+                >
+                  <p class="son-li-line" v-if="pageSelect == 19"></p>
+                  <div
+                    class="son-li-center"
+                    :style="{ marginLeft: pageSelect == 19 ? '-66px' : '32px' }"
+                  >
+                    <div class="center-img-div">
+                      <img
+                        class="center-img"
+                        src="../assets/imgs/home/01.png"
+                      />
+                    </div>
+                    <p class="center-font">查询</p>
+                  </div>
+                  <div class="son-li-right">
+                    <img
+                      class="right-img"
+                      src="../assets/imgs/home/right.png"
+                    />
+                  </div>
+                </li>
+
+                <li
+                  class="son-li"
+                  @click="pageJump(10)"
+                  :style="{
+                    backgroundColor:
+                      pageSelect == 10 ? '#303e53' : 'transparent',
+                  }"
+                >
+                  <p class="son-li-line" v-if="pageSelect == 10"></p>
+                  <div
+                    class="son-li-center"
+                    :style="{ marginLeft: pageSelect == 10 ? '-38px' : '32px' }"
+                  >
+                    <div class="center-img-div">
+                      <img
+                        class="center-img"
+                        src="../assets/imgs/home/13.png"
+                      />
+                    </div>
+                    <p class="center-font">商品发货</p>
+                  </div>
+                  <div class="son-li-right">
+                    <img
+                      class="right-img"
+                      src="../assets/imgs/home/right.png"
+                    />
+                  </div>
+                </li>
+
+                <li
+                  class="son-li"
+                  @click="pageJump(11)"
+                  :style="{
+                    backgroundColor:
+                      pageSelect == 11 ? '#303e53' : 'transparent',
+                  }"
+                >
+                  <p class="son-li-line" v-if="pageSelect == 11"></p>
+                  <div
+                    class="son-li-center"
+                    :style="{ marginLeft: pageSelect == 11 ? '-38px' : '32px' }"
+                  >
+                    <div class="center-img-div">
+                      <img
+                        class="center-img"
+                        src="../assets/imgs/home/14.png"
+                      />
+                    </div>
+                    <p class="center-font">退款审核</p>
+                  </div>
+                  <div class="son-li-right">
+                    <img
+                      class="right-img"
+                      src="../assets/imgs/home/right.png"
+                    />
+                  </div>
+                </li>
+              </ul>
+            </li>
+
+            <li class="dad-li" v-if="isMedia == 1 || systemAdmin == 1">
+              <div style="width: 100%">
+                <p class="dad-li-font">小程序管理</p>
+              </div>
+              <ul class="aside-ul-son">
+                <li
+                  class="son-li"
+                  @click="pageJump(12)"
+                  :style="{
+                    backgroundColor:
+                      pageSelect == 12 ? '#303e53' : 'transparent',
+                  }"
+                >
+                  <p class="son-li-line" v-if="pageSelect == 12"></p>
+                  <div
+                    class="son-li-center"
+                    :style="{ marginLeft: pageSelect == 12 ? '-38px' : '32px' }"
+                  >
+                    <div class="center-img-div">
+                      <img
+                        class="center-img"
+                        src="../assets/imgs/home/17.png"
+                      />
+                    </div>
+                    <p class="center-font">近期活动</p>
+                  </div>
+                  <div class="son-li-right">
+                    <img
+                      class="right-img"
+                      src="../assets/imgs/home/right.png"
+                    />
+                  </div>
+                </li>
+
+                <li
+                  class="son-li"
+                  @click="pageJump(17)"
+                  :style="{
+                    backgroundColor:
+                      pageSelect == 17 ? '#303e53' : 'transparent',
+                  }"
+                >
+                  <p class="son-li-line" v-if="pageSelect == 17"></p>
+                  <div
+                    class="son-li-center"
+                    :style="{ marginLeft: pageSelect == 17 ? '-52px' : '32px' }"
+                  >
+                    <div class="center-img-div">
+                      <img
+                        class="center-img"
+                        src="../assets/imgs/home/18.png"
+                      />
+                    </div>
+                    <p class="center-font">优惠券</p>
+                  </div>
+                  <div class="son-li-right">
+                    <img
+                      class="right-img"
+                      src="../assets/imgs/home/right.png"
+                    />
+                  </div>
+                </li>
+
+                <li
+                  class="son-li"
+                  @click="pageJump(13)"
+                  :style="{
+                    backgroundColor:
+                      pageSelect == 13 ? '#303e53' : 'transparent',
+                  }"
+                >
+                  <p class="son-li-line" v-if="pageSelect == 13"></p>
+                  <div
+                    class="son-li-center"
+                    :style="{ marginLeft: pageSelect == 13 ? '-66px' : '32px' }"
+                  >
+                    <div class="center-img-div">
+                      <img
+                        class="center-img"
+                        src="../assets/imgs/home/19.png"
+                      />
+                    </div>
+                    <p class="center-font">首页</p>
+                  </div>
+                  <div class="son-li-right">
+                    <img
+                      class="right-img"
+                      src="../assets/imgs/home/right.png"
+                    />
+                  </div>
+                </li>
+                <li
+                  class="son-li"
+                  @click="pageJump(14)"
+                  :style="{
+                    backgroundColor:
+                      pageSelect == 14 ? '#303e53' : 'transparent',
+                  }"
+                >
+                  <p class="son-li-line" v-if="pageSelect == 14"></p>
+                  <div
+                    class="son-li-center"
+                    :style="{ marginLeft: pageSelect == 14 ? '-38px' : '32px' }"
+                  >
+                    <div class="center-img-div">
+                      <img
+                        class="center-img"
+                        src="../assets/imgs/home/20.png"
+                      />
+                    </div>
+                    <!-- 品牌/联名 -->
+                    <p class="center-font">分类管理</p>
+                  </div>
+                  <div class="son-li-right">
+                    <img
+                      class="right-img"
+                      src="../assets/imgs/home/right.png"
+                    />
+                  </div>
+                </li>
+
+                <li
+                  class="son-li"
+                  @click="pageJump(18)"
+                  :style="{
+                    backgroundColor:
+                      pageSelect == 18 ? '#303e53' : 'transparent',
+                  }"
+                >
+                  <p class="son-li-line" v-if="pageSelect == 18"></p>
+                  <div
+                    class="son-li-center"
+                    :style="{ marginLeft: pageSelect == 18 ? '-38px' : '32px' }"
+                  >
+                    <div class="center-img-div">
+                      <img
+                        class="center-img"
+                        src="../assets/imgs/home/21.png"
+                      />
+                    </div>
+                    <p class="center-font">专属定制</p>
+                  </div>
+                  <div class="son-li-right">
+                    <img
+                      class="right-img"
+                      src="../assets/imgs/home/right.png"
+                    />
+                  </div>
+                </li>
+
+                <li
+                  class="son-li"
+                  @click="pageJump(26)"
+                  :style="{
+                    backgroundColor:
+                      pageSelect == 26 ? '#303e53' : 'transparent',
+                  }"
+                >
+                  <p class="son-li-line" v-if="pageSelect == 26"></p>
+                  <div
+                    class="son-li-center"
+                    :style="{ marginLeft: pageSelect == 26 ? '-25px' : '32px' }"
+                  >
+                    <div class="center-img-div">
+                      <img
+                        class="center-img"
+                        src="../assets/imgs/home/21.png"
+                      />
+                    </div>
+                    <p class="center-font">设计图管理</p>
+                  </div>
+                  <div class="son-li-right">
+                    <img
+                      class="right-img"
+                      src="../assets/imgs/home/right.png"
+                    />
+                  </div>
+                </li>
+              </ul>
+            </li>
+
             <li
-              v-if="systemAdmin == 1"
-              style="width: 100%;height: 1px;margin-top: 20px;background-color: #262e3d;"
+              v-if="isMedia != 1 && systemAdmin == 1"
+              style="
+                width: 100%;
+                height: 1px;
+                margin-top: 20px;
+                background-color: #262e3d;
+              "
             ></li>
             <li
-              v-if="systemAdmin == 1"
+              v-if="isMedia != 1 && systemAdmin == 1"
               class="dad-li"
-              style="margin-top: 20px;"
+              style="margin-top: 20px"
             >
-              <div style="width: 100%;">
+              <div style="width: 100%">
                 <p class="dad-li-font">系统设置</p>
               </div>
               <ul class="aside-ul-son">
                 <li
                   class="son-li"
-                  v-if="systemAdmin == 1"
-                  @click="checkedPage05"
+                  @click="pageJump(5)"
                   :style="{
                     backgroundColor:
                       pageSelect == 5 ? '#303e53' : 'transparent',
@@ -399,22 +930,60 @@
             :stockInquiryParam="stockInquiryParam"
             v-if="pageSelect == 7"
           ></FinishedStockInquiry>
-          <!-- 待入库 -->
-          <StockPending v-if="pageSelect == 2"></StockPending>
+
           <!-- 入库管理 -->
           <StockManagement v-if="pageSelect == 3"></StockManagement>
           <!-- 出库管理 -->
           <WarehouseManagement v-if="pageSelect == 4"></WarehouseManagement>
+          <!-- 采购记录 -->
+          <PurchaseRecord v-if="pageSelect == 27"></PurchaseRecord>
+          <!-- 销售记录 -->
+          <SaleRecord v-if="pageSelect == 28"></SaleRecord>
+
           <!-- 成品入库管理 -->
           <ProductManagement v-if="pageSelect == 6"></ProductManagement>
           <!-- 成品出库管理 -->
           <ProductDeliveryManagement
             v-if="pageSelect == 8"
           ></ProductDeliveryManagement>
+          <!-- 销售记录 -->
+          <ProductSaleRecord v-if="pageSelect == 29"></ProductSaleRecord>
+
           <!-- 用户管理 -->
           <UserAdmin v-if="pageSelect == 5"></UserAdmin>
           <!-- 销售报表 -->
           <SalesReport v-if="pageSelect == 9"></SalesReport>
+          <!-- 订单查询 -->
+          <OrderList v-if="pageSelect == 19"></OrderList>
+          <!-- 商品发货 -->
+          <GoodsDelivery v-if="pageSelect == 10"></GoodsDelivery>
+          <!-- 退货确认 -->
+          <GoodsReturn v-if="pageSelect == 11"></GoodsReturn>
+          <!-- 商品活动管理 -->
+          <ActivityAdmin v-if="pageSelect == 12"></ActivityAdmin>
+          <!-- 分类页面图片 -->
+          <ClassifyImg v-if="pageSelect == 13"></ClassifyImg>
+          <!-- 品牌/联名 -->
+          <BrandOrJointly v-if="pageSelect == 14"></BrandOrJointly>
+
+          <!-- 优惠券 -->
+          <DiscountCoupon v-if="pageSelect == 17"></DiscountCoupon>
+          <!-- 专属定制 -->
+          <ExclusiveAdmin v-if="pageSelect == 18"></ExclusiveAdmin>
+          <!-- 设计图管理 -->
+          <DesignAdmin v-if="pageSelect == 26"></DesignAdmin>
+
+          <!-- 账单录入 -->
+          <BillEnter v-if="pageSelect == 20"></BillEnter>
+          <BillQuery v-if="pageSelect == 21"></BillQuery>
+
+          <!-- 借入/借出 -->
+          <Borrow v-if="pageSelect == 22"></Borrow>
+          <Lend v-if="pageSelect == 23"></Lend>
+
+          <!-- 仓库盘点 -->
+          <AddCheck v-if="pageSelect == 24"></AddCheck>
+          <CheckRecord v-if="pageSelect == 25"></CheckRecord>
         </el-main>
       </el-container>
     </el-container>
@@ -422,38 +991,76 @@
 </template>
 
 <script>
-import StockInquiry from "@/components/Stock-inquiry.vue";
-import FinishedStockInquiry from "@/components/Finished-stock-inquiry.vue";
-import StockPending from "@/components/Stock-pending";
-import StockManagement from "@/components/Stock-management.vue";
-import WarehouseManagement from "@/components/Warehouse-management.vue";
-import ProductManagement from "@/components/Product-management.vue";
-import ProductDeliveryManagement from "@/components/ProductDelivery-management.vue";
-import UserAdmin from "@/components/User-admin.vue";
-import SalesReport from "@/components/Sales-report.vue";
+import { updatePsw } from "_req/api/user.js";
+import StockInquiry from "@/views/material/stock-inquiry.vue";
+import FinishedStockInquiry from "@/views/product/finished-stock-inquiry.vue";
+
+import StockManagement from "@/views/material/stock-management.vue";
+import WarehouseManagement from "@/views/material/warehouse-management.vue";
+import ProductManagement from "@/views/product/product-management.vue";
+import ProductDeliveryManagement from "@/views/product/product-delivery-management.vue";
+import UserAdmin from "@/views/system/user-admin.vue";
+import SalesReport from "@/views/admin/sales-report.vue";
+import GoodsDelivery from "@/views/order/goods-delivery.vue";
+import GoodsReturn from "@/views/order/goods-return.vue";
+import OrderList from "@/views/order/order-list.vue";
+import ActivityAdmin from "@/views/program/activity-admin.vue";
+import ClassifyImg from "@/views/program/classify-img.vue";
+import BrandOrJointly from "@/views/program/brand-or-jointly.vue";
+
+import DiscountCoupon from "@/views/program/discount-coupon.vue";
+import ExclusiveAdmin from "@/views/program/exclusive-admin.vue";
+import BillEnter from "@/views/bill/bill-enter.vue";
+import BillQuery from "@/views/bill/bill-query.vue";
+import Borrow from "@/views/borrow/borrow.vue";
+import Lend from "@/views/borrow/lend.vue";
+import AddCheck from "@/views/check/add-check.vue";
+import CheckRecord from "@/views/check/check-record.vue";
+import DesignAdmin from "@/views/program//design-admin.vue";
+import PurchaseRecord from "@/views/material/purchase-record.vue";
+import SaleRecord from "@/views/material/sale-record.vue";
+import ProductSaleRecord from "@/views/product/product-sale-record.vue";
 
 export default {
   name: "Home",
   components: {
     StockInquiry,
     FinishedStockInquiry,
-    StockPending,
     StockManagement,
     WarehouseManagement,
     ProductManagement,
     UserAdmin,
     ProductDeliveryManagement,
     SalesReport,
+    GoodsDelivery,
+    GoodsReturn,
+    OrderList,
+    ActivityAdmin,
+    ClassifyImg,
+    BrandOrJointly,
+    DiscountCoupon,
+    ExclusiveAdmin,
+    DesignAdmin,
+    BillEnter,
+    BillQuery,
+    Borrow,
+    Lend,
+    AddCheck,
+    CheckRecord,
+    PurchaseRecord,
+    SaleRecord,
+    ProductSaleRecord,
   },
   data() {
     return {
       userNick: "",
-      pageSelect: 1,
+      pageSelect: 9,
       updateUser: 0,
       pswDialogVisible: false,
       oldPsw: "",
       newPsw: "",
       systemAdmin: 0,
+      isMedia: 0,
 
       stockInquiryParam: {
         sel: 0,
@@ -462,10 +1069,16 @@ export default {
     };
   },
   created() {
-    this.userNick = sessionStorage.getItem("nick");
-    this.systemAdmin = sessionStorage.getItem("isAdmin");
+    this.userNick = this.$store.state.nick;
+    this.systemAdmin = this.$store.state.isAdmin;
     console.log(this.systemAdmin);
-    this.checkedPage02();
+    this.isMedia = this.$store.state.isMedia;
+
+    if (this.isMedia == 1) {
+      this.pageJump(19);
+    } else {
+      this.pageJump(9);
+    }
   },
   mounted() {
     this.clientHeight = document.documentElement.clientHeight;
@@ -477,64 +1090,26 @@ export default {
   },
   methods: {
     containerScrollTop(e) {
+      // console.log(e.target.scrollTop);
       if (e.target.scrollTop != 0) {
         sessionStorage.setItem("scrollTopHeight", e.target.scrollTop);
       }
     },
-    // 原材料库存
-    checkedPage01() {
-      this.pageSelect = 1;
-      this.stockInquiryParam.sel = 0;
-      sessionStorage.setItem("scrollTopHeight", 0);
+    // 侧边栏页面切换
+    pageJump(val) {
+      this.pageSelect = val;
 
-      this.backTop();
-    },
-    //成品库存查询
-    checkedPage07() {
-      this.pageSelect = 7;
-      this.stockInquiryParam.sel = 0;
-      sessionStorage.setItem("scrollTopHeight", 0);
+      if (val == 1 || val == 7) {
+        this.stockInquiryParam.sel = 0;
+        sessionStorage.setItem("scrollTopHeight", 0);
+      }
 
-      this.backTop();
-    },
-    // 待入库
-    checkedPage02() {
-      this.pageSelect = 2;
-
-      this.backTop();
-    },
-    // 原材料入库管理
-    checkedPage03() {
-      this.pageSelect = 3;
-
-      this.backTop();
-    },
-    // 原材料出库管理
-    checkedPage04() {
-      this.pageSelect = 4;
-
-      this.backTop();
-    },
-    // 用户管理
-    checkedPage05() {
-      this.pageSelect = 5;
-
-      this.backTop();
-    },
-    // 成品入库管理
-    checkedPage06() {
-      this.pageSelect = 6;
-      this.backTop();
-    },
-    // 成品出库管理
-    checkedPage08() {
-      this.pageSelect = 8;
-      this.backTop();
-    },
-    // 销售报表
-    checkedPage09() {
-      this.pageSelect = 9;
-      this.backTop();
+      this.$nextTick(() => {
+        // document
+        //   .getElementById("mainContainer")
+        //   .scrollIntoView({ behavior: "smooth" });
+        document.getElementById("mainContainer").scrollTop = 0;
+      });
     },
     // 修改密码、退出登录
     updateUserClick() {
@@ -570,36 +1145,26 @@ export default {
     },
     // 确定修改
     updatePsw() {
-      console.log(sessionStorage.getItem("token"));
+      console.log(this.$store.state.token);
       console.log(this.oldPsw, this.newPsw);
       if (this.newPsw != "") {
-        this.$axios
-          .post(this.$store.state.baseUrl + "/userModify", {
-            oldPsw: this.oldPsw,
-            psw: this.newPsw,
-          })
-          .then((res) => {
-            console.log(res);
-            if (res.data.token !== "") {
-              this.$message.success({
-                message: "密码修改成功",
-                showClose: true,
-                duration: 2000,
-              });
-              sessionStorage.setItem("token", res.data.token);
-              this.pswDialogVisible = false;
-              this.updateUser = 1;
-            }
-            console.log(sessionStorage.getItem("token"));
-          })
-          .catch((err) => {
-            console.log(err);
-            this.$message.error({
-              message: err.data.message,
-              showClose: true,
-              duration: 2000,
+        updatePsw({ oldPsw: this.oldPsw, psw: this.newPsw }).then((res) => {
+          console.log(res);
+          if (res.data.data.token) {
+            this.$message.success("密码修改成功");
+            // 将用户昵称、用户角色及token等放入vuex
+            this.$store.dispatch("setUserStatus", {
+              nick: this.$store.state.nick,
+              token: res.data.data.token,
+              isAdmin: this.$store.state.isAdmin,
+              isMedia: this.$store.state.isMedia,
             });
-          });
+
+            this.pswDialogVisible = false;
+            this.updateUser = 1;
+          }
+          console.log(this.$store.state.token);
+        });
       } else {
         this.$message.error({
           message: "新密码不能为空",
@@ -611,7 +1176,7 @@ export default {
     // 退出登录
     logOut() {
       this.$router.push("/");
-      this.$store.dispatch("setToken", null);
+      this.$store.dispatch("setUserStatus", null);
     },
     // 页面回到顶部
     backTop() {
@@ -637,10 +1202,6 @@ ul li {
   list-style: none;
   text-align: left;
   cursor: pointer;
-}
-
-ul li a {
-  text-decoration: none;
 }
 
 .font {
@@ -679,31 +1240,37 @@ ul li a {
       .left-font-one {
         margin: 0;
         line-height: 78px;
-        // font-size: 25px;
         font-weight: 600;
         color: #fff;
+        font-size: 25px;
       }
     }
 
     .right-div {
-      // width: 150px;
       position: absolute;
       top: 0;
-      // right: 175px;
+      right: 175px;
       height: 60px;
       line-height: 78px;
       padding: 0;
-      // display: flex;
       cursor: pointer;
+      display: flex;
+
+      .span-img {
+        img {
+          width: 15px;
+          margin-left: 10px;
+        }
+      }
 
       .span1 {
         display: inline-block;
-        // font-size: 18px;
         color: #fff;
         overflow: hidden;
         word-break: keep-all;
         white-space: nowrap;
         text-overflow: ellipsis;
+        font-size: 18px;
       }
     }
 
@@ -717,7 +1284,6 @@ ul li a {
       background-color: #fff;
       border: 1px solid #ddd;
       border-radius: 10px;
-      // box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
       z-index: 999;
 
       .updateUl,
@@ -733,7 +1299,6 @@ ul li a {
           color: #000;
 
           .update-nick-img {
-            // width: 50px;
             height: 40px;
             margin: 0 auto;
             line-height: 40px;
@@ -768,23 +1333,11 @@ ul li a {
         text-align: left;
         padding-left: 5px;
       }
-
-      a:hover {
-        text-decoration: underline;
-        color: #f00;
-      }
-
-      a {
-        display: block;
-        color: black;
-        width: 100%;
-      }
     }
   }
 
   .aside-ul-dad {
     padding: 30px 0 30px 10px;
-    // padding-top: 0;
     margin: 0;
     color: #fff;
 
@@ -839,75 +1392,27 @@ ul li a {
     }
   }
 }
-
-@media screen and (min-width: 501px) {
-  .left-font-one {
-    font-size: 25px;
-  }
-
-  .right-div {
-    right: 175px;
-    display: flex;
-
-    .span1 {
-      font-size: 18px;
-    }
-
-    .span-img {
-      img {
-        width: 15px;
-        margin-left: 10px;
-      }
-    }
-  }
-}
-
-@media screen and (max-width: 500px) {
-  .left-font-one {
-    font-size: 6vw;
-  }
-
-  .right-div {
-    right: 100px;
-    display: none;
-
-    .span1 {
-      font-size: 48px;
-    }
-
-    .span-img {
-      margin-left: 10px;
-      margin-top: -25px;
-      line-height: 78px;
-
-      img {
-        width: 40px;
-        height: 20px;
-        margin-left: 10px;
-      }
-    }
-  }
-}
 </style>
 <style lang="scss">
 #home-container {
   .el-dialog__body {
     padding-bottom: 30px;
   }
+
   .el-header {
     position: relative;
     width: 100%;
-    // height: 78px;
+    height: 78px;
     padding: 0;
     background-color: #26303c;
   }
 
   .el-aside {
     position: absolute;
-    // left: 0;
-    // top: 78px;
-    // bottom: 0;
-    // min-height: 859px;
+    left: 0;
+    top: 78px;
+    bottom: 0;
+    display: block;
     background-color: #202732;
   }
 
@@ -917,12 +1422,11 @@ ul li a {
 
   .el-main {
     position: absolute;
-    // left: 218px;
-    // right: 0;
-    // top: 78px;
-    // bottom: 0;
+    left: 218px;
+    right: 0;
+    top: 78px;
+    bottom: 0;
     overflow-y: scroll;
-
     padding: 20px;
     background-color: #ececec;
   }
@@ -934,50 +1438,177 @@ ul li a {
   .el-input__inner {
     height: 40px;
   }
+}
 
-  @media screen and(min-width: 501px) {
-    .el-header {
-      height: 78px;
-    }
+.el-collapse-item__header {
+  color: #409eff;
+}
 
-    .el-aside {
-      left: 0;
-      top: 78px;
-      bottom: 0;
-      display: block;
-    }
+.el-collapse-item__content {
+  padding-bottom: 0;
+}
 
-    .el-main {
-      left: 218px;
-      right: 0;
-      top: 78px;
-      bottom: 0;
+#updatePsw {
+  .el-dialog__body {
+    height: 120px;
+    overflow: auto;
+    padding: 20px;
+  }
+}
+
+.fixedBtn {
+  position: fixed;
+  right: 50px;
+  bottom: 50px;
+}
+
+.no-data {
+  margin-top: 20px;
+  text-align: center;
+  font-size: 15px;
+}
+
+#productRemove {
+  .el-input__inner {
+    background-color: #fff;
+    background-image: none;
+    border-radius: 4px;
+    border: 1px solid #dcdfe6;
+    box-sizing: border-box;
+    color: #606266;
+    display: inline-block;
+    font-size: inherit;
+    height: 40px;
+    line-height: 40px;
+    outline: 0;
+    padding: 0 30px;
+    transition: border-color 0.2s cubic-bezier(0.645, 0.045, 0.355, 1);
+    width: 100%;
+  }
+
+  .el-textarea__inner {
+    height: auto;
+    display: block;
+    resize: vertical;
+    padding: 5px 15px;
+    line-height: 1.5;
+    box-sizing: border-box;
+    width: 100%;
+    font-size: inherit;
+    color: #606266;
+    background-color: #fff;
+    background-image: none;
+    border: 1px solid #dcdfe6;
+    border-radius: 4px;
+    transition: border-color 0.2s cubic-bezier(0.645, 0.045, 0.355, 1);
+  }
+}
+
+.code-table {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+
+  .add-button {
+    width: 200px;
+    height: 40px;
+    margin: 0 auto;
+    margin-top: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border: 1px solid #c3c3c3;
+    border-radius: 10px;
+    cursor: pointer;
+
+    img {
+      width: 32px;
+      height: 32px;
+      margin-right: 10px;
     }
   }
 
-  @media screen and (max-width: 500px) {
-    .el-header {
-      height: 10vh;
-    }
+  .every1,
+  .every2,
+  .every3,
+  .every4,
+  .every5 {
+    display: flex;
+    justify-content: center;
+    text-align: center;
+    align-items: center;
+  }
 
-    .el-aside {
-      left: 0;
-      top: 78px;
-      bottom: 0;
-      display: none;
-    }
+  .every1 {
+    width: 15%;
+  }
 
-    .el-main {
-      left: 0;
-      right: 0;
-      top: 78px;
-      bottom: 0;
+  .every2 {
+    width: 40%;
+  }
+
+  .every3 {
+    width: 17%;
+  }
+  .every4 {
+    width: 13%;
+  }
+
+  .every5 {
+    width: 10%;
+  }
+}
+
+.note-table {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  .add-button {
+    width: 200px;
+    height: 40px;
+    margin: 0 auto;
+    margin-top: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border: 1px solid #c3c3c3;
+    border-radius: 10px;
+    cursor: pointer;
+
+    img {
+      width: 32px;
+      height: 32px;
+      margin-right: 10px;
     }
+  }
+
+  .every1,
+  .every2,
+  .every3 {
+    display: flex;
+    justify-content: center;
+    text-align: center;
+    align-items: center;
+    font-size: 14px;
+  }
+
+  .every1 {
+    width: 29%;
+  }
+
+  .every2 {
+    width: 60%;
+  }
+
+  .every3 {
+    width: 8%;
   }
 }
 
 .el-dialog {
-  width: 520px;
+  width: 620px;
   border-radius: 10px !important;
 }
 
@@ -1016,6 +1647,23 @@ ul li a {
 .el-dialog__footer {
   padding: 10px 20px 30px 0;
   text-align: right;
+}
+
+#bigImgDialog {
+  .el-dialog {
+    width: 50%;
+  }
+
+  .el-dialog__header {
+    display: none;
+  }
+
+  .el-dialog__body {
+    height: auto !important;
+    padding: 30px 0;
+    background-color: transparent;
+    overflow: hidden;
+  }
 }
 
 .el-button + .el-button {
@@ -1102,5 +1750,18 @@ ul li a {
 
 .el-drawer {
   overflow: scroll;
+}
+
+.tooltipFlow {
+  text-align: left;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box; //使用自适应布局
+  -webkit-line-clamp: 4; //设置超出行数，要设置超出几行显示省略号就把这里改成几
+  -webkit-box-orient: vertical;
+}
+
+.el-tabs__content {
+  overflow: inherit;
 }
 </style>

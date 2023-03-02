@@ -34,12 +34,41 @@ exports.install = function (Vue) {
   // 提取价格数字
   Vue.prototype.getPriceNum = function (value) {
     console.log(value);
-    if (value != "") {
+    if (value) {
       let reg = /[0-9]+([.]{1}[0-9]+){0,1}/g;
       let m = value.toString().match(reg);
       return m.join("");
     } else {
       return "";
     }
+  }
+  // 取第一张图
+  Vue.prototype.imgFilter = function (img) {
+    if (img) {
+      if (img.indexOf("|") != -1) {
+        return img.split("|")[0];
+      } else {
+        return img;
+      }
+    }
+
+    return "";
+  }
+  // 获取图片列表
+  Vue.prototype.imgListFilter = function (img) {
+    let list = [];
+    if (img) {
+      if (img.indexOf("|") !== -1) {
+        list = img.split("|").filter( (s) => {
+          return s && s.trim(); 
+      });
+      } else {
+        list.push(img);
+      }
+    } else {
+      list = [];
+    }
+
+    return list;
   }
 };
