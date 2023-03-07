@@ -5,70 +5,32 @@
       <div style="margin-bottom: 20px;text-align: right;">
         <el-button type="primary" @click="addJump">添加</el-button>
       </div>
-      <el-table
-        :data="seriesImgList"
-        highlight-current-row
-        style="width: 100%"
-        border
-      >
+      <el-table :data="seriesImgList" highlight-current-row style="width: 100%" border>
+        <el-table-column align="center" prop="moduleName" label="模块名称">
+        </el-table-column>
         <el-table-column align="center" prop="viewType" label="类型">
           <template slot-scope="scope">
             <div>
               <span>{{
                 scope.row.viewType == 0
-                  ? "整体图+路径"
-                  : "标题图+背景图+关联路径"
+                ? "整体图+路径"
+                : "标题图+背景图+关联路径"
               }}</span>
-            </div>
-          </template>
-        </el-table-column>
-        <el-table-column align="center" prop="titleImg" label="标题图">
-          <template slot-scope="scope">
-            <div>
-              <span v-if="!scope.row.titleImg">---</span>
-              <img
-                v-else
-                :src="axiosUrl + '/file/' + scope.row.titleImg"
-                width="100px"
-              />
-            </div>
-          </template>
-        </el-table-column>
-        <el-table-column
-          align="center"
-          prop="backgroundImg"
-          label="整体图/背景图"
-        >
-          <template slot-scope="scope">
-            <div>
-              <span v-if="!scope.row.backgroundImg">---</span>
-              <img
-                v-else
-                :src="axiosUrl + '/file/' + scope.row.backgroundImg"
-                width="100px"
-              />
             </div>
           </template>
         </el-table-column>
         <el-table-column align="center" prop="sort" label="排序">
           <template slot-scope="scope">
             <div>
-              <el-input
-                v-model="scope.row.sort"
-                @change="updateSort(scope.row)"
-              ></el-input>
+              <el-input v-model="scope.row.sort" @change="updateSort(scope.row)"></el-input>
             </div>
           </template>
         </el-table-column>
         <el-table-column align="center" label="操作">
           <template slot-scope="scope">
             <div>
-              <el-button type="text" @click="updateSeriesImg(scope.row)"
-                >修改</el-button
-              >
-              <el-button type="text" @click="delSeriesImg(scope.row)"
-                >删除</el-button
-              >
+              <el-button type="text" @click="updateSeriesImg(scope.row)">修改</el-button>
+              <el-button type="text" @click="delSeriesImg(scope.row)">删除</el-button>
             </div>
           </template>
         </el-table-column>
@@ -76,22 +38,11 @@
     </div>
 
     <div v-else style="text-align: left;">
-      <imgAndUrl
-        :manageType="1"
-        :updateMsg="updateMsg"
-        @imgAndUrlSubmit="imgAndUrlSubmit"
-      ></imgAndUrl>
+      <imgAndUrl :manageType="1" :updateMsg="updateMsg" @imgAndUrlSubmit="imgAndUrlSubmit"></imgAndUrl>
     </div>
 
-    <el-dialog
-      title="删除"
-      :visible.sync="dialogDeleteVisible"
-      :close-on-press-escape="false"
-      :close-on-click-modal="false"
-      :modal-append-to-body="false"
-      :append-to-body="false"
-      id="delInven"
-    >
+    <el-dialog title="删除" :visible.sync="dialogDeleteVisible" :close-on-press-escape="false" :close-on-click-modal="false"
+      :modal-append-to-body="false" :append-to-body="false" id="delInven">
       <div style="text-align: center;">
         <p style="margin: 30px 0 0 0;font-size: 16px;color: #4e4e4e;">
           确定删除该图片？删除后不可修改
@@ -99,9 +50,7 @@
       </div>
       <div slot="footer">
         <el-button @click="dialogDeleteVisible = false">取 消</el-button>
-        <el-button type="primary" @click="delSeriesSure" v-preventClick
-          >确 定</el-button
-        >
+        <el-button type="primary" @click="delSeriesSure" v-preventClick>确 定</el-button>
       </div>
     </el-dialog>
   </div>

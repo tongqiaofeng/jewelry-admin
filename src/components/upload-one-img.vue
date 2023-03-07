@@ -2,26 +2,15 @@
   <div class="upload-imgs">
     <div class="add">
       <form enctype="multipart/form-data" style="width:100px;height:100px;">
-        <input
-          @change="inputChange($event)"
-          type="file"
-          name="upload-images"
-          accept="image/*"
-          class="inputUpload"
-          multiple
-        />
+        <input @change="inputChange($event)" type="file" name="upload-images" accept="image/*" class="inputUpload"
+          multiple />
         <i class="el-icon-plus addIcon"></i>
       </form>
     </div>
     <div style="position:relative;" v-if="imageUrl">
       <span class="spanStyle" @click="delImage">x</span>
-      <img
-        :src="baseUrl + '/file/' + imageUrl"
-        v-image-preview
-        width="100px"
-        height="100px"
-        style="border-radius:5px;object-fit:cover;"
-      />
+      <img :src="baseUrl + '/file/' + imageUrl" v-image-preview width="100px" height="100px"
+        style="border-radius:5px;object-fit:cover;" />
     </div>
   </div>
 </template>
@@ -39,7 +28,7 @@ export default {
   },
   props: ["imgUrl"],
   watch: {
-    imgUrl: function(newVal, oldVal) {
+    imgUrl: function (newVal, oldVal) {
       console.log(newVal, oldVal);
       this.imageUrl = newVal;
     },
@@ -103,7 +92,7 @@ export default {
     canvasDataURL2(path, obj, callback) {
       let img = new Image();
       img.src = path;
-      img.onload = function() {
+      img.onload = function () {
         let that = this; // 指到img
         // 默认按比例压缩
         let w = that.width,
@@ -189,8 +178,7 @@ export default {
         });
     },
     // 刪除圖片
-    delImage(item, index) {
-      console.log(item, index);
+    delImage() {
       this.imageUrl = "";
       this.$emit("imgChange", this.imageUrl);
     },

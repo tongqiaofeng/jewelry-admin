@@ -8,70 +8,44 @@
       </div>
       <div style="display: flex;justify-content: space-between;">
         <!-- -->
-        <div
-          class="add-left"
-          :style="{ width: imgAndUrlData.relationType === '3' ? '95%' : '50%' }"
-        >
-          <el-form
-            label-width="82px"
-            ref="classifyImgForm"
-            :model="imgAndUrlData"
-            :rules="classifyImgRules"
-          >
+        <div class="add-left" :style="{ width: imgAndUrlData.relationType === '3' ? '95%' : '50%' }">
+          <el-form label-width="82px" ref="classifyImgForm" :model="imgAndUrlData" :rules="classifyImgRules">
             <el-form-item label="类别：">
-              <el-select
-                v-model="imgAndUrlData.viewType"
-                placeholder="请选择"
-                :popper-append-to-body="false"
-                style="width: 100%"
-                @change="classifyTypeChange"
-              >
+              <el-select v-model="imgAndUrlData.viewType" placeholder="请选择" :popper-append-to-body="false"
+                style="width: 100%" @change="classifyTypeChange">
                 <el-option label="整体图+路径" value="0"> </el-option>
                 <el-option label="标题图+背景图+关联路径" value="1">
                 </el-option>
               </el-select>
             </el-form-item>
+            <el-form-item label="模块名称：" prop="moduleName">
+              <el-input v-model="imgAndUrlData.moduleName" placeholder="请输入"></el-input>
+            </el-form-item>
 
             <el-form-item label="排序：" prop="sort">
-              <el-input
-                v-model="imgAndUrlData.sort"
-                placeholder="请输入"
-              ></el-input>
+              <el-input v-model="imgAndUrlData.sort" placeholder="请输入"></el-input>
             </el-form-item>
             <div v-if="imgAndUrlData.viewType === '0'">
               <el-form-item label="图片：" prop="backgroundImg">
                 <div>
-                  <uploadOneImg
-                    :imgUrl="imgAndUrlData.backgroundImg"
-                    :isUpdate="1"
-                    @imgChange="imgBackChange"
-                  ></uploadOneImg>
+                  <uploadOneImg :imgUrl="imgAndUrlData.backgroundImg" :isUpdate="1" @imgChange="imgBackChange">
+                  </uploadOneImg>
                 </div>
               </el-form-item>
               <el-form-item label="跳转路径：" prop="imgUrl">
-                <el-input
-                  v-model="imgAndUrlData.imgUrl"
-                  placeholder="请输入跳转路径"
-                ></el-input>
+                <el-input v-model="imgAndUrlData.imgUrl" placeholder="请输入跳转路径"></el-input>
               </el-form-item>
             </div>
             <div v-if="imgAndUrlData.viewType === '1'">
               <el-form-item label="标题图：" prop="titleImg">
                 <div>
-                  <uploadOneImg
-                    :imgUrl="imgAndUrlData.titleImg"
-                    :isUpdate="1"
-                    @imgChange="imgTitleChange"
-                  ></uploadOneImg>
+                  <uploadOneImg :imgUrl="imgAndUrlData.titleImg" :isUpdate="1" @imgChange="imgTitleChange"></uploadOneImg>
                 </div>
               </el-form-item>
               <el-form-item label="背景图：" prop="backgroundImg">
                 <div>
-                  <uploadOneImg
-                    :imgUrl="imgAndUrlData.backgroundImg"
-                    :isUpdate="1"
-                    @imgChange="imgBackChange"
-                  ></uploadOneImg>
+                  <uploadOneImg :imgUrl="imgAndUrlData.backgroundImg" :isUpdate="1" @imgChange="imgBackChange">
+                  </uploadOneImg>
                 </div>
               </el-form-item>
               <div>
@@ -90,27 +64,20 @@
                   <div class="url">
                     {{
                       imgAndUrlData.relationType == 0
-                        ? "关联产品"
-                        : imgAndUrlData.relationType == 1
+                      ? "关联产品"
+                      : imgAndUrlData.relationType == 1
                         ? "关联设计图"
                         : "跳转路径"
                     }}
                   </div>
-                  <div
-                    class="designer"
-                    v-if="imgAndUrlData.relationType === '3'"
-                  >
+                  <div class="designer" v-if="imgAndUrlData.relationType === '3'">
                     设计师详情图片
                   </div>
                   <div class="do">操作</div>
                 </div>
                 <div class="img-container-every">
                   <div class="img">
-                    <uploadOneImg
-                      :imgUrl="showImgData.imgUrl"
-                      :isUpdate="1"
-                      @imgChange="addShowImgChange"
-                    ></uploadOneImg>
+                    <uploadOneImg :imgUrl="showImgData.imgUrl" :isUpdate="1" @imgChange="addShowImgChange"></uploadOneImg>
                   </div>
                   <div class="url" style="text-align: center;">
                     <div v-if="imgAndUrlData.relationType === '0'">
@@ -118,10 +85,7 @@
                         右侧选择产品
                       </div>
                       <div v-else>
-                        <img
-                          :src="axiosUrl + '/file/' + showImgData.img"
-                          style="width: 100px;height:100px;"
-                        />
+                        <img :src="axiosUrl + '/file/' + showImgData.img" style="width: 100px;height:100px;" />
                       </div>
                     </div>
                     <div v-if="imgAndUrlData.relationType === '1'">
@@ -129,110 +93,60 @@
                         右侧选择设计图
                       </div>
                       <div v-else>
-                        <img
-                          :src="axiosUrl + '/file/' + showImgData.img"
-                          style="width: 100px;height:100px;"
-                        />
+                        <img :src="axiosUrl + '/file/' + showImgData.img" style="width: 100px;height:100px;" />
                       </div>
                     </div>
-                    <div
-                      v-if="
-                        imgAndUrlData.relationType === '2' ||
-                          imgAndUrlData.relationType === '3'
-                      "
-                    >
+                    <div v-if="
+                      imgAndUrlData.relationType === '2' ||
+                      imgAndUrlData.relationType === '3'
+                    ">
                       <el-input v-model="showImgData.jumpUrl"></el-input>
                     </div>
                   </div>
-                  <div
-                    class="designer"
-                    v-if="imgAndUrlData.relationType === '3'"
-                  >
-                    <uploadImg
-                      :imgUrl="showImgData.designerImg"
-                      :isUpdate="1"
-                      @imgChange="addShowDesignerImgChange"
-                    ></uploadImg>
+                  <div class="designer" v-if="imgAndUrlData.relationType === '3'">
+                    <uploadImg :imgUrl="showImgData.designerImg" :isUpdate="1" @imgChange="addShowDesignerImgChange">
+                    </uploadImg>
                   </div>
                   <div class="do">
-                    <el-button type="text" @click="addImgAndUrl"
-                      >添加</el-button
-                    >
+                    <el-button type="text" @click="addImgAndUrl">添加</el-button>
                   </div>
                 </div>
-                <draggable
-                  v-model="imgAndUrlData.dataStr"
-                  item-key="index"
-                  animation="300"
-                  @update="datadragEnd"
-                >
+                <draggable v-model="imgAndUrlData.dataStrList" item-key="index" animation="300" @update="datadragEnd">
                   <transition-group>
-                    <div
-                      v-for="(item, index) of imgAndUrlData.dataStr"
-                      :key="index"
-                      class="img-container-every"
-                    >
+                    <div v-for="(item, index) of imgAndUrlData.dataStrList" :key="index" class="img-container-every">
                       <div class="img" @click="updateIndex(index)">
-                        <uploadOneImg
-                          :imgUrl="item.imgUrl"
-                          :isUpdate="1"
-                          @imgChange="updateShowImgChange"
-                        ></uploadOneImg>
+                        <uploadOneImg :imgUrl="item.imgUrl" :isUpdate="1" @imgChange="updateShowImgChange"></uploadOneImg>
                       </div>
                       <div class="url">
                         <div v-if="imgAndUrlData.relationType === '0'">
-                          <img
-                            v-if="item.id"
-                            :src="axiosUrl + '/file/' + item.img"
-                            style="width: 100px;height:100px;"
-                          />
+                          <img v-if="item.id" :src="axiosUrl + '/file/' + item.img" style="width: 100px;height:100px;" />
                           <div v-else>
                             右侧选择产品
                           </div>
-                          <el-button
-                            type="text"
-                            @click="updateRelevanceIndex(index)"
-                            >修改关联</el-button
-                          >
+
+                          <el-button type="text" @click="updateRelevanceIndex(index)">修改关联</el-button>
                         </div>
                         <div v-if="imgAndUrlData.relationType === '1'">
-                          <img
-                            v-if="item.id"
-                            :src="axiosUrl + '/file/' + item.img"
-                            style="width: 100px;height:100px;"
-                          />
+                          <img v-if="item.id" :src="axiosUrl + '/file/' + item.img" style="width: 100px;height:100px;" />
                           <div v-else>
                             右侧选择设计图
                           </div>
-                          <el-button
-                            type="text"
-                            @click="updateRelevanceIndex(index)"
-                            >修改关联</el-button
-                          >
+
+                          <el-button type="text" @click="updateRelevanceIndex(index)">修改关联</el-button>
                         </div>
-                        <div
-                          v-if="
-                            imgAndUrlData.relationType === '2' ||
-                              imgAndUrlData.relationType === '3'
-                          "
-                        >
+                        <div v-if="
+                          imgAndUrlData.relationType === '2' ||
+                          imgAndUrlData.relationType === '3'
+                        ">
                           <el-input v-model="item.jumpUrl"></el-input>
                         </div>
                       </div>
-                      <div
-                        class="designer"
-                        v-if="imgAndUrlData.relationType === '3'"
-                      >
-                        <uploadImg
-                          :imgUrl="item.designerImg"
-                          :isUpdate="1"
-                          @imgChange="updateShowDesignerImgChange"
-                        ></uploadImg>
+                      <div class="designer" v-if="imgAndUrlData.relationType === '3'">
+                        <uploadImg :imgUrl="item.designerImg" :isUpdate="1" @imgChange="updateShowDesignerImgChange">
+                        </uploadImg>
                       </div>
                       <div class="do">
-                        <el-button type="text" @click="delImgAndUrl(index)"
-                          >删除</el-button
-                        >
+                        <el-button type="text" @click="delImgAndUrl(index)">删除</el-button>
                       </div>
                     </div>
                   </transition-group>
@@ -241,85 +155,41 @@
             </div>
           </el-form>
           <div style="margin-top: 40px;text-align: right;">
-            <el-button
-              type="primary"
-              icon="el-icon-circle-plus-outline"
-              style="width: 120px;margin-left: 10px;"
-              @click.prevent="addClassify"
-              >提交</el-button
-            >
+            <el-button type="primary" icon="el-icon-circle-plus-outline" style="width: 120px;margin-left: 10px;"
+              @click.prevent="addClassify">提交</el-button>
           </div>
         </div>
 
-        <div
-          class="add-right"
-          v-if="
-            imgAndUrlData.viewType === '1' && imgAndUrlData.relationType === '0'
-          "
-        >
+        <div class="add-right" v-if="
+          imgAndUrlData.viewType === '1' && imgAndUrlData.relationType === '0'
+        ">
           <div>
             <p class="title-font">成品库存查询</p>
             <div>
               <el-form label-width="110px">
                 <el-form-item label="仓库/加工厂：" required>
-                  <el-select
-                    style="width:66%;"
-                    v-model="storageIdList"
-                    multiple
-                    clearable
-                    placeholder="可多选"
-                    :popper-append-to-body="false"
-                  >
-                    <el-option
-                      v-for="item in warehouseFilterList"
-                      :key="item.id"
-                      :label="item.name"
-                      :value="item.id"
-                    >
+                  <el-select style="width:66%;" v-model="storageIdList" multiple clearable placeholder="可多选"
+                    :popper-append-to-body="false">
+                    <el-option v-for="item in warehouseFilterList" :key="item.id" :label="item.name" :value="item.id">
                     </el-option>
                   </el-select>
                 </el-form-item>
                 <el-form-item label="关键字：">
-                  <el-input
-                    style="width: 66%;"
-                    v-model="proudctkeyword"
-                    @change="keywordChange"
-                    placeholder="可输入产品名称、设计图名称、统一编号、备注进行搜索"
-                    clearable
-                  >
+                  <el-input style="width: 66%;" v-model="proudctkeyword" @change="keywordChange"
+                    placeholder="可输入产品名称、设计图名称、统一编号、备注进行搜索" clearable>
                   </el-input>
-                  <el-button
-                    style="margin-left: 10px;"
-                    type="primary"
-                    @click="warehouseCheck"
-                    >查 询</el-button
-                  >
+                  <el-button style="margin-left: 10px;" type="primary" @click="warehouseCheck">查 询</el-button>
                 </el-form-item>
               </el-form>
             </div>
           </div>
-          <el-table
-            ref="singleTable"
-            :data="deviceFilterList"
-            :row-key="getRowKeys"
-            :key="1"
-            highlight-current-row
-            style="width: 100%"
-            border
-            @row-dblclick="handleSelectionChange"
-          >
+          <el-table ref="singleTable" :data="deviceFilterList" :row-key="getRowKeys" :key="1" highlight-current-row
+            style="width: 100%" border @row-dblclick="handleSelectionChange">
             <el-table-column align="center" prop="designName" label="成品图片">
               <template slot-scope="scope">
                 <div>
-                  <span v-if="scope.row.img == '' || scope.row.img == null"
-                    >---</span
-                  >
-                  <img
-                    v-else
-                    :src="axiosUrl + '/file/' + imgFilter(scope.row.img)"
-                    width="50px"
-                    height="50px"
-                  />
+                  <span v-if="scope.row.img == '' || scope.row.img == null">---</span>
+                  <img v-else :src="axiosUrl + '/file/' + imgFilter(scope.row.img)" width="50px" height="50px" />
                 </div>
               </template>
             </el-table-column>
@@ -330,11 +200,7 @@
                 </div>
               </template>
             </el-table-column>
-            <el-table-column
-              align="center"
-              prop="productNumber"
-              label="统一编号"
-            >
+            <el-table-column align="center" prop="productNumber" label="统一编号">
             </el-table-column>
             <el-table-column align="center" prop="designName" label="现存仓库">
               <template slot-scope="scope">
@@ -347,83 +213,47 @@
 
           <div style="width: 100%;height: 50px;padding-bottom: 20px;">
             <div style="margin:40px 0 0;position:absolute;right:30px;">
-              <el-pagination
-                @current-change="handleCurrentChange"
-                :current-page="page"
-                layout="total, prev, pager, next, jumper"
-                :total="total"
-              >
+              <el-pagination @current-change="handleCurrentChange" :current-page="page"
+                layout="total, prev, pager, next, jumper" :total="total">
               </el-pagination>
             </div>
           </div>
         </div>
-        <div
-          class="add-right"
-          v-else-if="
-            imgAndUrlData.viewType === '1' && imgAndUrlData.relationType === '1'
-          "
-        >
+        <div class="add-right" v-else-if="
+          imgAndUrlData.viewType === '1' && imgAndUrlData.relationType === '1'
+        ">
           <div>
             <p class="title-font">设计图查询</p>
             <div style="display:flex;padding: 30px 20px 0 20px;">
-              <el-input
-                placeholder="可输入设计图名称、设计师名称、标签、设计理念等搜索"
-                v-model="designListKeyword"
-              ></el-input
-              ><el-button
-                type="primary"
-                style="margin-left: 10px;"
-                @click="handleDesignCurrentChange(1)"
-                >搜索</el-button
-              >
+              <el-input placeholder="可输入设计图名称、设计师名称、标签、设计理念等搜索" v-model="designListKeyword"></el-input><el-button
+                type="primary" style="margin-left: 10px;" @click="handleDesignCurrentChange(1)">搜索</el-button>
             </div>
             <div style="padding: 20px;">
-              <el-radio-group
-                v-model="statusDesign"
-                @change="handleDesignCurrentChange(1)"
-              >
+              <el-radio-group v-model="statusDesign" @change="handleDesignCurrentChange(1)">
                 <el-radio label="0">小程序未显示</el-radio>
                 <el-radio label="1">小程序已显示</el-radio>
               </el-radio-group>
             </div>
           </div>
-          <el-table
-            :data="producibleDesignList"
-            highlight-current-row
-            border
-            :row-key="getRowKeys"
-            :key="2"
-            @row-dblclick="handleDesignSelChange"
-            ref="multipleTable"
-          >
+          <el-table :data="producibleDesignList" highlight-current-row border :row-key="getRowKeys" :key="2"
+            @row-dblclick="handleDesignSelChange" ref="multipleTable">
             <el-table-column align="center" prop="name" label="设计图名称">
             </el-table-column>
-            <el-table-column
-              align="center"
-              prop="designerName"
-              label="设计师名称"
-            >
+            <el-table-column align="center" prop="designerName" label="设计师名称">
             </el-table-column>
             <el-table-column align="center" prop="label" label="标签">
             </el-table-column>
             <el-table-column align="center" prop="designId" label="设计图片">
               <template slot-scope="scope">
-                <img
-                  :src="axiosUrl + '/file/' + imgFilter(scope.row.img)"
-                  style="width: 100px;height: 100px;object-fit: cover;"
-                />
+                <img :src="axiosUrl + '/file/' + imgFilter(scope.row.img)"
+                  style="width: 100px;height: 100px;object-fit: cover;" />
               </template>
             </el-table-column>
           </el-table>
           <div style="width: 100%;height: 50px;">
             <div style="margin:15px 0;position:absolute;right:40px;">
-              <el-pagination
-                @current-change="handleDesignCurrentChange"
-                :current-page="designPage"
-                :page-size="5"
-                layout="total, prev, pager, next, jumper"
-                :total="designTotal"
-              >
+              <el-pagination @current-change="handleDesignCurrentChange" :current-page="designPage" :page-size="5"
+                layout="total, prev, pager, next, jumper" :total="designTotal">
               </el-pagination>
             </div>
           </div>
@@ -475,6 +305,7 @@ export default {
 
       imgAndUrlData: {
         id: null,
+        moduleName: '',
         sort: 100,
         manageType: this.manageType,
         viewType: "1",
@@ -482,7 +313,8 @@ export default {
         backgroundImg: "",
         imgUrl: "",
         relationType: "0",
-        dataStr: [],
+        dataStr: '',
+        dataStrList: []
       },
       showImgData: {
         imgUrl: "",
@@ -503,17 +335,19 @@ export default {
 
     if (this.updateMsg.viewType == 0 || this.updateMsg.viewType == 1) {
       this.imgAndUrlData = this.updateMsg;
+      this.$set(this.imgAndUrlData, 'dataStrList', [])
       this.imgAndUrlData.viewType = this.imgAndUrlData.viewType + "";
       this.imgAndUrlData.relationType = this.imgAndUrlData.relationType + "";
       if (this.imgAndUrlData.dataStr) {
         console.log("--------------");
-        this.imgAndUrlData.dataStr = JSON.parse(this.imgAndUrlData.dataStr);
+        this.imgAndUrlData.dataStrList = JSON.parse(this.imgAndUrlData.dataStr);
       } else {
-        this.imgAndUrlData.dataStr = [];
+        this.imgAndUrlData.dataStrList = [];
       }
     }
     this.axiosUrl = base_request_url;
     this.warehouseCheck();
+    this.getWarehouseFactoryList();
     this.getproducibleDesignList();
   },
   methods: {
@@ -521,7 +355,7 @@ export default {
       evt.preventDefault();
       console.log("拖动前的索引 :" + evt.oldIndex);
       console.log("拖动后的索引 :" + evt.newIndex);
-      console.log(this.imgAndUrlData.dataStr);
+      console.log(this.imgAndUrlData.dataStrList);
     },
 
     // 类别变化
@@ -530,17 +364,15 @@ export default {
     },
     // 提交
     addClassify() {
-      this.imgAndUrlData.dataStr = JSON.stringify(this.imgAndUrlData.dataStr);
+      let list = this.imgAndUrlData.dataStrList
+      this.imgAndUrlData.dataStr = JSON.stringify(list);
       webConfigSavePort(this.imgAndUrlData)
         .then((res) => {
           console.log("提交网页设置", res);
           this.$message.success("提交成功");
           this.$emit("imgAndUrlSubmit", 1);
         })
-        .catch((err) => {
-          console.log(err);
-          this.imgAndUrlData.dataStr = JSON.parse(this.imgAndUrlData.dataStr);
-        });
+
     },
 
     goBack() {
@@ -578,28 +410,32 @@ export default {
     },
 
     updateShowImgChange(val) {
-      this.imgAndUrlData.dataStr[this.updateI].imgUrl = val;
-      console.log(this.imgAndUrlData.dataStr);
+      setTimeout(() => {
+        this.imgAndUrlData.dataStrList[this.updateI].imgUrl = val;
+        console.log(this.imgAndUrlData.dataStrList);
+      }, 500)
     },
 
     // 显示图  修改 设计师图片
     updateShowDesignerImgChange(val) {
-      this.imgAndUrlData.dataStr[this.updateI].designerImg = val.img;
-      console.log(this.imgAndUrlData.dataStr);
+      this.imgAndUrlData.dataStrList[this.updateI].designerImg = val.img;
+      console.log(this.imgAndUrlData.dataStrList);
     },
 
     // 显示图  修改 关联产品/设计图
     updateRelevanceIndex(i) {
       console.log(i);
       this.updateI = i;
-      this.imgAndUrlData.dataStr[this.updateI].id = null;
-      this.imgAndUrlData.dataStr[this.updateI].img = "";
-      this.imgAndUrlData.dataStr[this.updateI].name = "";
+
+      this.imgAndUrlData.dataStrList[this.updateI].id = null;
+      this.imgAndUrlData.dataStrList[this.updateI].img = "";
+      this.imgAndUrlData.dataStrList[this.updateI].name = "";
+      console.log(this.imgAndUrlData.dataStrList);
     },
 
     // 添加显示图
     addImgAndUrl() {
-      this.imgAndUrlData.dataStr.push(this.showImgData);
+      this.imgAndUrlData.dataStrList.push(this.showImgData);
       this.showImgData = {
         imgUrl: "",
         jumpUrl: "",
@@ -612,16 +448,16 @@ export default {
 
     // 删除
     delImgAndUrl(index) {
-      this.imgAndUrlData.dataStr.splice(index, 1);
+      this.imgAndUrlData.dataStrList.splice(index, 1);
     },
 
     // 选择关联产品
     handleSelectionChange(row) {
       if (this.updateI != null) {
         console.log("修改111111111");
-        this.imgAndUrlData.dataStr[this.updateI].id = row.id;
-        this.imgAndUrlData.dataStr[this.updateI].img = row.img.split("|")[0];
-        this.imgAndUrlData.dataStr[this.updateI].name = row.productName;
+        this.imgAndUrlData.dataStrList[this.updateI].id = row.id;
+        this.imgAndUrlData.dataStrList[this.updateI].img = row.img.split("|")[0];
+        this.imgAndUrlData.dataStrList[this.updateI].name = row.productName;
       } else {
         console.log("添加22222222");
         this.showImgData.id = row.id;
@@ -634,9 +470,9 @@ export default {
     // 选择关联设计图
     handleDesignSelChange(row) {
       if (this.updateI != null) {
-        this.imgAndUrlData.dataStr[this.updateI].id = row.id;
-        this.imgAndUrlData.dataStr[this.updateI].img = row.img.split("|")[0];
-        this.imgAndUrlData.dataStr[this.updateI].name = row.name;
+        this.imgAndUrlData.dataStrList[this.updateI].id = row.id;
+        this.imgAndUrlData.dataStrList[this.updateI].img = row.img.split("|")[0];
+        this.imgAndUrlData.dataStrList[this.updateI].name = row.name;
       } else {
         this.showImgData.id = row.id;
         this.showImgData.img = row.img.split("|")[0];
@@ -731,8 +567,8 @@ export default {
         img == "" || img == null
           ? ""
           : img.indexOf("|") == -1
-          ? img
-          : img.split("|")[0];
+            ? img
+            : img.split("|")[0];
       return url;
     },
   },
@@ -779,7 +615,8 @@ export default {
     cursor: pointer;
 
     .img {
-      width: 20%;
+      width: fit-content;
+      min-width: 20%;
       text-align: center;
     }
 
@@ -792,6 +629,7 @@ export default {
       width: 40%;
       text-align: center;
     }
+
     .do {
       // width: 10%;
       text-align: center;

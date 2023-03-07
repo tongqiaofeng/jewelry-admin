@@ -394,7 +394,7 @@
               </ul>
             </li>
 
-            <li class="dad-li" v-if="isMedia != 1 && systemAdmin == 1">
+            <!-- <li class="dad-li" v-if="isMedia != 1 && systemAdmin == 1">
               <div style="width: 100%">
                 <p class="dad-li-font">借入/借出</p>
               </div>
@@ -587,7 +587,7 @@
                   </div>
                 </li>
               </ul>
-            </li>
+            </li> -->
 
             <li class="dad-li" v-if="isMedia == 1 || systemAdmin == 1">
               <div style="width: 100%">
