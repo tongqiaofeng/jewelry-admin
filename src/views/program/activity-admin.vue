@@ -5,44 +5,22 @@
       <div style="display: flex;justify-content: space-between;">
         <el-form inline>
           <el-form-item>
-            <el-date-picker
-              v-model="checkTime"
-              type="daterange"
-              range-separator="至"
-              start-placeholder="开始日期"
-              end-placeholder="结束日期"
-              format="yyyy-MM-dd"
-              value-format="yyyy-MM-dd"
-            >
+            <el-date-picker v-model="checkTime" type="daterange" range-separator="至" start-placeholder="开始日期"
+              end-placeholder="结束日期" format="yyyy-MM-dd" value-format="yyyy-MM-dd">
             </el-date-picker>
           </el-form-item>
           <el-form-item>
-            <el-input
-              v-model="keyword"
-              placeholder="可输入活动名称进行搜索"
-            ></el-input>
+            <el-input v-model="keyword" placeholder="可输入活动名称进行搜索"></el-input>
           </el-form-item>
           <el-form-item>
             <el-button type="primary" @click="getActivityList">搜索</el-button>
           </el-form-item>
         </el-form>
-        <el-button type="primary" style="height: 40px;" @click="addActivity"
-          >添加</el-button
-        >
+        <el-button type="primary" style="height: 40px;" @click="addActivity">添加</el-button>
       </div>
 
-      <el-table
-        :data="activityList"
-        ref="activityTable"
-        highlight-current-row
-        style="width: 100%"
-        border
-      >
-        <el-table-column
-          align="center"
-          prop="name"
-          label="活动名称"
-        ></el-table-column>
+      <el-table :data="activityList" ref="activityTable" highlight-current-row style="width: 100%" border>
+        <el-table-column align="center" prop="name" label="活动名称"></el-table-column>
         <el-table-column align="center" label="活动时间">
           <template slot-scope="scope">
             <div>
@@ -53,44 +31,28 @@
         <el-table-column align="center" prop="img" label="图片">
           <template slot-scope="scope">
             <div>
-              <img
-                :src="axiosUrl + '/file/' + scope.row.img"
-                style="width: 100px;height: 100px;object-fit: cover;"
-              />
+              <img :src="axiosUrl + '/file/' + scope.row.img" style="width: 100px;height: 100px;object-fit: cover;" />
             </div>
           </template>
         </el-table-column>
         <el-table-column align="center" label="操作">
           <template slot-scope="scope">
             <div>
-              <el-button type="text" @click="updateActivity(scope.row)"
-                >修改</el-button
-              >
-              <el-button type="text" @click="delActivity(scope.row)"
-                >删除</el-button
-              >
+              <el-button type="text" @click="updateActivity(scope.row)">修改</el-button>
+              <el-button type="text" @click="delActivity(scope.row)">删除</el-button>
             </div>
           </template>
         </el-table-column>
       </el-table>
-      <el-dialog
-        id="delActivityDialog"
-        v-if="dialogDelActivityVisible"
-        title="删除活动"
-        :visible.sync="dialogDelActivityVisible"
-        :close-on-press-escape="false"
-        :close-on-click-modal="false"
-        :modal-append-to-body="false"
-        :append-to-body="false"
-      >
+      <el-dialog id="delActivityDialog" v-if="dialogDelActivityVisible" title="删除活动"
+        :visible.sync="dialogDelActivityVisible" :close-on-press-escape="false" :close-on-click-modal="false"
+        :modal-append-to-body="false" :append-to-body="false">
         <div style="padding-top: 30px;text-align: center;font-size: 14px;">
           确定删除该活动？删除后不可恢复
         </div>
         <div slot="footer">
           <el-button @click="dialogDelActivityVisible = false">取 消</el-button>
-          <el-button type="primary" @click="delActivitySure" v-preventClick
-            >确 定</el-button
-          >
+          <el-button type="primary" @click="delActivitySure" v-preventClick>确 定</el-button>
         </div>
       </el-dialog>
     </div>
@@ -103,71 +65,33 @@
       </div>
       <div class="add-container">
         <div class="add-left">
-          <el-form
-            label-width="110px"
-            ref="addActivityForm"
-            :model="addActivityData"
-            :rules="addActivityRules"
-          >
+          <el-form label-width="110px" ref="addActivityForm" :model="addActivityData" :rules="addActivityRules">
             <el-form-item prop="name" label="活动名称">
-              <el-input
-                v-model="addActivityData.name"
-                placeholder="请输入活动名称"
-              ></el-input>
+              <el-input v-model="addActivityData.name" placeholder="请输入活动名称"></el-input>
             </el-form-item>
             <el-form-item prop="isDiscount" label="是否为折扣活动">
-              <el-switch
-                v-model="addActivityData.isDiscount"
-                active-value="1"
-                inactive-value="0"
-                @change="switchDiscountChange"
-              ></el-switch>
+              <el-switch v-model="addActivityData.isDiscount" active-value="1" inactive-value="0"
+                @change="switchDiscountChange"></el-switch>
             </el-form-item>
             <el-form-item prop="discount" label="折扣">
-              <el-input
-                v-model="addActivityData.discount"
-                placeholder="请输入活动折扣,如: 9、85"
-              ></el-input>
+              <el-input v-model="addActivityData.discount" placeholder="请输入活动折扣,如: 9、85"></el-input>
             </el-form-item>
             <el-form-item prop="time" label="活动时间">
-              <el-date-picker
-                v-model="addActivityData.time"
-                type="daterange"
-                range-separator="至"
-                start-placeholder="开始日期"
-                end-placeholder="结束日期"
-                format="yyyy-MM-dd"
-                value-format="yyyy-MM-dd"
-              >
+              <el-date-picker v-model="addActivityData.time" type="daterange" range-separator="至" start-placeholder="开始日期"
+                end-placeholder="结束日期" format="yyyy-MM-dd" value-format="yyyy-MM-dd">
               </el-date-picker>
             </el-form-item>
             <el-form-item prop="validType" label="全部商品参与">
-              <el-switch
-                v-model="addActivityData.validType"
-                active-value="1"
-                inactive-value="0"
-              ></el-switch>
+              <el-switch v-model="addActivityData.validType" active-value="1" inactive-value="0"></el-switch>
             </el-form-item>
             <el-form-item prop="productIdList" label="活动商品">
-              <el-table
-                ref="singleTable"
-                :data="addActivityData.productIdList"
-                highlight-current-row
-                style="width: 100%"
-                border
-              >
-                <el-table-column align="center" prop="img" label="成品图片">
+              <el-table ref="singleTable" :data="addActivityData.productIdList" highlight-current-row style="width: 100%"
+                border>
+                <el-table-column align="center" prop="img" label="图片">
                   <template slot-scope="scope">
                     <div>
-                      <span v-if="scope.row.img == '' || scope.row.img == null"
-                        >---</span
-                      >
-                      <img
-                        v-else
-                        :src="axiosUrl + '/file/' + imgFilter(scope.row.img)"
-                        width="50px"
-                        height="50px"
-                      />
+                      <span v-if="scope.row.img == '' || scope.row.img == null">---</span>
+                      <img v-else :src="axiosUrl + '/file/' + imgFilter(scope.row.img)" width="50px" height="50px" />
                     </div>
                   </template>
                 </el-table-column>
@@ -178,18 +102,12 @@
                     </div>
                   </template>
                 </el-table-column>
-                <el-table-column
-                  align="center"
-                  prop="productNumber"
-                  label="统一编号"
-                >
+                <el-table-column align="center" prop="productNumber" label="统一编号">
                 </el-table-column>
                 <el-table-column align="center" label="移除商品">
                   <template slot-scope="scope">
                     <div>
-                      <el-button type="text" @click="delNum(scope.$index)"
-                        >移除</el-button
-                      >
+                      <el-button type="text" @click="delNum(scope.$index)">移除</el-button>
                     </div>
                   </template>
                 </el-table-column>
@@ -197,30 +115,17 @@
             </el-form-item>
             <el-form-item prop="img" label="活动图片">
               <div>
-                <UploadImg
-                  :imgUrl="addActivityData.img"
-                  @imgChange="imgUrlChange"
-                ></UploadImg>
+                <UploadImg :imgUrl="addActivityData.img" @imgChange="imgUrlChange"></UploadImg>
               </div>
             </el-form-item>
             <el-form-item prop="note" label="备注">
-              <el-input
-                type="textarea"
-                :rows="4"
-                v-model="addActivityData.note"
-                placeholder="请输入"
-              ></el-input>
+              <el-input type="textarea" :rows="4" v-model="addActivityData.note" placeholder="请输入"></el-input>
             </el-form-item>
           </el-form>
 
           <div style="margin-top: 30px;text-align: right;">
-            <el-button
-              style="width: 120px;"
-              type="primary"
-              @click="addActivitySubmit('addActivityForm')"
-              v-preventClick
-              >提 交</el-button
-            >
+            <el-button style="width: 120px;" type="primary" @click="addActivitySubmit('addActivityForm')" v-preventClick>提
+              交</el-button>
           </div>
         </div>
         <div class="add-right">
@@ -230,63 +135,28 @@
               <el-form label-width="110px">
                 <!-- 用户管理仓库 -->
                 <el-form-item label="仓库/加工厂：" required>
-                  <el-select
-                    style="width:66%;"
-                    v-model="storageIdList"
-                    multiple
-                    clearable
-                    placeholder="可多选"
-                    :popper-append-to-body="false"
-                  >
-                    <el-option
-                      v-for="item in warehouseFilterList"
-                      :key="item.id"
-                      :label="item.name"
-                      :value="item.id"
-                    >
+                  <el-select style="width:66%;" v-model="storageIdList" multiple clearable placeholder="可多选"
+                    :popper-append-to-body="false">
+                    <el-option v-for="item in warehouseFilterList" :key="item.id" :label="item.name" :value="item.id">
                     </el-option>
                   </el-select>
                 </el-form-item>
                 <el-form-item label="关键字：">
-                  <el-input
-                    style="width: 66%;"
-                    v-model="proudctkeyword"
-                    @change="keywordChange"
-                    placeholder="可输入产品名称、设计图名称、统一编号、备注进行搜索"
-                    clearable
-                  >
+                  <el-input style="width: 66%;" v-model="proudctkeyword" @change="keywordChange"
+                    placeholder="可输入产品名称、设计图名称、统一编号、备注进行搜索" clearable>
                   </el-input>
-                  <el-button
-                    style="margin-left: 10px;"
-                    type="primary"
-                    @click="warehouseCheck"
-                    >查 询</el-button
-                  >
+                  <el-button style="margin-left: 10px;" type="primary" @click="warehouseCheck">查 询</el-button>
                 </el-form-item>
               </el-form>
             </div>
           </div>
-          <el-table
-            ref="singleTable"
-            :data="deviceFilterList"
-            :row-key="getRowKeys"
-            highlight-current-row
-            style="width: 100%"
-            border
-            @row-dblclick="handleSelectionChange"
-          >
-            <el-table-column align="center" prop="designName" label="成品图片">
+          <el-table ref="singleTable" :data="deviceFilterList" :row-key="getRowKeys" highlight-current-row
+            style="width: 100%" border @row-dblclick="handleSelectionChange">
+            <el-table-column align="center" prop="designName" label="图片">
               <template slot-scope="scope">
                 <div>
-                  <span v-if="scope.row.img == '' || scope.row.img == null"
-                    >---</span
-                  >
-                  <img
-                    v-else
-                    :src="axiosUrl + '/file/' + imgFilter(scope.row.img)"
-                    width="50px"
-                    height="50px"
-                  />
+                  <span v-if="scope.row.img == '' || scope.row.img == null">---</span>
+                  <img v-else :src="axiosUrl + '/file/' + imgFilter(scope.row.img)" width="50px" height="50px" />
                 </div>
               </template>
             </el-table-column>
@@ -297,13 +167,9 @@
                 </div>
               </template>
             </el-table-column>
-            <el-table-column
-              align="center"
-              prop="productNumber"
-              label="统一编号"
-            >
+            <el-table-column align="center" prop="productNumber" label="统一编号">
             </el-table-column>
-            <el-table-column align="center" prop="designName" label="现存仓库">
+            <el-table-column align="center" prop="designName" label="库存地">
               <template slot-scope="scope">
                 <div>
                   <span>{{ scope.row.storageName }}</span>
@@ -314,12 +180,8 @@
 
           <div style="width: 100%;height: 50px;padding-bottom: 20px;">
             <div style="margin:40px 0 0;position:absolute;right:30px;">
-              <el-pagination
-                @current-change="handleCurrentChange"
-                :current-page="page"
-                layout="total, prev, pager, next, jumper"
-                :total="total"
-              >
+              <el-pagination @current-change="handleCurrentChange" :current-page="page"
+                layout="total, prev, pager, next, jumper" :total="total">
               </el-pagination>
             </div>
           </div>
@@ -635,8 +497,8 @@ export default {
         img == "" || img == null
           ? ""
           : img.indexOf("|") == -1
-          ? img
-          : img.split("|")[0];
+            ? img
+            : img.split("|")[0];
       return url;
     },
 

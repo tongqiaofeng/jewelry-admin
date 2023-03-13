@@ -6,53 +6,27 @@
         <el-form inline>
           <el-form-item label="优惠券类型">
             <el-select v-model="discountType" placeholder="请选择">
-              <el-option
-                v-for="item in discountTypeList"
-                :key="item.value"
-                :label="item.label"
-                :value="item.value"
-              ></el-option>
+              <el-option v-for="item in discountTypeList" :key="item.value" :label="item.label"
+                :value="item.value"></el-option>
             </el-select>
           </el-form-item>
           <el-form-item>
-            <el-date-picker
-              v-model="checkTime"
-              type="daterange"
-              range-separator="至"
-              start-placeholder="开始日期"
-              end-placeholder="结束日期"
-              format="yyyy-MM-dd"
-              value-format="yyyy-MM-dd"
-            >
+            <el-date-picker v-model="checkTime" type="daterange" range-separator="至" start-placeholder="开始日期"
+              end-placeholder="结束日期" format="yyyy-MM-dd" value-format="yyyy-MM-dd">
             </el-date-picker>
           </el-form-item>
           <el-form-item>
-            <el-input
-              v-model="keyword"
-              placeholder="可输入优惠券名称进行搜索"
-            ></el-input>
+            <el-input v-model="keyword" placeholder="可输入优惠券名称进行搜索"></el-input>
           </el-form-item>
           <el-form-item>
             <el-button type="primary" @click="getDiscountList">搜索</el-button>
           </el-form-item>
         </el-form>
-        <el-button type="primary" style="height: 40px;" @click="addDiscount"
-          >添加</el-button
-        >
+        <el-button type="primary" style="height: 40px;" @click="addDiscount">添加</el-button>
       </div>
 
-      <el-table
-        :data="discountList"
-        ref="discountTable"
-        highlight-current-row
-        style="width: 100%"
-        border
-      >
-        <el-table-column
-          align="center"
-          prop="couponName"
-          label="优惠券名称"
-        ></el-table-column>
+      <el-table :data="discountList" ref="discountTable" highlight-current-row style="width: 100%" border>
+        <el-table-column align="center" prop="couponName" label="优惠券名称"></el-table-column>
         <el-table-column align="center" prop="type" label="类型">
           <template slot-scope="scope">
             <div>
@@ -70,34 +44,21 @@
         <el-table-column align="center" label="操作">
           <template slot-scope="scope">
             <div>
-              <el-button type="text" @click="updateDiscount(scope.row)"
-                >修改</el-button
-              >
-              <el-button type="text" @click="delDiscount(scope.row)"
-                >删除</el-button
-              >
+              <el-button type="text" @click="updateDiscount(scope.row)">修改</el-button>
+              <el-button type="text" @click="delDiscount(scope.row)">删除</el-button>
             </div>
           </template>
         </el-table-column>
       </el-table>
-      <el-dialog
-        id="delDiscountDialog"
-        v-if="dialogDelDiscountVisible"
-        title="删除优惠券"
-        :visible.sync="dialogDelDiscountVisible"
-        :close-on-press-escape="false"
-        :close-on-click-modal="false"
-        :modal-append-to-body="false"
-        :append-to-body="false"
-      >
+      <el-dialog id="delDiscountDialog" v-if="dialogDelDiscountVisible" title="删除优惠券"
+        :visible.sync="dialogDelDiscountVisible" :close-on-press-escape="false" :close-on-click-modal="false"
+        :modal-append-to-body="false" :append-to-body="false">
         <div style="padding-top: 30px;text-align: center;font-size: 14px;">
           确定删除该优惠券？删除后不可恢复
         </div>
         <div slot="footer">
           <el-button @click="dialogDelDiscountVisible = false">取 消</el-button>
-          <el-button type="primary" @click="delDiscountSure" v-preventClick
-            >确 定</el-button
-          >
+          <el-button type="primary" @click="delDiscountSure" v-preventClick>确 定</el-button>
         </div>
       </el-dialog>
     </div>
@@ -110,217 +71,97 @@
       </div>
       <div class="add-container">
         <div class="add-left">
-          <el-form
-            label-width="120px"
-            ref="addDiscountForm"
-            :model="addDiscountData"
-            :rules="addDiscountRules"
-          >
+          <el-form label-width="120px" ref="addDiscountForm" :model="addDiscountData" :rules="addDiscountRules">
             <el-form-item prop="couponName" label="优惠券名称">
-              <el-input
-                v-model="addDiscountData.couponName"
-                placeholder="请输入优惠券名称"
-              ></el-input>
+              <el-input v-model="addDiscountData.couponName" placeholder="请输入优惠券名称"></el-input>
             </el-form-item>
             <el-form-item prop="type" label="优惠券类型">
-              <el-radio-group
-                v-model="addDiscountData.type"
-                @change="discountTypeChange"
-              >
-                <el-radio
-                  v-for="item in typeList"
-                  :key="item.value"
-                  :label="item.value"
-                  :disabled="item.value == 4 ? true : false"
-                  >{{ item.label }}</el-radio
-                >
+              <el-radio-group v-model="addDiscountData.type" @change="discountTypeChange">
+                <el-radio v-for="item in typeList" :key="item.value" :label="item.value"
+                  :disabled="item.value == 4 ? true : false">{{ item.label }}</el-radio>
               </el-radio-group>
             </el-form-item>
-            <el-form-item
-              v-if="addDiscountData.type == 2"
-              prop="discount"
-              label="优惠折扣"
-            >
-              <el-input
-                v-model="addDiscountData.discount"
-                placeholder="请输入优惠折扣,如: 9、85"
-              ></el-input>
+            <el-form-item v-if="addDiscountData.type == 2" prop="discount" label="优惠折扣">
+              <el-input v-model="addDiscountData.discount" placeholder="请输入优惠折扣,如: 9、85"></el-input>
             </el-form-item>
-            <el-form-item
-              v-if="addDiscountData.type == 1 || addDiscountData.type == 2"
-              prop="reachAmount"
-              :label="
-                addDiscountData.type == 1 ? '满减标准金额' : '折扣标准金额'
-              "
-            >
-              <el-input
-                v-model="addDiscountData.reachAmount"
-                placeholder="请输入金额"
-              ></el-input>
+            <el-form-item v-if="addDiscountData.type == 1 || addDiscountData.type == 2" prop="reachAmount" :label="
+              addDiscountData.type == 1 ? '满减标准金额' : '折扣标准金额'
+            ">
+              <el-input v-model="addDiscountData.reachAmount" placeholder="请输入金额"></el-input>
             </el-form-item>
-            <el-form-item
-              prop="subtractAmount"
-              :label="
-                addDiscountData.type == 1 || addDiscountData.type == 3
-                  ? '减去金额'
-                  : '最多减去金额'
-              "
-            >
-              <el-input
-                v-model="addDiscountData.subtractAmount"
-                placeholder="请输入金额"
-              ></el-input>
+            <el-form-item prop="subtractAmount" :label="
+              addDiscountData.type == 1 || addDiscountData.type == 3
+                ? '减去金额'
+                : '最多减去金额'
+            ">
+              <el-input v-model="addDiscountData.subtractAmount" placeholder="请输入金额"></el-input>
             </el-form-item>
 
             <el-form-item prop="countLimitType" label="发放数量类型">
-              <el-radio-group
-                v-model="addDiscountData.countLimitType"
-                @change="radioCountChange"
-              >
-                <el-radio
-                  v-for="item in countLimitTypeList"
-                  :key="item.value"
-                  :label="item.value"
-                  >{{ item.label }}</el-radio
-                >
+              <el-radio-group v-model="addDiscountData.countLimitType" @change="radioCountChange">
+                <el-radio v-for="item in countLimitTypeList" :key="item.value" :label="item.value">{{ item.label
+                }}</el-radio>
               </el-radio-group>
             </el-form-item>
             <el-form-item prop="count" label="发放数量">
-              <el-input
-                v-model="addDiscountData.count"
-                placeholder="请输入发放数量"
-              ></el-input>
+              <el-input v-model="addDiscountData.count" placeholder="请输入发放数量"></el-input>
             </el-form-item>
             <el-form-item prop="timeLimitType" label="时间限制类型">
-              <el-radio-group
-                v-model="addDiscountData.timeLimitType"
-                @change="radioTimeChange"
-              >
-                <el-radio
-                  v-for="item in timeLimitTypeList"
-                  :key="item.value"
-                  :label="item.value"
-                  >{{ item.label }}</el-radio
-                >
+              <el-radio-group v-model="addDiscountData.timeLimitType" @change="radioTimeChange">
+                <el-radio v-for="item in timeLimitTypeList" :key="item.value" :label="item.value">{{ item.label
+                }}</el-radio>
               </el-radio-group>
             </el-form-item>
-            <el-form-item
-              v-if="addDiscountData.timeLimitType == 0"
-              prop="time"
-              label="有效日期"
-            >
-              <el-date-picker
-                v-model="addDiscountData.time"
-                type="daterange"
-                range-separator="至"
-                start-placeholder="开始日期"
-                end-placeholder="结束日期"
-                format="yyyy-MM-dd"
-                value-format="yyyy-MM-dd"
-              >
+            <el-form-item v-if="addDiscountData.timeLimitType == 0" prop="time" label="有效日期">
+              <el-date-picker v-model="addDiscountData.time" type="daterange" range-separator="至" start-placeholder="开始日期"
+                end-placeholder="结束日期" format="yyyy-MM-dd" value-format="yyyy-MM-dd">
               </el-date-picker>
             </el-form-item>
-            <el-form-item
-              v-if="addDiscountData.timeLimitType == 1"
-              prop="dayLimit"
-              label="领取后有效天数"
-            >
-              <el-input
-                v-model="addDiscountData.dayLimit"
-                placeholder="请输入领取后有效天数"
-              ></el-input>
+            <el-form-item v-if="addDiscountData.timeLimitType == 1" prop="dayLimit" label="领取后有效天数">
+              <el-input v-model="addDiscountData.dayLimit" placeholder="请输入领取后有效天数"></el-input>
             </el-form-item>
 
             <el-form-item prop="mutexActivity" label="互斥活动">
-              <el-select
-                v-model="addDiscountData.mutexActivity"
-                multiple
-                placeholder="可多选"
-              >
-                <el-option
-                  v-for="item in activityList"
-                  :key="item.id"
-                  :label="item.name"
-                  :value="item.id"
-                ></el-option>
+              <el-select v-model="addDiscountData.mutexActivity" multiple placeholder="可多选">
+                <el-option v-for="item in activityList" :key="item.id" :label="item.name" :value="item.id"></el-option>
               </el-select>
             </el-form-item>
             <el-form-item prop="mutexCoupon" label="互斥优惠券">
-              <el-select
-                v-model="addDiscountData.mutexCoupon"
-                multiple
-                placeholder="可多选"
-              >
-                <el-option
-                  v-for="item in discountMutualList"
-                  :key="item.id"
-                  :label="item.couponName"
-                  :value="item.id"
-                ></el-option>
+              <el-select v-model="addDiscountData.mutexCoupon" multiple placeholder="可多选">
+                <el-option v-for="item in discountMutualList" :key="item.id" :label="item.couponName"
+                  :value="item.id"></el-option>
               </el-select>
             </el-form-item>
             <el-form-item prop="perLimit" label="每人限领张数">
-              <el-input
-                v-model="addDiscountData.perLimit"
-                placeholder="请输入限领张数"
-              ></el-input>
+              <el-input v-model="addDiscountData.perLimit" placeholder="请输入限领张数"></el-input>
             </el-form-item>
             <el-form-item prop="isRegister" label="是否为注册赠券">
-              <el-switch
-                v-model="addDiscountData.isRegister"
-                active-value="1"
-                inactive-value="0"
-              ></el-switch>
+              <el-switch v-model="addDiscountData.isRegister" active-value="1" inactive-value="0"></el-switch>
             </el-form-item>
             <el-form-item prop="provideType" label="发放类型">
               <el-radio-group v-model="addDiscountData.provideType">
-                <el-radio
-                  v-for="item in provideTypeList"
-                  :key="item.value"
-                  :label="item.value"
-                  >{{ item.label }}</el-radio
-                >
+                <el-radio v-for="item in provideTypeList" :key="item.value" :label="item.value">{{ item.label
+                }}</el-radio>
               </el-radio-group>
             </el-form-item>
             <el-form-item prop="status" label="优惠券状态">
               <el-radio-group v-model="addDiscountData.status">
-                <el-radio
-                  v-for="item in statusList"
-                  :key="item.value"
-                  :label="item.value"
-                  >{{ item.label }}</el-radio
-                >
+                <el-radio v-for="item in statusList" :key="item.value" :label="item.value">{{ item.label }}</el-radio>
               </el-radio-group>
             </el-form-item>
 
             <el-form-item prop="useType" label="是否全场通用">
-              <el-switch
-                v-model="addDiscountData.useType"
-                @change="switchChange"
-                active-value="0"
-                inactive-value="1"
-              ></el-switch>
+              <el-switch v-model="addDiscountData.useType" @change="switchChange" active-value="0"
+                inactive-value="1"></el-switch>
             </el-form-item>
             <el-form-item prop="productIdList" label="优惠商品">
-              <el-table
-                ref="singleTable"
-                :data="addDiscountData.productIdList"
-                highlight-current-row
-                style="width: 100%"
-                border
-              >
-                <el-table-column align="center" prop="img" label="成品图片">
+              <el-table ref="singleTable" :data="addDiscountData.productIdList" highlight-current-row style="width: 100%"
+                border>
+                <el-table-column align="center" prop="img" label="图片">
                   <template slot-scope="scope">
                     <div>
-                      <span v-if="scope.row.img == '' || scope.row.img == null"
-                        >---</span
-                      >
-                      <img
-                        v-else
-                        :src="axiosUrl + '/file/' + imgFilter(scope.row.img)"
-                        width="50px"
-                        height="50px"
-                      />
+                      <span v-if="scope.row.img == '' || scope.row.img == null">---</span>
+                      <img v-else :src="axiosUrl + '/file/' + imgFilter(scope.row.img)" width="50px" height="50px" />
                     </div>
                   </template>
                 </el-table-column>
@@ -331,18 +172,12 @@
                     </div>
                   </template>
                 </el-table-column>
-                <el-table-column
-                  align="center"
-                  prop="productNumber"
-                  label="统一编号"
-                >
+                <el-table-column align="center" prop="productNumber" label="统一编号">
                 </el-table-column>
                 <el-table-column align="center" label="移除商品">
                   <template slot-scope="scope">
                     <div>
-                      <el-button type="text" @click="delNum(scope.$index)"
-                        >移除</el-button
-                      >
+                      <el-button type="text" @click="delNum(scope.$index)">移除</el-button>
                     </div>
                   </template>
                 </el-table-column>
@@ -350,23 +185,13 @@
             </el-form-item>
 
             <el-form-item prop="remarks" label="描述">
-              <el-input
-                type="textarea"
-                :rows="4"
-                v-model="addDiscountData.remarks"
-                placeholder="请输入"
-              ></el-input>
+              <el-input type="textarea" :rows="4" v-model="addDiscountData.remarks" placeholder="请输入"></el-input>
             </el-form-item>
           </el-form>
 
           <div style="margin-top: 30px;text-align: right;">
-            <el-button
-              style="width: 120px;"
-              type="primary"
-              @click="addDiscountSubmit('addDiscountForm')"
-              v-preventClick
-              >提 交</el-button
-            >
+            <el-button style="width: 120px;" type="primary" @click="addDiscountSubmit('addDiscountForm')" v-preventClick>提
+              交</el-button>
           </div>
         </div>
         <div class="add-right">
@@ -376,63 +201,28 @@
               <el-form label-width="110px">
                 <!-- 用户管理仓库 -->
                 <el-form-item label="仓库/加工厂：" required>
-                  <el-select
-                    style="width:66%;"
-                    v-model="storageIdList"
-                    multiple
-                    clearable
-                    placeholder="可多选"
-                    :popper-append-to-body="false"
-                  >
-                    <el-option
-                      v-for="item in warehouseFilterList"
-                      :key="item.id"
-                      :label="item.name"
-                      :value="item.id"
-                    >
+                  <el-select style="width:66%;" v-model="storageIdList" multiple clearable placeholder="可多选"
+                    :popper-append-to-body="false">
+                    <el-option v-for="item in warehouseFilterList" :key="item.id" :label="item.name" :value="item.id">
                     </el-option>
                   </el-select>
                 </el-form-item>
                 <el-form-item label="关键字：">
-                  <el-input
-                    style="width: 66%;"
-                    v-model="proudctkeyword"
-                    @change="keywordChange"
-                    placeholder="可输入产品名称、设计图名称、统一编号、备注进行搜索"
-                    clearable
-                  >
+                  <el-input style="width: 66%;" v-model="proudctkeyword" @change="keywordChange"
+                    placeholder="可输入产品名称、设计图名称、统一编号、备注进行搜索" clearable>
                   </el-input>
-                  <el-button
-                    style="margin-left: 10px;"
-                    type="primary"
-                    @click="warehouseCheck"
-                    >查 询</el-button
-                  >
+                  <el-button style="margin-left: 10px;" type="primary" @click="warehouseCheck">查 询</el-button>
                 </el-form-item>
               </el-form>
             </div>
           </div>
-          <el-table
-            ref="singleTable"
-            :data="deviceFilterList"
-            :row-key="getRowKeys"
-            highlight-current-row
-            style="width: 100%"
-            border
-            @row-dblclick="handleSelectionChange"
-          >
-            <el-table-column align="center" prop="designName" label="成品图片">
+          <el-table ref="singleTable" :data="deviceFilterList" :row-key="getRowKeys" highlight-current-row
+            style="width: 100%" border @row-dblclick="handleSelectionChange">
+            <el-table-column align="center" prop="designName" label="图片">
               <template slot-scope="scope">
                 <div>
-                  <span v-if="scope.row.img == '' || scope.row.img == null"
-                    >---</span
-                  >
-                  <img
-                    v-else
-                    :src="axiosUrl + '/file/' + imgFilter(scope.row.img)"
-                    width="50px"
-                    height="50px"
-                  />
+                  <span v-if="scope.row.img == '' || scope.row.img == null">---</span>
+                  <img v-else :src="axiosUrl + '/file/' + imgFilter(scope.row.img)" width="50px" height="50px" />
                 </div>
               </template>
             </el-table-column>
@@ -443,13 +233,9 @@
                 </div>
               </template>
             </el-table-column>
-            <el-table-column
-              align="center"
-              prop="productNumber"
-              label="统一编号"
-            >
+            <el-table-column align="center" prop="productNumber" label="统一编号">
             </el-table-column>
-            <el-table-column align="center" prop="designName" label="现存仓库">
+            <el-table-column align="center" prop="designName" label="库存地">
               <template slot-scope="scope">
                 <div>
                   <span>{{ scope.row.storageName }}</span>
@@ -460,12 +246,8 @@
 
           <div style="width: 100%;height: 50px;padding-bottom: 20px;">
             <div style="margin:40px 0 0;position:absolute;right:30px;">
-              <el-pagination
-                @current-change="handleCurrentChange"
-                :current-page="page"
-                layout="total, prev, pager, next, jumper"
-                :total="total"
-              >
+              <el-pagination @current-change="handleCurrentChange" :current-page="page"
+                layout="total, prev, pager, next, jumper" :total="total">
               </el-pagination>
             </div>
           </div>
@@ -1081,8 +863,8 @@ export default {
         img == "" || img == null
           ? ""
           : img.indexOf("|") == -1
-          ? img
-          : img.split("|")[0];
+            ? img
+            : img.split("|")[0];
       return url;
     },
   },

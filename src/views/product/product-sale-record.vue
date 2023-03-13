@@ -4,82 +4,40 @@
     <div v-if="pageSel === 0">
       <el-form :inline="true" style="text-align: left;">
         <el-form-item label="仓库/加工厂：">
-          <el-select
-            v-model="storageId"
-            clearable
-            placeholder="可多选"
-            style="width: 150px;"
-            :popper-append-to-body="false"
-          >
-            <el-option
-              v-for="item in warehouseFilterList"
-              v-show="item.isOwn == 1"
-              :key="item.id"
-              :label="item.name"
-              :value="item.id"
-            ></el-option>
+          <el-select v-model="storageId" clearable placeholder="可多选" style="width: 150px;" :popper-append-to-body="false">
+            <el-option v-for="item in warehouseFilterList" v-show="item.isOwn == 1" :key="item.id" :label="item.name"
+              :value="item.id"></el-option>
           </el-select>
         </el-form-item>
         <el-form-item label="销售组：">
-          <el-select
-            v-model="group"
-            placeholder="请选择"
-            :popper-append-to-body="false"
-          >
+          <el-select v-model="group" placeholder="请选择" :popper-append-to-body="false">
             <el-option label="全部" value="全部"> </el-option>
-            <el-option
-              v-for="item in groupList"
-              :key="item"
-              :label="item"
-              :value="item"
-            >
+            <el-option v-for="item in groupList" :key="item" :label="item" :value="item">
             </el-option>
           </el-select>
         </el-form-item>
         <el-form-item label="销售时间：">
-          <el-date-picker
-            v-model="sellTime"
-            type="monthrange"
-            range-separator="至"
-            start-placeholder="开始月份"
-            end-placeholder="结束月份"
-            format="yyyy-MM"
-            value-format="yyyy-MM"
-            clearable
-          >
+          <el-date-picker v-model="sellTime" type="monthrange" range-separator="至" start-placeholder="开始月份"
+            end-placeholder="结束月份" format="yyyy-MM" value-format="yyyy-MM" clearable>
           </el-date-picker>
         </el-form-item>
         <el-form-item>
           <div style="display: flex;">
-            <el-input
-              style="width: 400px;"
-              v-model="keyword"
-              placeholder="可输入销售发票号、材料名称、统一编号、备注进行搜索"
-              clearable
-            >
+            <el-input style="width: 400px;" v-model="keyword" placeholder="可输入销售发票号、材料名称、统一编号、备注进行搜索" clearable>
             </el-input>
-            <el-button
-              style="margin-left: 10px;"
-              type="primary"
-              @click="handleCurrentChange(1)"
-              >查 询</el-button
-            >
+            <el-button style="margin-left: 10px;" type="primary" @click="handleCurrentChange(1)">查 询</el-button>
           </div>
         </el-form-item>
       </el-form>
 
       <div
         style="width: 100%;padding: 20px 0;margin-top: 20px;text-align: center;background-color: #fff;border-radius: 6px;"
-        v-if="sellDataList.length == 0"
-      >
+        v-if="sellDataList.length == 0">
         暂无数据
       </div>
       <div v-else style="margin-top: 20px">
-        <div
-          v-for="(item, index) in sellDataList"
-          :key="index"
-          style="margin-bottom: 40px;background-color: #fff;border-radius: 6px;"
-        >
+        <div v-for="(item, index) in sellDataList" :key="index"
+          style="margin-bottom: 40px;background-color: #fff;border-radius: 6px;">
           <div class="bill-container">
             <div class="container-top-left">
               <div style="font-size: 16px; color: #000">
@@ -93,53 +51,30 @@
                 }}</span>
               </div>
               <div style="margin-left: 30px; font-size: 16px; color: #000">
-                客户名称：<span style="font-size: 14px; color: #666"
-                  >{{ item.customer
-                  }}{{
-                    item.customerType ? " - " + item.customerType : ""
-                  }}</span
-                >
+                客户名称：<span style="font-size: 14px; color: #666">{{ item.customer
+                }}{{
+  item.customerType ? " - " + item.customerType : ""
+}}</span>
               </div>
             </div>
             <div>
-              <el-button size="small" @click.prevent="updateRecord(item)"
-                >修改记录</el-button
-              >
-              <el-button
-                type="danger"
-                size="small"
-                @click.prevent="delBillNumber(item)"
-                >撤销记录</el-button
-              >
+              <el-button size="small" @click.prevent="updateRecord(item)">修改记录</el-button>
+              <el-button type="danger" size="small" @click.prevent="delBillNumber(item)">撤销记录</el-button>
             </div>
           </div>
-          <el-table
-            ref="multipleTableSel"
-            :data="item.productList"
-            :row-key="getRowKeys"
-            tooltip-effect="dark"
-            border
-            highlight-current-row
-            @row-click="delsell"
-            @row-dblclick="updateProductInfo"
-          >
+          <el-table ref="multipleTableSel" :data="item.productList" :row-key="getRowKeys" tooltip-effect="dark" border
+            highlight-current-row @row-click="delsell" @row-dblclick="updateProductInfo">
             <el-table-column align="center" prop="materialName" label="图片">
               <template slot-scope="scope">
                 <div>
-                  <img
-                    :src="axiosUrl + '/file/' + imgFilter(scope.row.img)"
-                    style="width: 100px;height: 100px;object-fit: cover;"
-                  />
+                  <img :src="axiosUrl + '/file/' + imgFilter(scope.row.img)"
+                    style="width: 100px;height: 100px;object-fit: cover;" />
                 </div>
               </template>
             </el-table-column>
-            <el-table-column align="center" prop="productName" label="成品名称">
+            <el-table-column align="center" prop="productName" label="名称">
             </el-table-column>
-            <el-table-column
-              align="center"
-              prop="productNumber"
-              label="统一编号"
-            >
+            <el-table-column align="center" prop="productNumber" label="统一编号">
             </el-table-column>
             <el-table-column align="center" label="裸石成本" prop="costPrice">
               <template slot-scope="scope">
@@ -155,11 +90,7 @@
                 </div>
               </template>
             </el-table-column>
-            <el-table-column
-              align="center"
-              label="其他费用"
-              prop="stockInOtherExpenses"
-            >
+            <el-table-column align="center" label="其他费用" prop="stockInOtherExpenses">
               <template slot-scope="scope">
                 <div>
                   <span>{{ scope.row.stockInOtherExpenses + " HKD" }}</span>
@@ -171,10 +102,10 @@
                 <div>
                   <span>{{
                     scope.row.saleCurrency != ""
-                      ? formatNumberRgx(scope.row.saleMoney) +
-                        " " +
-                        scope.row.saleCurrency
-                      : "--"
+                    ? formatNumberRgx(scope.row.saleMoney) +
+                    " " +
+                    scope.row.saleCurrency
+                    : "--"
                   }}</span>
                 </div>
               </template>
@@ -184,8 +115,8 @@
                 <div>
                   <span>{{
                     scope.row.sellTotalHkPrice
-                      ? formatNumberRgx(scope.row.sellTotalHkPrice) + " HKD"
-                      : "--"
+                    ? formatNumberRgx(scope.row.sellTotalHkPrice) + " HKD"
+                    : "--"
                   }}</span>
                 </div>
               </template>
@@ -195,8 +126,8 @@
                 <div>
                   <span>{{
                     scope.row.otherExpenses
-                      ? formatNumberRgx(scope.row.otherExpenses) + " HKD"
-                      : "--"
+                    ? formatNumberRgx(scope.row.otherExpenses) + " HKD"
+                    : "--"
                   }}</span>
                 </div>
               </template>
@@ -213,57 +144,33 @@
 
         <div style="width: 100%;height: 50px;">
           <div style="margin:15px 0;position:absolute;right:6%;">
-            <el-pagination
-              @current-change="handleCurrentChange"
-              :current-page="page"
-              layout="total, prev, pager, next, jumper"
-              :total="total"
-            >
+            <el-pagination @current-change="handleCurrentChange" :current-page="page"
+              layout="total, prev, pager, next, jumper" :total="total">
             </el-pagination>
           </div>
         </div>
       </div>
-      <el-dialog
-        v-if="dialogDeleteSellVisible"
-        title="撤销销售"
-        :visible.sync="dialogDeleteSellVisible"
-        :close-on-press-escape="false"
-        :close-on-click-modal="false"
-        :modal-append-to-body="false"
-        :append-to-body="false"
-        id="delSale"
-      >
+      <el-dialog v-if="dialogDeleteSellVisible" title="撤销销售" :visible.sync="dialogDeleteSellVisible"
+        :close-on-press-escape="false" :close-on-click-modal="false" :modal-append-to-body="false" :append-to-body="false"
+        id="delSale">
         <div class="del-style">
           确定撤销该销售记录吗？撤销后不可修改
         </div>
         <template #footer>
           <div>
-            <el-button size="large" @click="dialogDeleteSellVisible = false"
-              >取 消</el-button
-            >
-            <el-button
-              type="primary"
-              size="large"
-              v-preventClick
-              @click="delSuresell"
-              >确 定</el-button
-            >
+            <el-button size="large" @click="dialogDeleteSellVisible = false">取 消</el-button>
+            <el-button type="primary" size="large" v-preventClick @click="delSuresell">确 定</el-button>
           </div>
         </template>
       </el-dialog>
     </div>
     <div v-else-if="pageSel === 1">
-      <saleProductRecordUpdate
-        :updateSaleRecordMsg="updateSaleRecordMsg"
-        @updateSaleSure="updateSaleSure"
-      ></saleProductRecordUpdate>
+      <saleProductRecordUpdate :updateSaleRecordMsg="updateSaleRecordMsg" @updateSaleSure="updateSaleSure">
+      </saleProductRecordUpdate>
     </div>
     <!-- 修改成品信息 -->
     <div v-else-if="pageSel === 2">
-      <productMsgUpdate
-        :updateProductMsg="deviceDetail"
-        @sureUpdateProduct="sureUpdateProduct"
-      ></productMsgUpdate>
+      <productMsgUpdate :updateProductMsg="deviceDetail" @sureUpdateProduct="sureUpdateProduct"></productMsgUpdate>
     </div>
   </div>
 </template>

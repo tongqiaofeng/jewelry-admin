@@ -185,7 +185,7 @@
           </div>
           <el-table ref="singleTable" :data="deviceFilterList" :row-key="getRowKeys" :key="1" highlight-current-row
             style="width: 100%" border @row-dblclick="handleSelectionChange">
-            <el-table-column align="center" prop="designName" label="成品图片">
+            <el-table-column align="center" prop="designName" label="图片">
               <template slot-scope="scope">
                 <div>
                   <span v-if="scope.row.img == '' || scope.row.img == null">---</span>
@@ -202,7 +202,7 @@
             </el-table-column>
             <el-table-column align="center" prop="productNumber" label="统一编号">
             </el-table-column>
-            <el-table-column align="center" prop="designName" label="现存仓库">
+            <el-table-column align="center" prop="designName" label="库存地">
               <template slot-scope="scope">
                 <div>
                   <span>{{ scope.row.storageName }}</span>

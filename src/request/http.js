@@ -2,8 +2,8 @@ import axios from "axios";
 import store from "../store";
 import { Message } from "element-ui";
 
-// const base_request_url = "https://hk.wistechx.cn/JewelleryStockApi";
-const base_request_url = "http://192.168.0.164:8086/app/jewellery/api";
+const base_request_url = "https://hk.wistechx.cn/JewelleryStockApi";
+// const base_request_url = "http://192.168.0.164:8086/app/jewellery/api";
 
 // const base_request_url = 'https://hk.wistechx.cn/app/jewellery/api'
 // const base_request_url = 'http://hexx.natapp1.cc/app/jewellery/api'

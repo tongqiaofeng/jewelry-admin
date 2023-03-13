@@ -3,38 +3,18 @@
     <!-- 上新产品 -->
     <div class="add-container">
       <div class="add-left">
-        <el-form
-          label-width="80px"
-          ref="addActivityForm"
-          :model="addActivityData"
-          :rules="addActivityRules"
-        >
+        <el-form label-width="80px" ref="addActivityForm" :model="addActivityData" :rules="addActivityRules">
           <el-form-item prop="newStyleName" label="上新名称">
-            <el-input
-              v-model="addActivityData.newStyleName"
-              placeholder="请输入上新名称"
-            ></el-input>
+            <el-input v-model="addActivityData.newStyleName" placeholder="请输入上新名称"></el-input>
           </el-form-item>
           <el-form-item prop="productIdList" label="上新产品">
-            <el-table
-              ref="singleTable"
-              :data="addActivityData.productIdList"
-              highlight-current-row
-              style="width: 100%"
-              border
-            >
-              <el-table-column align="center" prop="img" label="成品图片">
+            <el-table ref="singleTable" :data="addActivityData.productIdList" highlight-current-row style="width: 100%"
+              border>
+              <el-table-column align="center" prop="img" label="图片">
                 <template slot-scope="scope">
                   <div>
-                    <span v-if="scope.row.img == '' || scope.row.img == null"
-                      >---</span
-                    >
-                    <img
-                      v-else
-                      :src="axiosUrl + '/file/' + imgFilter(scope.row.img)"
-                      width="50px"
-                      height="50px"
-                    />
+                    <span v-if="scope.row.img == '' || scope.row.img == null">---</span>
+                    <img v-else :src="axiosUrl + '/file/' + imgFilter(scope.row.img)" width="50px" height="50px" />
                   </div>
                 </template>
               </el-table-column>
@@ -45,18 +25,12 @@
                   </div>
                 </template>
               </el-table-column>
-              <el-table-column
-                align="center"
-                prop="productNumber"
-                label="统一编号"
-              >
+              <el-table-column align="center" prop="productNumber" label="统一编号">
               </el-table-column>
               <el-table-column align="center" label="移除商品">
                 <template slot-scope="scope">
                   <div>
-                    <el-button type="text" @click="delNum(scope.$index)"
-                      >移除</el-button
-                    >
+                    <el-button type="text" @click="delNum(scope.$index)">移除</el-button>
                   </div>
                 </template>
               </el-table-column>
@@ -65,13 +39,8 @@
         </el-form>
 
         <div style="margin-top: 30px;text-align: right;">
-          <el-button
-            style="width: 120px;"
-            type="primary"
-            @click="addActivitySubmit('addActivityForm')"
-            v-preventClick
-            >提 交</el-button
-          >
+          <el-button style="width: 120px;" type="primary" @click="addActivitySubmit('addActivityForm')" v-preventClick>提
+            交</el-button>
         </div>
       </div>
       <div class="add-right">
@@ -81,63 +50,28 @@
             <el-form label-width="110px">
               <!-- 用户管理仓库 -->
               <el-form-item label="仓库/加工厂：" required>
-                <el-select
-                  style="width:66%;"
-                  v-model="storageIdList"
-                  multiple
-                  clearable
-                  placeholder="可多选"
-                  :popper-append-to-body="false"
-                >
-                  <el-option
-                    v-for="item in warehouseList"
-                    :key="item.id"
-                    :label="item.name"
-                    :value="item.id"
-                  >
+                <el-select style="width:66%;" v-model="storageIdList" multiple clearable placeholder="可多选"
+                  :popper-append-to-body="false">
+                  <el-option v-for="item in warehouseList" :key="item.id" :label="item.name" :value="item.id">
                   </el-option>
                 </el-select>
               </el-form-item>
               <el-form-item label="关键字：">
-                <el-input
-                  style="width: 66%;"
-                  v-model="proudctkeyword"
-                  @change="keywordChange"
-                  placeholder="可输入产品名称、设计图名称、统一编号、备注进行搜索"
-                  clearable
-                >
+                <el-input style="width: 66%;" v-model="proudctkeyword" @change="keywordChange"
+                  placeholder="可输入产品名称、设计图名称、统一编号、备注进行搜索" clearable>
                 </el-input>
-                <el-button
-                  style="margin-left: 10px;"
-                  type="primary"
-                  @click="warehouseCheck"
-                  >查 询</el-button
-                >
+                <el-button style="margin-left: 10px;" type="primary" @click="warehouseCheck">查 询</el-button>
               </el-form-item>
             </el-form>
           </div>
         </div>
-        <el-table
-          ref="singleTable"
-          :data="deviceFilterList"
-          :row-key="getRowKeys"
-          highlight-current-row
-          style="width: 100%"
-          border
-          @row-dblclick="handleSelectionChange"
-        >
-          <el-table-column align="center" prop="designName" label="成品图片">
+        <el-table ref="singleTable" :data="deviceFilterList" :row-key="getRowKeys" highlight-current-row
+          style="width: 100%" border @row-dblclick="handleSelectionChange">
+          <el-table-column align="center" prop="designName" label="图片">
             <template slot-scope="scope">
               <div>
-                <span v-if="scope.row.img == '' || scope.row.img == null"
-                  >---</span
-                >
-                <img
-                  v-else
-                  :src="axiosUrl + '/file/' + imgFilter(scope.row.img)"
-                  width="50px"
-                  height="50px"
-                />
+                <span v-if="scope.row.img == '' || scope.row.img == null">---</span>
+                <img v-else :src="axiosUrl + '/file/' + imgFilter(scope.row.img)" width="50px" height="50px" />
               </div>
             </template>
           </el-table-column>
@@ -150,7 +84,7 @@
           </el-table-column>
           <el-table-column align="center" prop="productNumber" label="统一编号">
           </el-table-column>
-          <el-table-column align="center" prop="designName" label="现存仓库">
+          <el-table-column align="center" prop="designName" label="库存地">
             <template slot-scope="scope">
               <div>
                 <span>{{ scope.row.storageName }}</span>
@@ -161,12 +95,8 @@
 
         <div style="width: 100%;height: 50px;padding-bottom: 20px;">
           <div style="margin:40px 0 0;position:absolute;right:30px;">
-            <el-pagination
-              @current-change="handleCurrentChange"
-              :current-page="page"
-              layout="total, prev, pager, next, jumper"
-              :total="total"
-            >
+            <el-pagination @current-change="handleCurrentChange" :current-page="page"
+              layout="total, prev, pager, next, jumper" :total="total">
             </el-pagination>
           </div>
         </div>
@@ -363,8 +293,8 @@ export default {
         img == "" || img == null
           ? ""
           : img.indexOf("|") == -1
-          ? img
-          : img.split("|")[0];
+            ? img
+            : img.split("|")[0];
       return url;
     },
   },

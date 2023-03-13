@@ -1,40 +1,23 @@
 <template>
   <div style="margin-top: -20px;padding-top: 20px;">
-    <div
-      class="warehouse-management-container"
-      id="warehouse"
-      v-if="chooseimgshow == false"
-    >
+    <div class="warehouse-management-container" id="warehouse" v-if="chooseimgshow == false">
       <!-- <h1>成品入库管理</h1> -->
       <div class="add-left">
         <el-tabs v-model="activeName">
           <el-tab-pane label="成品信息" name="first">
             <p class="title-font">原材料清单</p>
-            <el-table
-              :data="deliveryData.stockInList"
-              style="width: 100%"
-              border
-              id="leftCon"
-            >
-              <el-table-column
-                align="center"
-                prop="materialName"
-                label="材料名称"
-              >
+            <el-table :data="deliveryData.stockInList" style="width: 100%" border id="leftCon">
+              <el-table-column align="center" prop="materialName" label="材料名称">
               </el-table-column>
-              <el-table-column
-                align="center"
-                prop="productNumber"
-                label="统一编号"
-              >
+              <el-table-column align="center" prop="productNumber" label="统一编号">
               </el-table-column>
               <el-table-column align="center" label="总数量">
                 <template slot-scope="scope">
                   <div>
                     <span>{{
                       scope.row.chargeUnit == "粒"
-                        ? scope.row.totalNum + " " + scope.row.chargeUnit
-                        : scope.row.totalNum
+                      ? scope.row.totalNum + " " + scope.row.chargeUnit
+                      : scope.row.totalNum
                     }}</span>
                   </div>
                 </template>
@@ -44,8 +27,8 @@
                   <div>
                     <span>{{
                       scope.row.totalWeight == 0
-                        ? scope.row.totalWeight
-                        : scope.row.totalWeight + " " + scope.row.chargeUnit
+                      ? scope.row.totalWeight
+                      : scope.row.totalWeight + " " + scope.row.chargeUnit
                     }}</span>
                   </div>
                 </template>
@@ -53,20 +36,14 @@
               <el-table-column align="center" label="入库数量" width="130">
                 <template slot-scope="scope">
                   <div class="num">
-                    <el-input
-                      v-model="scope.row.number"
-                      @input="changeNum(scope.$index)"
-                      ><i
-                        slot="suffix"
-                        style="color: #606266;margin-right:10%;font-style:normal;"
-                        >{{
+                    <el-input v-model="scope.row.number" @input="changeNum(scope.$index)"><i slot="suffix"
+                        style="color: #606266;margin-right:10%;font-style:normal;">{{
                           scope.row.chargeUnit == "粒"
-                            ? scope.row.chargeUnit
-                            : scope.row.chargeUnit == "件"
+                          ? scope.row.chargeUnit
+                          : scope.row.chargeUnit == "件"
                             ? scope.row.chargeUnit
                             : ""
-                        }}</i
-                      >
+                        }}</i>
                     </el-input>
                   </div>
                 </template>
@@ -75,20 +52,14 @@
                 <template slot-scope="scope">
                   <div class="num">
                     <!-- :readonly="true" -->
-                    <el-input
-                      v-model="scope.row.weight"
-                      @input="changeWeight(scope.$index)"
-                      ><i
-                        slot="suffix"
-                        style="color: #606266;margin-right:10%;font-style:normal;"
-                        >{{
+                    <el-input v-model="scope.row.weight" @input="changeWeight(scope.$index)"><i slot="suffix"
+                        style="color: #606266;margin-right:10%;font-style:normal;">{{
                           scope.row.chargeUnit !== "粒"
-                            ? scope.row.chargeUnit != "件"
-                              ? scope.row.chargeUnit
-                              : ""
+                          ? scope.row.chargeUnit != "件"
+                            ? scope.row.chargeUnit
                             : ""
-                        }}</i
-                      >
+                          : ""
+                        }}</i>
                     </el-input>
                   </div>
                 </template>
@@ -96,461 +67,222 @@
               <el-table-column align="center" label="移除材料" width="120">
                 <template slot-scope="scope">
                   <div class="num">
-                    <el-button
-                      type="text"
-                      style="color: red;"
-                      @click="delNum(scope.$index)"
-                      >移除</el-button
-                    >
+                    <el-button type="text" style="color: red;" @click="delNum(scope.$index)">移除</el-button>
                   </div>
                 </template>
               </el-table-column>
             </el-table>
-            <el-form
-              style="margin-top: 20px;"
-              :model="deliveryData"
-              :rules="deliveryRules"
-              ref="deliveryForm"
-              label-width="78px"
-            >
+            <el-form style="margin-top: 20px;" :model="deliveryData" :rules="deliveryRules" ref="deliveryForm"
+              label-width="78px">
               <el-form-item label="设计图" prop="designId">
-                <el-button
-                  type="text"
-                  v-if="chooseimgshow == false"
-                  @click="chooseimgshow = true"
-                  >点击选择设计图</el-button
-                >
+                <el-button type="text" v-if="chooseimgshow == false" @click="chooseimgshow = true">点击选择设计图</el-button>
 
-                <div
-                  v-show="chooseimgshow == false && chooselistimg"
-                  style="display:flex;position:relative;flex-wrap: wrap;"
-                >
-                  <div
-                    v-for="(imgurl, index) of imgListFilter(
-                      chooselistimgtemp.img
-                    )"
-                    :key="index"
-                    style="margin-left:10px;position:relative;"
-                  >
-                    <img
-                      v-if="imgurl !== '' && imgurl !== null"
-                      :src="axiosUrl + '/file/' + imgurl"
-                      width="100px"
-                      height="100px"
-                      style="border-radius:5px;object-fit:cover;"
-                    />
+                <div v-show="chooseimgshow == false && chooselistimg"
+                  style="display:flex;position:relative;flex-wrap: wrap;">
+                  <div v-for="(imgurl, index) of imgListFilter(
+                    chooselistimgtemp.img
+                  )" :key="index" style="margin-left:10px;position:relative;">
+                    <img v-if="imgurl !== '' && imgurl !== null" :src="axiosUrl + '/file/' + imgurl" width="100px"
+                      height="100px" style="border-radius:5px;object-fit:cover;" />
                   </div>
                 </div>
               </el-form-item>
               <el-form-item label="成品图" prop="img">
                 <div>
-                  <UploadImg
-                    :imgUrl="deliveryData.img"
-                    :isUpdate="1"
-                    @imgChange="productImgUrlChange"
-                  ></UploadImg>
+                  <UploadImg :imgUrl="deliveryData.img" :isUpdate="1" @imgChange="productImgUrlChange"></UploadImg>
                 </div>
               </el-form-item>
               <el-form-item label="详情图" prop="detailImg">
-                <UploadImg
-                  :imgUrl="deliveryData.detailImg"
-                  :isUpdate="1"
-                  @imgChange="detailImgUrlChange"
-                ></UploadImg>
+                <UploadImg :imgUrl="deliveryData.detailImg" :isUpdate="1" @imgChange="detailImgUrlChange"></UploadImg>
               </el-form-item>
 
               <el-form-item label="唯一编号" prop="productNumber">
-                <el-input
-                  v-model="deliveryData.productNumber"
-                  placeholder="请输入唯一编号"
-                ></el-input>
+                <el-input v-model="deliveryData.productNumber" placeholder="请输入唯一编号"></el-input>
               </el-form-item>
 
-              <el-form-item label="成品名称" prop="productName">
-                <el-input
-                  v-model="deliveryData.productName"
-                  placeholder="请输入成品名称"
-                ></el-input>
+              <el-form-item label="名称" prop="productName">
+                <el-input v-model="deliveryData.productName" placeholder="请输入成品名称"></el-input>
               </el-form-item>
 
               <el-form-item label="标签" prop="productLabel">
-                <el-select
-                  v-model="deliveryData.productLabel"
-                  placeholder="可输入创建选择/直接多选"
-                  multiple
-                  filterable
-                  allow-create
-                  style="width: 100%;"
-                >
-                  <el-option
-                    v-for="item in productLabelList"
-                    :key="item"
-                    :label="item"
-                    :value="item"
-                  >
+                <el-select v-model="deliveryData.productLabel" placeholder="可输入创建选择/直接多选" multiple filterable allow-create
+                  style="width: 100%;">
+                  <el-option v-for="item in productLabelList" :key="item" :label="item" :value="item">
                   </el-option>
                 </el-select>
               </el-form-item>
               <el-form-item label="品牌系列" prop="brandSeries">
-                <el-select
-                  style="width: 100%;"
-                  v-model="deliveryData.brandSeries"
-                  placeholder="可输入创建选择/直接多选"
-                  multiple
-                  filterable
-                  allow-create
-                >
-                  <el-option
-                    v-for="item in brandSeriesList"
-                    :key="item"
-                    :label="item"
-                    :value="item"
-                  >
+                <el-select style="width: 100%;" v-model="deliveryData.brandSeries" placeholder="可输入创建选择/直接多选" multiple
+                  filterable allow-create>
+                  <el-option v-for="item in brandSeriesList" :key="item" :label="item" :value="item">
                   </el-option>
                 </el-select>
               </el-form-item>
               <el-form-item label="联名系列" prop="coBrandedSeries">
-                <el-select
-                  style="width: 100%;"
-                  v-model="deliveryData.coBrandedSeries"
-                  placeholder="可输入创建选择/直接多选"
-                  multiple
-                  filterable
-                  allow-create
-                >
-                  <el-option
-                    v-for="item in brandSeriesList"
-                    :key="item"
-                    :label="item"
-                    :value="item"
-                  >
+                <el-select style="width: 100%;" v-model="deliveryData.coBrandedSeries" placeholder="可输入创建选择/直接多选" multiple
+                  filterable allow-create>
+                  <el-option v-for="item in brandSeriesList" :key="item" :label="item" :value="item">
                   </el-option>
                 </el-select>
               </el-form-item>
               <el-form-item label="参数" prop="params">
-                <el-input
-                  type="textarea"
-                  v-model="deliveryData.params"
-                  placeholder="请输入产品参数"
-                ></el-input>
+                <el-input type="textarea" v-model="deliveryData.params" placeholder="请输入产品参数"></el-input>
               </el-form-item>
               <el-form-item label="证书编号" prop="certificateNumber">
-                <el-input
-                  v-model="deliveryData.certificateNumber"
-                  placeholder="多个证书编号，用逗号隔开"
-                ></el-input>
+                <el-input v-model="deliveryData.certificateNumber" placeholder="多个证书编号，用逗号隔开"></el-input>
               </el-form-item>
               <el-form-item label="搭配推荐" prop="collocationIdStr">
-                <el-select
-                  class="input-style"
-                  v-model="deliveryData.collocationIdStr"
-                  multiple
-                  filterable
-                  remote
-                  reserve-keyword
-                  placeholder="可输入成品名称选择搭配推荐"
-                  :remote-method="remoteProductMethod"
-                  :loading="loading"
-                >
-                  <el-option
-                    v-for="item in productOptionList"
-                    :key="item.id"
-                    :label="item.productName"
-                    :value="item.id"
-                  >
+                <el-select class="input-style" v-model="deliveryData.collocationIdStr" multiple filterable remote
+                  reserve-keyword placeholder="可输入成品名称选择搭配推荐" :remote-method="remoteProductMethod" :loading="loading">
+                  <el-option v-for="item in productOptionList" :key="item.id" :label="item.productName" :value="item.id">
                   </el-option>
                 </el-select>
               </el-form-item>
               <el-form-item label="产品备注" prop="note">
-                <el-input
-                  type="textarea"
-                  class="input-style"
-                  placeholder="请输入备注信息"
-                  v-model="deliveryData.note"
-                ></el-input>
+                <el-input type="textarea" class="input-style" placeholder="请输入备注信息"
+                  v-model="deliveryData.note"></el-input>
               </el-form-item>
             </el-form>
           </el-tab-pane>
           <el-tab-pane label="价格信息" name="second">
-            <el-form
-              ref="priceMsgForm"
-              :model="deliveryData"
-              label-width="124px"
-            >
+            <el-form ref="priceMsgForm" :model="deliveryData" label-width="124px">
               <el-row :gutter="10">
                 <el-col :span="12">
                   <el-form-item label="裸石成本(HKD)" prop="costPrice">
-                    <el-input
-                      v-model="deliveryData.costPrice"
-                      placeholder="请输入成本金额"
-                      @change="getNum"
-                      @input="priceAndRateChange"
-                    ></el-input>
+                    <el-input v-model="deliveryData.costPrice" placeholder="请输入成本金额" @change="getNum"
+                      @input="priceAndRateChange"></el-input>
                   </el-form-item>
                 </el-col>
                 <el-col :span="12">
                   <el-form-item label="加工费(CNY)" prop="processCost">
-                    <el-input
-                      @input="priceAndRateChange"
-                      v-model="deliveryData.processCost"
-                      placeholder="请输入加工费金额"
-                      @change="getNum"
-                    ></el-input>
+                    <el-input @input="priceAndRateChange" v-model="deliveryData.processCost" placeholder="请输入加工费金额"
+                      @change="getNum"></el-input>
                   </el-form-item>
                 </el-col>
               </el-row>
               <el-row :gutter="10">
                 <el-col :span="12">
-                  <el-form-item
-                    label="其他费用(HKD)"
-                    prop="stockInOtherExpenses"
-                  >
-                    <el-input
-                      v-model="deliveryData.stockInOtherExpenses"
-                      placeholder="请输入其他费用"
-                      @change="getNum"
-                      @input="priceAndRateChange"
-                    ></el-input>
+                  <el-form-item label="其他费用(HKD)" prop="stockInOtherExpenses">
+                    <el-input v-model="deliveryData.stockInOtherExpenses" placeholder="请输入其他费用" @change="getNum"
+                      @input="priceAndRateChange"></el-input>
                   </el-form-item>
                 </el-col>
                 <el-col :span="12">
                   <el-form-item label="港币兑人民币汇率" prop="totalHkToCnRate">
-                    <el-input
-                      @input="priceAndRateChange"
-                      v-model="deliveryData.totalHkToCnRate"
-                      placeholder="请输入港币兑人民币汇率"
-                    ></el-input>
+                    <el-input @input="priceAndRateChange" v-model="deliveryData.totalHkToCnRate"
+                      placeholder="请输入港币兑人民币汇率"></el-input>
                   </el-form-item>
                 </el-col>
               </el-row>
               <el-row :gutter="10">
                 <el-col :span="12">
                   <el-form-item label="成本港币金额" prop="totalHkPrice">
-                    <el-input
-                      v-model="deliveryData.totalHkPrice"
-                      placeholder="请输入成本港币金额"
-                      @change="getNum"
-                    ></el-input>
+                    <el-input v-model="deliveryData.totalHkPrice" placeholder="请输入成本港币金额" @change="getNum"></el-input>
                   </el-form-item>
                 </el-col>
                 <el-col :span="12">
                   <el-form-item label="成本人民币金额" prop="totalCnPrice">
-                    <el-input
-                      v-model="deliveryData.totalCnPrice"
-                      placeholder="请输入成本人民币金额"
-                      @change="getNum"
-                    ></el-input>
+                    <el-input v-model="deliveryData.totalCnPrice" placeholder="请输入成本人民币金额" @change="getNum"></el-input>
                   </el-form-item>
                 </el-col>
               </el-row>
-              <div
-                style="width: 95%;height: 1px;margin: 5px auto 27px auto;border-bottom: 1px dashed #DCDFE6;"
-              ></div>
+              <div style="width: 95%;height: 1px;margin: 5px auto 27px auto;border-bottom: 1px dashed #DCDFE6;"></div>
               <el-row :gutter="10">
                 <el-col :span="12">
-                  <el-form-item
-                    label="建议批发价(HKD)"
-                    prop="adviceWholesalePrice"
-                  >
-                    <el-input
-                      v-model="deliveryData.adviceWholesalePrice"
-                      placeholder="请输入建议批发价"
-                    ></el-input>
+                  <el-form-item label="建议批发价(HKD)" prop="adviceWholesalePrice">
+                    <el-input v-model="deliveryData.adviceWholesalePrice" placeholder="请输入建议批发价"></el-input>
                   </el-form-item>
                 </el-col>
                 <el-col :span="12">
                   <el-form-item label="建议零售价(HKD)" prop="adviseSellPrice">
-                    <el-input
-                      v-model="deliveryData.adviseSellPrice"
-                      placeholder="请输入建议零售价"
-                    ></el-input>
+                    <el-input v-model="deliveryData.adviseSellPrice" placeholder="请输入建议零售价"></el-input>
                   </el-form-item>
                 </el-col>
               </el-row>
               <el-row :gutter="10">
                 <el-col :span="12">
                   <el-form-item label="最低销售价(CNY)" prop="lowestSellPrice">
-                    <el-input
-                      v-model="deliveryData.lowestSellPrice"
-                      placeholder="请输入最低销售金额"
-                      @change="getNum"
-                    ></el-input>
+                    <el-input v-model="deliveryData.lowestSellPrice" placeholder="请输入最低销售金额" @change="getNum"></el-input>
                   </el-form-item>
                 </el-col>
                 <el-col :span="12">
                   <el-form-item label="代理价(CNY)" prop="agentPrice">
-                    <el-input
-                      v-model="deliveryData.agentPrice"
-                      placeholder="请输入代理价"
-                      @change="getNum"
-                    ></el-input>
+                    <el-input v-model="deliveryData.agentPrice" placeholder="请输入代理价" @change="getNum"></el-input>
                   </el-form-item>
                 </el-col>
               </el-row>
               <el-row :gutter="10">
                 <el-col :span="12">
                   <!-- 建议柜台最低销售价 -->
-                  <el-form-item
-                    label="销售价(CNY)"
-                    prop="counterLowestSellPrice"
-                  >
-                    <el-input
-                      v-model="deliveryData.counterLowestSellPrice"
-                      placeholder="请输入销售价"
-                      @change="getNum"
-                    ></el-input>
+                  <el-form-item label="销售价(CNY)" prop="counterLowestSellPrice">
+                    <el-input v-model="deliveryData.counterLowestSellPrice" placeholder="请输入销售价"
+                      @change="getNum"></el-input>
                   </el-form-item>
                 </el-col>
                 <el-col :span="12">
                   <el-form-item label="标签价(CNY)" prop="tagPrice">
-                    <el-input
-                      v-model="deliveryData.tagPrice"
-                      placeholder="请输入标签金额"
-                      @change="getNum"
-                    ></el-input>
+                    <el-input v-model="deliveryData.tagPrice" placeholder="请输入标签金额" @change="getNum"></el-input>
                   </el-form-item>
                 </el-col>
               </el-row>
             </el-form>
           </el-tab-pane>
           <el-tab-pane label="库存信息" name="third">
-            <el-form
-              :model="deliveryData"
-              :rules="deliveryRules"
-              ref="deliveryWarehouseForm"
-              label-width="96px"
-            >
+            <el-form :model="deliveryData" :rules="deliveryRules" ref="deliveryWarehouseForm" label-width="96px">
               <el-form-item label="入库类型" prop="type">
-                <el-select
-                  v-model="deliveryData.type"
-                  class="input-style"
-                  @change="typeChange"
-                  :popper-append-to-body="false"
-                >
-                  <el-option
-                    v-for="item in deliveryType"
-                    :key="item.id"
-                    :label="item.name"
-                    :value="item.id"
-                  >
+                <el-select v-model="deliveryData.type" class="input-style" @change="typeChange"
+                  :popper-append-to-body="false">
+                  <el-option v-for="item in deliveryType" :key="item.id" :label="item.name" :value="item.id">
                   </el-option>
                 </el-select>
               </el-form-item>
-              <el-form-item
-                label="目的地"
-                prop="endStorageId"
-                v-if="deliveryData.type == 0"
-                required
-              >
-                <el-select
-                  v-model="deliveryData.endStorageId"
-                  placeholder="请选择目的地"
-                  class="input-style"
-                  :popper-append-to-body="false"
-                >
-                  <el-option
-                    v-for="item in warehouseFilterList"
-                    :key="item.id"
-                    :label="item.name"
-                    :value="item.id"
-                  >
+              <el-form-item label="目的地" prop="endStorageId" v-if="deliveryData.type == 0" required>
+                <el-select v-model="deliveryData.endStorageId" placeholder="请选择目的地" class="input-style"
+                  :popper-append-to-body="false">
+                  <el-option v-for="item in warehouseFilterList" :key="item.id" :label="item.name" :value="item.id">
                   </el-option>
                 </el-select>
               </el-form-item>
-              <el-form-item
-                label="仓库/加工厂"
-                prop="storageId"
-                v-if="deliveryData.type == 1"
-              >
-                <el-select
-                  v-model="deliveryData.storageId"
-                  placeholder="请选择仓库/加工厂"
-                  class="input-style"
-                  :popper-append-to-body="false"
-                >
-                  <el-option
-                    v-for="item in warehouseFilterList"
-                    v-show="item.isOwn == 1"
-                    :key="item.id"
-                    :label="item.name"
-                    :value="item.id"
-                  >
+              <el-form-item label="仓库/加工厂" prop="storageId" v-if="deliveryData.type == 1">
+                <el-select v-model="deliveryData.storageId" placeholder="请选择仓库/加工厂" class="input-style"
+                  :popper-append-to-body="false">
+                  <el-option v-for="item in warehouseFilterList" v-show="item.isOwn == 1" :key="item.id"
+                    :label="item.name" :value="item.id">
                   </el-option>
                 </el-select>
               </el-form-item>
               <el-form-item label="入库时间" prop="stockInTime">
-                <el-date-picker
-                  class="input-style"
-                  v-model="deliveryData.stockInTime"
-                  type="date"
-                  placeholder="请选择出库时间"
-                  value-format="yyyy-MM-dd"
-                  format="yyyy-MM-dd"
-                >
+                <el-date-picker class="input-style" v-model="deliveryData.stockInTime" type="date" placeholder="请选择出库时间"
+                  value-format="yyyy-MM-dd" format="yyyy-MM-dd">
                 </el-date-picker>
               </el-form-item>
             </el-form>
           </el-tab-pane>
-          <el-tab-pane
-            label="销售信息"
-            name="fourth"
-            v-if="deliveryData.type == 1"
-          >
-            <el-form
-              :model="deliveryData"
-              :rules="deliveryRules"
-              ref="deliverySaleForm"
-              label-width="110px"
-            >
+          <el-tab-pane label="销售信息" name="fourth" v-if="deliveryData.type == 1">
+            <el-form :model="deliveryData" :rules="deliveryRules" ref="deliverySaleForm" label-width="110px">
               <el-form-item label="销售发票号" prop="sellBillNumber">
-                <el-input
-                  v-model="deliveryData.sellBillNumber"
-                  placeholder="请输入销售员"
-                  clearable
-                  class="input-style"
-                ></el-input>
+                <el-input v-model="deliveryData.sellBillNumber" placeholder="请输入销售员" clearable
+                  class="input-style"></el-input>
               </el-form-item>
               <el-form-item label="销售员" prop="solder">
-                <el-input
-                  v-model="deliveryData.solder"
-                  placeholder="请输入销售员"
-                  clearable
-                  class="input-style"
-                ></el-input>
+                <el-input v-model="deliveryData.solder" placeholder="请输入销售员" clearable class="input-style"></el-input>
               </el-form-item>
 
               <el-form-item label="销售组" prop="group">
-                <el-autocomplete
-                  class="input-style"
-                  v-model="deliveryData.group"
-                  :fetch-suggestions="groupQuery"
-                  placeholder="请选择/输入销售组"
-                  @select="handleGroupSelect"
-                ></el-autocomplete>
+                <el-autocomplete class="input-style" v-model="deliveryData.group" :fetch-suggestions="groupQuery"
+                  placeholder="请选择/输入销售组" @select="handleGroupSelect"></el-autocomplete>
               </el-form-item>
 
               <el-form-item label="顾客姓名" prop="customer">
-                <el-input
-                  v-model="deliveryData.customer"
-                  placeholder="请输入顾客姓名"
-                  clearable
-                  class="input-style"
-                ></el-input>
+                <el-input v-model="deliveryData.customer" placeholder="请输入顾客姓名" clearable class="input-style"></el-input>
               </el-form-item>
               <el-form-item label="顾客类型" prop="customer">
-                <el-autocomplete
-                  v-model="deliveryData.customerType"
-                  :fetch-suggestions="customerTypeQuery"
-                  placeholder="请选择/输入类型"
-                  @select="handleModelSelect"
-                ></el-autocomplete>
+                <el-autocomplete v-model="deliveryData.customerType" :fetch-suggestions="customerTypeQuery"
+                  placeholder="请选择/输入类型" @select="handleModelSelect"></el-autocomplete>
               </el-form-item>
 
               <el-form-item label="出售币种" prop="saleCurrency">
-                <el-radio-group
-                  v-model="deliveryData.saleCurrency"
-                  @change="currencyChange"
-                >
+                <el-radio-group v-model="deliveryData.saleCurrency" @change="currencyChange">
                   <el-radio label="CNY">CNY</el-radio>
                   <el-radio label="EUR">EUR</el-radio>
                   <el-radio label="USD">USD</el-radio>
@@ -558,43 +290,20 @@
                 </el-radio-group>
               </el-form-item>
               <el-form-item label="出售外币金额" prop="saleMoney">
-                <el-input
-                  v-model="deliveryData.saleMoney"
-                  placeholder="请输入出售金额"
-                  clearable
-                  class="input-style"
-                  @input="totalHkRateChange"
-                ></el-input>
+                <el-input v-model="deliveryData.saleMoney" placeholder="请输入出售金额" clearable class="input-style"
+                  @input="totalHkRateChange"></el-input>
               </el-form-item>
               <el-form-item label="外币兑港币汇率" prop="totalToHkRate">
-                <el-input
-                  v-model="deliveryData.totalToHkRate"
-                  placeholder="请输入汇率"
-                  clearable
-                  class="input-style"
-                  @input="totalHkRateChange"
-                ></el-input>
+                <el-input v-model="deliveryData.totalToHkRate" placeholder="请输入汇率" clearable class="input-style"
+                  @input="totalHkRateChange"></el-input>
               </el-form-item>
               <el-form-item label="出售港币金额" prop="sellTotalHkPrice">
-                <el-input
-                  v-model="deliveryData.sellTotalHkPrice"
-                  placeholder="请输入金额"
-                  clearable
-                  class="input-style"
-                ></el-input>
+                <el-input v-model="deliveryData.sellTotalHkPrice" placeholder="请输入金额" clearable
+                  class="input-style"></el-input>
               </el-form-item>
               <el-form-item label="其他支出费用" prop="otherExpenses">
-                <el-input
-                  v-model="deliveryData.otherExpenses"
-                  placeholder="请输入金额"
-                  clearable
-                  class="input-style"
-                >
-                  <i
-                    slot="suffix"
-                    style="color: #606266;margin-right:10%;font-style:normal;"
-                    >HKD</i
-                  >
+                <el-input v-model="deliveryData.otherExpenses" placeholder="请输入金额" clearable class="input-style">
+                  <i slot="suffix" style="color: #606266;margin-right:10%;font-style:normal;">HKD</i>
                 </el-input>
               </el-form-item>
             </el-form>
@@ -607,13 +316,7 @@
         </el-tabs>
         <div style="margin-top: 50px;text-align: right;">
           <el-button @click="resetFormData">重 置</el-button>
-          <el-button
-            style="width: 120px;"
-            type="primary"
-            @click="stockInSubmit"
-            v-preventClick
-            >提 交</el-button
-          >
+          <el-button style="width: 120px;" type="primary" @click="stockInSubmit" v-preventClick>提 交</el-button>
         </div>
       </div>
       <div class="add-right">
@@ -623,80 +326,50 @@
             <el-form label-width="110px">
               <!-- 用户管理仓库 -->
               <el-form-item label="仓库/加工厂：" required>
-                <el-select
-                  style="width:66%;"
-                  v-model="storageIdList"
-                  multiple
-                  clearable
-                  placeholder="可多选"
-                  :popper-append-to-body="false"
-                >
-                  <el-option
-                    v-for="item in warehouseFilterList"
-                    v-show="item.type == 1 && (item.isOwn == 1 || item.id == 0)"
-                    :key="item.id"
-                    :label="item.name"
-                    :value="item.id"
-                  >
+                <el-select style="width:66%;" v-model="storageIdList" multiple clearable placeholder="可多选"
+                  :popper-append-to-body="false">
+                  <el-option v-for="item in warehouseFilterList"
+                    v-show="item.type == 1 && (item.isOwn == 1 || item.id == 0)" :key="item.id" :label="item.name"
+                    :value="item.id">
                   </el-option>
                 </el-select>
               </el-form-item>
               <el-form-item label="关键字：">
-                <el-input
-                  style="width: 66%;"
-                  v-model="warehouseKeyword"
-                  @change="keywordChange"
-                  placeholder="可输入材料名称、统一编号、备注进行搜索"
-                  clearable
-                >
+                <el-input style="width: 66%;" v-model="warehouseKeyword" @change="keywordChange"
+                  placeholder="可输入材料名称、统一编号、备注进行搜索" clearable>
                 </el-input>
-                <el-button
-                  style="margin-left: 10px;"
-                  type="primary"
-                  @click="warehouseCheck"
-                  >查 询</el-button
-                >
+                <el-button style="margin-left: 10px;" type="primary" @click="warehouseCheck">查 询</el-button>
               </el-form-item>
             </el-form>
           </div>
         </div>
-        <el-table
-          ref="singleTable"
-          :data="deviceFilterList"
-          highlight-current-row
-          @row-click="handleDeviceListChange"
-          @row-dblclick="dblDeviceListChange"
-          style="width: 100%"
-          border
-        >
+        <el-table ref="singleTable" :data="deviceFilterList" highlight-current-row @row-click="handleDeviceListChange"
+          @row-dblclick="dblDeviceListChange" style="width: 100%" border>
           <el-table-column align="center" prop="materialName" label="材料名称">
           </el-table-column>
           <el-table-column align="center" prop="productNumber" label="统一编号">
           </el-table-column>
           <el-table-column align="center" label="库存总量">
             <template slot-scope="scope">
-              <div
-                v-if="
-                  scope.row.chargeUnit == '粒' ||
-                    scope.row.chargeUnit == '件' ||
-                    scope.row.chargeUnit == '条'
-                "
-              >
+              <div v-if="
+                scope.row.chargeUnit == '粒' ||
+                scope.row.chargeUnit == '件' ||
+                scope.row.chargeUnit == '条'
+              ">
                 <span>{{ scope.row.number + " " + scope.row.chargeUnit }}</span>
               </div>
               <div v-else>
                 <span>{{
                   scope.row.currency == ""
-                    ? scope.row.weight >= 0
-                      ? scope.row.weight + scope.row.chargeUnit
-                      : "--"
-                    : scope.row.weight + " " + scope.row.chargeUnit
-                }}</span
-                ><span>{{
-                  scope.row.number > 1
-                    ? " " + "/" + " " + scope.row.number + "件"
-                    : ""
-                }}</span>
+                  ? scope.row.weight >= 0
+                    ? scope.row.weight + scope.row.chargeUnit
+                    : "--"
+                  : scope.row.weight + " " + scope.row.chargeUnit
+                }}</span><span>{{
+  scope.row.number > 1
+  ? " " + "/" + " " + scope.row.number + "件"
+  : ""
+}}</span>
               </div>
             </template>
           </el-table-column>
@@ -708,20 +381,13 @@
         </el-table>
 
         <div v-if="dialogMaterialMsgUpdateVisible">
-          <materialMsgUpdate
-            :dialogMaterialMsgUpdateVisible="dialogMaterialMsgUpdateVisible"
-            :updateMaterialMsg="inventoryCheckDetail"
-            @sureUpdateMaterial="sureUpdateMaterial"
-          ></materialMsgUpdate>
+          <materialMsgUpdate :dialogMaterialMsgUpdateVisible="dialogMaterialMsgUpdateVisible"
+            :updateMaterialMsg="inventoryCheckDetail" @sureUpdateMaterial="sureUpdateMaterial"></materialMsgUpdate>
         </div>
         <div style="width: 100%;height: 50px;padding-bottom: 20px;">
           <div style="margin:40px 0 0;position:absolute;right:30px;">
-            <el-pagination
-              @current-change="handleCurrentChange"
-              :current-page="page"
-              layout="total, prev, pager, next, jumper"
-              :total="total"
-            >
+            <el-pagination @current-change="handleCurrentChange" :current-page="page"
+              layout="total, prev, pager, next, jumper" :total="total">
             </el-pagination>
           </div>
         </div>
@@ -961,7 +627,7 @@ export default {
         this.deliveryData.totalCnPrice = (
           this.deliveryData.costPrice * this.deliveryData.totalHkToCnRate +
           this.deliveryData.stockInOtherExpenses *
-            this.deliveryData.totalHkToCnRate +
+          this.deliveryData.totalHkToCnRate +
           Number(this.deliveryData.processCost)
         ).toFixed(0);
         this.deliveryData.totalHkPrice = (
