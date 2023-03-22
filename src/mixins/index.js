@@ -155,9 +155,15 @@ export const groupMixins = {
     },
     handleGroupSelect(item) {
       console.log("选中结果", item);
-      this.deliveryData.group = item.name;
-      this.materialUpdateMsg.group = item.name;
-      this.productUpdateMsg.group = item.name;
+      if (this.deliveryData) {
+        this.deliveryData.group = item.name;
+      }
+      if (this.materialUpdateMsg) {
+        this.materialUpdateMsg.group = item.name;
+      }
+      if (this.productUpdateMsg) {
+        this.productUpdateMsg.group = item.name;
+      }
     },
   },
 };

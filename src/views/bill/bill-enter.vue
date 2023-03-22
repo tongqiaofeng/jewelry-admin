@@ -2,106 +2,39 @@
   <div class="bill-entry-container" id="billEntryContainer" v-if="isShow">
     <!-- <div>账单录入</div> -->
     <div class="container-left">
-      <el-form
-        ref="billForm"
-        :model="billData"
-        :rules="billRules"
-        label-width="110px"
-      >
+      <el-form ref="billForm" :model="billData" :rules="billRules" label-width="110px">
         <el-form-item label="账单日期" prop="time">
-          <el-date-picker
-            size="large"
-            type="date"
-            placeholder="请选择账单日期"
-            v-model="billData.time"
-            style="width: 100%"
-            value-format="yyyy-MM-dd"
-            format="yyyy-MM-dd"
-          >
+          <el-date-picker size="large" type="date" placeholder="请选择账单日期" v-model="billData.time" style="width: 100%"
+            value-format="yyyy-MM-dd" format="yyyy-MM-dd">
           </el-date-picker>
         </el-form-item>
         <el-form-item label="交易类型" prop="tradeType">
-          <el-select
-            size="large"
-            style="width: 100%"
-            v-model="billData.tradeType"
-            placeholder="请选择"
-            @change="tradeTypeChange"
-          >
-            <el-option
-              v-for="(item, index) in typeList"
-              :key="index"
-              :label="item.label"
-              :value="item.value"
-            ></el-option>
+          <el-select size="large" style="width: 100%" v-model="billData.tradeType" placeholder="请选择"
+            @change="tradeTypeChange">
+            <el-option v-for="(item, index) in typeList" :key="index" :label="item.label" :value="item.value"></el-option>
           </el-select>
         </el-form-item>
         <el-form-item :label="personShow()" prop="personId">
-          <el-select
-            size="large"
-            style="width: 100%"
-            v-model="billData.personId"
-            placeholder="请选择"
-            clearable
-            @change="getBillList"
-          >
-            <el-option
-              v-for="(item, index) in userList"
-              :key="index"
-              :label="item.nick"
-              :value="item.id"
-            ></el-option>
+          <el-select size="large" style="width: 100%" v-model="billData.personId" placeholder="请选择" clearable
+            @change="getBillList">
+            <el-option v-for="(item, index) in userList" :key="index" :label="item.nick" :value="item.id"></el-option>
           </el-select>
         </el-form-item>
-        <el-form-item
-          label="收款账户"
-          v-show="billData.tradeType == 2"
-          prop="payeeId"
-        >
-          <el-select
-            size="large"
-            style="width: 100%"
-            v-model="billData.payeeId"
-            placeholder="请选择"
-          >
-            <el-option
-              v-for="(item, index) in userList"
-              :key="index"
-              :label="item.nick"
-              :value="item.id"
-              v-show="item.id != billData.personId"
-            ></el-option>
+        <el-form-item label="收款账户" v-show="billData.tradeType == 2" prop="payeeId">
+          <el-select size="large" style="width: 100%" v-model="billData.payeeId" placeholder="请选择">
+            <el-option v-for="(item, index) in userList" :key="index" :label="item.nick" :value="item.id"
+              v-show="item.id != billData.personId"></el-option>
           </el-select>
         </el-form-item>
         <el-form-item label="交易方式" prop="receiveType">
-          <el-autocomplete
-            size="large"
-            style="width: 100%"
-            :fit-input-width="true"
-            clearable
-            v-model="billData.receiveType"
-            :fetch-suggestions="querySearch"
-            placeholder="请选择/输入内容"
-            @select="handleSelect"
-          />
+          <el-autocomplete size="large" style="width: 100%" :fit-input-width="true" clearable
+            v-model="billData.receiveType" :fetch-suggestions="querySearch" placeholder="请选择/输入内容"
+            @select="handleSelect" />
         </el-form-item>
         <el-form-item label="标签">
-          <el-select
-            style="width: 100%"
-            placeholder="请选择/输入标签，输入多个用,隔开"
-            v-model="labelVals"
-            filterable
-            multiple
-            allow-create
-            default-first-option
-            clearable
-          >
-            <el-option
-              v-for="item in labelList"
-              :key="item.name"
-              :label="item.name"
-              :value="item.name"
-            >
+          <el-select style="width: 100%" placeholder="请选择/输入标签，输入多个用,隔开" v-model="labelVals" filterable multiple
+            allow-create default-first-option clearable>
+            <el-option v-for="item in labelList" :key="item.name" :label="item.name" :value="item.name">
             </el-option>
           </el-select>
         </el-form-item>
@@ -109,15 +42,11 @@
         <el-form-item label="产品列表">
           <div class="code-table">
             <div class="every1">
-              <span
-                style="color: red"
-                v-show="
-                  billData.tradeType != 2 &&
-                    billData.tradeType != 5 &&
-                    billData.tradeType != 6
-                "
-                >*</span
-              >统一编号
+              <span style="color: red" v-show="
+                billData.tradeType != 2 &&
+                billData.tradeType != 5 &&
+                billData.tradeType != 6
+              ">*</span>发票号
             </div>
             <div class="every2">外币金额</div>
             <div class="every3">外币转港币汇率</div>
@@ -126,288 +55,123 @@
           </div>
           <div class="code-table" style="margin-top: 5px">
             <div class="every1">
-              <el-input
-                size="large"
-                v-model="productListMsg.productNumber"
-                placeholder="请输入"
-                @change="searchCode(productListMsg.productNumber, '')"
-              ></el-input>
+              <el-input size="large" v-model="productListMsg.productNumber" placeholder="请输入"
+                @change="searchCode(productListMsg.productNumber, '')"></el-input>
             </div>
             <div class="every2">
-              <el-input
-                size="large"
-                v-model="productListMsg.foreignMoney"
-                placeholder="请输入"
-                @change="tablePriceChange(productListMsg, 'add')"
-              ></el-input>
-              <el-select
-                size="large"
-                v-model="billData.foreignCurrency"
-                placeholder="请选择币种"
-              >
-                <el-option
-                  v-for="(item, index) in currencyList"
-                  :key="index"
-                  :label="item"
-                  :value="item"
-                >
+              <el-input size="large" v-model="productListMsg.foreignMoney" placeholder="请输入"
+                @change="tablePriceChange(productListMsg, 'add')"></el-input>
+              <el-select size="large" v-model="billData.foreignCurrency" placeholder="请选择币种">
+                <el-option v-for="(item, index) in currencyList" :key="index" :label="item" :value="item">
                 </el-option>
               </el-select>
             </div>
             <div class="every3">
-              <el-input
-                size="large"
-                v-model="billData.foreignToSettleRate"
-                placeholder="请输入"
-                @input="rateChange"
-              ></el-input>
+              <el-input size="large" v-model="billData.foreignToSettleRate" placeholder="请输入"
+                @input="rateChange"></el-input>
             </div>
             <div class="every4">
-              <el-input
-                size="large"
-                v-model="productListMsg.settleMoney"
-                placeholder="请输入"
-                @change="tablePriceChange(productListMsg, 'add')"
-              ></el-input>
+              <el-input size="large" v-model="productListMsg.settleMoney" placeholder="请输入"
+                @change="tablePriceChange(productListMsg, 'add')"></el-input>
             </div>
             <div class="every5">
               <div class="btn-row" style="cursor: pointer">
-                <i
-                  class="el-icon-circle-plus-outline"
-                  style="font-size: 22px;color: #3d81fd;"
-                  @click="addCode"
-                ></i>
+                <i class="el-icon-circle-plus-outline" style="font-size: 22px;color: #3d81fd;" @click="addCode"></i>
               </div>
             </div>
           </div>
           <div style="margin-top: 30px">
-            <div
-              class="code-table"
-              style="margin-bottom: 5px"
-              v-for="(items, index) in billData.watchList"
-              :key="index"
-            >
+            <div class="code-table" style="margin-bottom: 5px" v-for="(items, index) in billData.watchList" :key="index">
               <div class="every1">
-                <el-input
-                  size="large"
-                  v-model="items.stockNo"
-                  placeholder="请输入"
-                  @change="searchCode(items.stockNo, index, 1)"
-                ></el-input>
+                <el-input size="large" v-model="items.stockNo" placeholder="请输入"
+                  @change="searchCode(items.stockNo, index)"></el-input>
               </div>
               <div class="every2">
-                <el-input
-                  size="large"
-                  v-model="items.foreignMoney"
-                  placeholder="请输入"
-                  @change="tablePriceChange(items, 'update')"
-                ></el-input>
-                <el-select
-                  size="large"
-                  v-model="billData.foreignCurrency"
-                  placeholder="请选择币种"
-                >
-                  <el-option
-                    v-for="(item, index) in currencyList"
-                    :key="index"
-                    :label="item"
-                    :value="item"
-                  >
+                <el-input size="large" v-model="items.foreignMoney" placeholder="请输入"
+                  @change="tablePriceChange(items, 'update')"></el-input>
+                <el-select size="large" v-model="billData.foreignCurrency" placeholder="请选择币种">
+                  <el-option v-for="(item, index) in currencyList" :key="index" :label="item" :value="item">
                   </el-option>
                 </el-select>
               </div>
               <div class="every3">
-                <el-input
-                  size="large"
-                  v-model="billData.foreignToSettleRate"
-                  placeholder="请输入"
-                  @input="rateChange"
-                ></el-input>
+                <el-input size="large" v-model="billData.foreignToSettleRate" placeholder="请输入"
+                  @input="rateChange"></el-input>
               </div>
               <div class="every4">
-                <el-input
-                  size="large"
-                  v-model="items.settleMoney"
-                  placeholder="请输入"
-                  @change="tablePriceChange(items, 'update')"
-                ></el-input>
+                <el-input size="large" v-model="items.settleMoney" placeholder="请输入"
+                  @change="tablePriceChange(items, 'update')"></el-input>
               </div>
               <div class="every5">
                 <div class="btn-row" style="cursor: pointer">
-                  <i
-                    class="el-icon-delete"
-                    style="font-size: 22px;color: #3d81fd;"
-                    @click="delCode(index)"
-                  ></i>
+                  <i class="el-icon-delete" style="font-size: 22px;color: #3d81fd;" @click="delCode(index)"></i>
                 </div>
               </div>
             </div>
           </div>
           <el-dialog title="提示" v-model="dialogCodeVisible" width="520px">
             <div style="text-align: center; font-size: 16px">
-              未查找到{{ productCode }}，请检查统一编号是否输入正确
+              未查找到{{ productCode }}，请检查发票号是否输入正确
             </div>
             <template #footer>
               <div>
-                <el-button
-                  type="primary"
-                  @click="dialogCodeVisible = false"
-                  class="sure-button"
-                  >确 定</el-button
-                >
+                <el-button type="primary" @click="dialogCodeVisible = false" class="sure-button">确 定</el-button>
               </div>
             </template>
           </el-dialog>
         </el-form-item>
 
         <el-form-item label="产品描述" prop="productDes">
-          <el-input
-            size="large"
-            style="width: 100%"
-            type="textarea"
-            v-model="billData.productDes"
-            placeholder="产品描述"
-          ></el-input>
+          <el-input size="large" style="width: 100%" type="textarea" v-model="billData.productDes"
+            placeholder="产品描述"></el-input>
         </el-form-item>
         <el-form-item label="外币金额" prop="foreignMoney">
           <div style="display: flex">
-            <el-input
-              size="large"
-              v-model="billData.foreignMoney"
-              placeholder="请输入外币金额"
-              @change="hkMoneyNum"
-            ></el-input>
-            <el-select
-              size="large"
-              v-model="billData.foreignCurrency"
-              placeholder="请选择金额币种"
-              :disabled="
-                billData.tradeType == 0 ||
+            <el-input size="large" v-model="billData.foreignMoney" placeholder="请输入外币金额" @change="hkMoneyNum"></el-input>
+            <el-select size="large" v-model="billData.foreignCurrency" placeholder="请选择金额币种" :disabled="
+              billData.tradeType == 0 ||
                 billData.tradeType == 1 ||
                 billData.tradeType == 3 ||
                 billData.tradeType == 4
-                  ? true
-                  : false
-              "
-            >
-              <el-option
-                v-for="(item, index) in currencyList"
-                :key="index"
-                :label="item"
-                :value="item"
-              >
+                ? true
+                : false
+            ">
+              <el-option v-for="(item, index) in currencyList" :key="index" :label="item" :value="item">
               </el-option>
             </el-select>
           </div>
         </el-form-item>
         <el-form-item label="外币转港币汇率" prop="foreignToSettleRate">
-          <el-input
-            size="large"
-            v-model="billData.foreignToSettleRate"
-            placeholder="请输入"
-            @input="hkMoneyNum"
-          ></el-input>
+          <el-input size="large" v-model="billData.foreignToSettleRate" placeholder="请输入" @input="hkMoneyNum"></el-input>
         </el-form-item>
         <el-form-item label="港币金额" prop="settleMoney">
-          <el-input
-            size="large"
-            v-model="billData.settleMoney"
-            placeholder="请输入"
-          ></el-input>
+          <el-input size="large" v-model="billData.settleMoney" placeholder="请输入"></el-input>
         </el-form-item>
 
         <el-form-item label="备注" prop="remark">
-          <el-input
-            size="large"
-            style="width: 100%"
-            type="textarea"
-            v-model="billData.remark"
-            placeholder="请输入备注信息"
-          ></el-input>
+          <el-input size="large" style="width: 100%" type="textarea" v-model="billData.remark"
+            placeholder="请输入备注信息"></el-input>
         </el-form-item>
         <el-form-item label="账单图片" prop="pics">
           <div>
-            <UploadImg
-              :imgUrl="billData.pics"
-              :isUpdate="1"
-              @imgChange="billImgUrlChange"
-            ></UploadImg>
+            <UploadImg :imgUrl="billData.pics" :isUpdate="1" @imgChange="billImgUrlChange"></UploadImg>
           </div>
         </el-form-item>
       </el-form>
-      <el-dialog
-        v-if="dialogProductVisible"
-        title="匹配产品"
-        :visible.sync="dialogProductVisible"
-        :close-on-press-escape="false"
-        :close-on-click-modal="false"
-        :modal-append-to-body="false"
-        :append-to-body="false"
-      >
-        <div id="invenSome">
-          <el-table
-            :data="matchingList"
-            ref="singleTable"
-            highlight-current-row
-            @current-change="handleCurrentChange"
-            style="width: 100%"
-          >
-            <el-table-column align="center" prop="materialName" label="图片">
-              <template slot-scope="scope">
-                <div>
-                  <img
-                    :src="img + '/file/' + imgFilter(scope.row.img)"
-                    alt=""
-                    style="width: 100px;height: 100px;object-fit: cover;"
-                  />
-                </div>
-              </template>
-            </el-table-column>
-            <el-table-column align="center" prop="productName" label="产品名称">
-            </el-table-column>
-            <el-table-column
-              align="center"
-              prop="productNumber"
-              label="统一编号"
-            >
-            </el-table-column>
-          </el-table>
-        </div>
-      </el-dialog>
+
       <div style="display: flex; justify-content: flex-end; text-align: right">
         <el-button size="large" style="margin-right: 50px" @click="clearData">
           重置
         </el-button>
-        <el-button
-          style="width: 100px;"
-          size="large"
-          v-if="billData.id"
-          type="primary"
-          v-preventClick
-          @click="updateBillSure"
-          >修改</el-button
-        >
-        <el-button
-          style="width: 100px;"
-          size="large"
-          v-else
-          type="primary"
-          v-preventClick
-          @click="submitData"
-          >提交</el-button
-        >
+        <el-button style="width: 100px;" size="large" v-if="billData.id" type="primary" v-preventClick
+          @click="updateBillSure">修改</el-button>
+        <el-button style="width: 100px;" size="large" v-else type="primary" v-preventClick
+          @click="submitData">提交</el-button>
       </div>
     </div>
     <div class="container-right">
-      <el-table
-        :data="billList"
-        style="width: 100%"
-        tooltip-effect="dark"
-        border
-        highlight-current-row
-        @row-click="delBill"
-        @row-dblclick="updateBill"
-      >
+      <el-table :data="billList" style="width: 100%" tooltip-effect="dark" border highlight-current-row
+        @row-click="delBill" @row-dblclick="updateBill">
         <el-table-column align="center" prop="time" label="账单日期">
         </el-table-column>
         <el-table-column align="center" prop="tradeType" label="交易类型">
@@ -422,10 +186,10 @@
             <div>
               {{
                 scope.row.foreignMoney == "" || scope.row.foreignMoney == 0
-                  ? "/"
-                  : formatNumberRgx(scope.row.foreignMoney) +
-                    " " +
-                    scope.row.foreignCurrency
+                ? "/"
+                : formatNumberRgx(scope.row.foreignMoney) +
+                " " +
+                scope.row.foreignCurrency
               }}
             </div>
           </template>
@@ -444,12 +208,8 @@
         </div>
         <template #footer>
           <div>
-            <el-button size="large" @click="dialogDelVisible = false"
-              >取 消</el-button
-            >
-            <el-button size="large" type="primary" @click="delBillSure"
-              >确 定</el-button
-            >
+            <el-button size="large" @click="dialogDelVisible = false">取 消</el-button>
+            <el-button size="large" type="primary" @click="delBillSure">确 定</el-button>
           </div>
         </template>
       </el-dialog>
@@ -566,14 +326,6 @@ export default {
           label: "其他支出",
           value: 6,
         },
-        {
-          label: "成本",
-          value: 7,
-        },
-        {
-          label: "加工费",
-          value: 8,
-        },
       ],
 
       meansList: [],
@@ -584,9 +336,6 @@ export default {
 
       currencyList: ["HKD", "CNY", "EUR", "USD"],
       labelList: [],
-
-      dialogProductVisible: false,
-      matchingList: [],
     };
   },
   created() {
@@ -630,7 +379,7 @@ export default {
     updateBillSure() {
       if (this.isClick == true) {
         this.$message.error({
-          message: "有编号查询产品描述失败，请检查编号输入是否正确",
+          message: "有发票号查询产品描述失败，请检查发票号输入是否正确",
           showClose: true,
           duration: 5000,
         });
@@ -709,7 +458,7 @@ export default {
 
         if (this.isClick == true) {
           this.$message.error({
-            message: "有编号查询产品描述失败，请检查编号输入是否正确",
+            message: "有发票号查询产品描述失败，请检查发票号输入是否正确",
             showClose: true,
             duration: 5000,
           });
@@ -771,7 +520,7 @@ export default {
             ) {
               this.productCodeIsKong = true;
               let msg =
-                "统一编号" +
+                "发票号" +
                 item.productNumber +
                 "入库金额为：" +
                 item.buyWatchMoney +
@@ -809,7 +558,7 @@ export default {
             ) {
               this.productCodeIsKong = true;
               let msg =
-                "统一编号" +
+                "发票号" +
                 item.productNumber +
                 "出售金额为：" +
                 item.sellMoney +
@@ -894,32 +643,22 @@ export default {
     },
 
     // 根據貨號查找產品描述
-    searchCode(productCode, index) {
-      console.log(productCode, index);
-      productCode = productCode.trim();
-      if (productCode != "") {
+    searchCode(code, index) {
+      console.log(code, index);
+      code = code.trim();
+      if (code) {
         this.$axios
-          .get(this.baseUrl + "/productCodeSearch?productCode=" + productCode)
+          .get(this.baseUrl + "/productCodeSearch?productCode=" + code)
           .then((res) => {
             console.log("產品描述列表");
             console.log(res);
             let item = res.data.data;
             if (item.length == 0) {
               if (item.stockId) {
-                this.proDes = item.productDes;
                 this.isClick = false;
 
-                if (index != "") {
-                  console.log("修改333333333");
-                  let list = this.billData.productDes
-                    .split("\n")
-                    .filter((el) => {
-                      return el != "";
-                    });
-                  list.splice(index, 1, this.proDes);
-                  this.billData.productDes = list.join("\n");
-
-                  this.billData.watchList[index].productCode = productCode;
+                if (index !== "") {
+                  this.billData.watchList[index].productCode = code;
                   this.billData.watchList[index].stockId = item.stockId;
                   this.billData.watchList[index].saleTotalHkMoney =
                     item.saleTotalHkMoney;
@@ -930,39 +669,25 @@ export default {
                 } else {
                   console.log("新增66666666666");
 
-                  this.productListMsg.productCode = productCode;
+                  this.productListMsg.productCode = code;
                   this.productListMsg.stockId = item.stockId;
                   this.productListMsg.saleTotalHkMoney = item.saleTotalHkMoney;
                   this.productListMsg.treasuryPrices = item.totalHkPrice;
                   this.productListMsg.saleTotalHkPrice = item.saleTotalHkPrice;
                 }
               }
-            } else if (item.length > 0) {
-              this.matchingList = item;
-              this.dialogProductVisible = true;
             } else {
-              this.productCode = productCode;
+              this.productCode = code;
               this.dialogCodeVisible = true;
               this.isClick = true;
             }
           });
       }
     },
-    // 选择产品列表
-    handleCurrentChange(val) {
-      console.log("选择产品", val);
 
-      this.dialogProductVisible = false;
-    },
     // 刪除該條貨號記錄
     delCode(index) {
       this.billData.watchList.splice(index, 1);
-
-      let list = this.billData.productDes.split("\n").filter((el) => {
-        return el != "";
-      });
-      list.splice(index, 1);
-      this.billData.productDes = list.join("\n");
 
       this.tableHKPriceChange();
     },
@@ -971,7 +696,7 @@ export default {
       if (this.productListMsg.productCode) {
         if (this.isClick == true) {
           this.$message.error({
-            message: "编号查询产品描述失败，请检查编号是否输入正确",
+            message: "发票号查询产品描述失败，请检查发票号是否输入正确",
             showClose: true,
             duration: 5000,
           });
@@ -999,15 +724,6 @@ export default {
             saleTotalHkPrice: this.productListMsg.saleTotalHkPrice,
           });
 
-          if (
-            this.billData.productDes &&
-            this.billData.productDes.substr(-1, 2) != "\n"
-          ) {
-            this.billData.productDes += "\n" + this.proDes + "\n";
-          } else {
-            this.billData.productDes += this.proDes + "\n";
-          }
-
           this.tableHKPriceChange();
 
           this.productListMsg = {
@@ -1021,7 +737,7 @@ export default {
         }
       } else {
         this.$message.error({
-          message: "请输入编号查询产品",
+          message: "请输入发票号查询产品",
           showClose: true,
           duration: 2000,
         });
@@ -1287,6 +1003,7 @@ export default {
     margin-right: 20px;
     background-color: #fff;
     border-radius: 6px;
+
     .right-title {
       margin-bottom: 20px;
       display: flex;

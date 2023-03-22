@@ -21,50 +21,25 @@
                   <div class="nick-img">
                     <div class="update-nick-img" style="display: flex">
                       <div style="margin-top: 3px">
-                        <img
-                          src="../assets/imgs/update-psw.png"
-                          style="width: 17px; height: 20px"
-                        />
+                        <img src="../assets/imgs/update-psw.png" style="width: 17px; height: 20px" />
                       </div>
                       <span class="span-psw">修改密码</span>
                     </div>
                   </div>
                 </div>
-                <el-dialog
-                  id="updatePsw"
-                  title="修改密码"
-                  :visible.sync="pswDialogVisible"
-                  :append-to-body="true"
-                  :close-on-press-escape="false"
-                  :close-on-click-modal="false"
-                >
+                <el-dialog id="updatePsw" title="修改密码" :visible.sync="pswDialogVisible" :append-to-body="true"
+                  :close-on-press-escape="false" :close-on-click-modal="false">
                   <div style="width: 100%; display: flex">
                     <p class="font">旧密码：</p>
-                    <input
-                      class="update-nick"
-                      type="text"
-                      v-model="oldPsw"
-                      placeholder="请输入旧密码"
-                    />
+                    <input class="update-nick" type="text" v-model="oldPsw" placeholder="请输入旧密码" />
                   </div>
                   <div style="width: 100%; margin-top: 15px; display: flex">
                     <p class="font">新密码：</p>
-                    <input
-                      class="update-nick"
-                      type="text"
-                      v-model="newPsw"
-                      placeholder="请输入新密码"
-                    />
+                    <input class="update-nick" type="text" v-model="newPsw" placeholder="请输入新密码" />
                   </div>
                   <span slot="footer" class="dialog-footer">
-                    <el-button
-                      @click="pswDialogVisible = false"
-                      style="margin-left: 35%"
-                      >取 消</el-button
-                    >
-                    <el-button type="primary" @click="updatePsw" v-preventClick
-                      >确 定</el-button
-                    >
+                    <el-button @click="pswDialogVisible = false" style="margin-left: 35%">取 消</el-button>
+                    <el-button type="primary" @click="updatePsw" v-preventClick>确 定</el-button>
                   </span>
                 </el-dialog>
               </li>
@@ -73,10 +48,7 @@
                   <div class="psw-img">
                     <div class="update-nick-img" style="display: flex">
                       <div style="margin-top: 3px">
-                        <img
-                          src="../assets/imgs/logOut.png"
-                          style="width: 17px; height: 18px"
-                        />
+                        <img src="../assets/imgs/logOut.png" style="width: 17px; height: 18px" />
                       </div>
                       <span>退出登录</span>
                     </div>
@@ -95,33 +67,19 @@
                 <p class="dad-li-font">统一管理</p>
               </div>
               <ul class="aside-ul-son">
-                <li
-                  class="son-li"
-                  v-if="systemAdmin == 1"
-                  @click="pageJump(9)"
-                  :style="{
-                    backgroundColor:
-                      pageSelect == 9 ? '#303e53' : 'transparent',
-                  }"
-                >
+                <li class="son-li" v-if="systemAdmin == 1" @click="pageJump(9)" :style="{
+                  backgroundColor:
+                    pageSelect == 9 ? '#303e53' : 'transparent',
+                }">
                   <p class="son-li-line" v-if="pageSelect == 9"></p>
-                  <div
-                    class="son-li-center"
-                    :style="{ marginLeft: pageSelect == 9 ? '-38px' : '32px' }"
-                  >
+                  <div class="son-li-center" :style="{ marginLeft: pageSelect == 9 ? '-38px' : '32px' }">
                     <div class="center-img-div">
-                      <img
-                        class="center-img"
-                        src="../assets/imgs/home/12.png"
-                      />
+                      <img class="center-img" src="../assets/imgs/home/12.png" />
                     </div>
                     <p class="center-font">销售报表</p>
                   </div>
                   <div class="son-li-right">
-                    <img
-                      class="right-img"
-                      src="../assets/imgs/home/right.png"
-                    />
+                    <img class="right-img" src="../assets/imgs/home/right.png" />
                   </div>
                 </li>
               </ul>
@@ -131,144 +89,79 @@
                 <p class="dad-li-font">原材料管理</p>
               </div>
               <ul class="aside-ul-son">
-                <li
-                  class="son-li"
-                  @click="pageJump(1)"
-                  :style="{
-                    backgroundColor:
-                      pageSelect == 1 ? '#303e53' : 'transparent',
-                  }"
-                >
+                <li class="son-li" @click="pageJump(1)" :style="{
+                  backgroundColor:
+                    pageSelect == 1 ? '#303e53' : 'transparent',
+                }">
                   <p class="son-li-line" v-if="pageSelect == 1"></p>
-                  <div
-                    class="son-li-center"
-                    :style="{ marginLeft: pageSelect == 1 ? '-66px' : '32px' }"
-                  >
+                  <div class="son-li-center" :style="{ marginLeft: pageSelect == 1 ? '-66px' : '32px' }">
                     <div class="center-img-div">
-                      <img
-                        class="center-img"
-                        src="../assets/imgs/home/01.png"
-                      />
+                      <img class="center-img" src="../assets/imgs/home/01.png" />
                     </div>
                     <p class="center-font">查询</p>
                   </div>
                   <div class="son-li-right">
-                    <img
-                      class="right-img"
-                      src="../assets/imgs/home/right.png"
-                    />
+                    <img class="right-img" src="../assets/imgs/home/right.png" />
                   </div>
                 </li>
-                <li
-                  class="son-li"
-                  @click="pageJump(3)"
-                  :style="{
-                    backgroundColor:
-                      pageSelect == 3 ? '#303e53' : 'transparent',
-                  }"
-                >
+                <li class="son-li" @click="pageJump(3)" :style="{
+                  backgroundColor:
+                    pageSelect == 3 ? '#303e53' : 'transparent',
+                }">
                   <p class="son-li-line" v-if="pageSelect == 3"></p>
-                  <div
-                    class="son-li-center"
-                    :style="{ marginLeft: pageSelect == 3 ? '-66px' : '32px' }"
-                  >
+                  <div class="son-li-center" :style="{ marginLeft: pageSelect == 3 ? '-66px' : '32px' }">
                     <div class="center-img-div">
-                      <img
-                        class="center-img"
-                        src="../assets/imgs/home/04.png"
-                      />
+                      <img class="center-img" src="../assets/imgs/home/04.png" />
                     </div>
                     <p class="center-font">入库</p>
                   </div>
                   <div class="son-li-right">
-                    <img
-                      class="right-img"
-                      src="../assets/imgs/home/right.png"
-                    />
+                    <img class="right-img" src="../assets/imgs/home/right.png" />
                   </div>
                 </li>
-                <li
-                  class="son-li"
-                  @click="pageJump(27)"
-                  :style="{
-                    backgroundColor:
-                      pageSelect == 27 ? '#303e53' : 'transparent',
-                  }"
-                >
+                <li class="son-li" @click="pageJump(27)" :style="{
+                  backgroundColor:
+                    pageSelect == 27 ? '#303e53' : 'transparent',
+                }">
                   <p class="son-li-line" v-if="pageSelect == 27"></p>
-                  <div
-                    class="son-li-center"
-                    :style="{ marginLeft: pageSelect == 27 ? '-38px' : '32px' }"
-                  >
+                  <div class="son-li-center" :style="{ marginLeft: pageSelect == 27 ? '-38px' : '32px' }">
                     <div class="center-img-div">
-                      <img
-                        class="center-img"
-                        src="../assets/imgs/home/04.png"
-                      />
+                      <img class="center-img" src="../assets/imgs/home/04.png" />
                     </div>
                     <p class="center-font">采购记录</p>
                   </div>
                   <div class="son-li-right">
-                    <img
-                      class="right-img"
-                      src="../assets/imgs/home/right.png"
-                    />
+                    <img class="right-img" src="../assets/imgs/home/right.png" />
                   </div>
                 </li>
-                <li
-                  class="son-li"
-                  @click="pageJump(4)"
-                  :style="{
-                    backgroundColor:
-                      pageSelect == 4 ? '#303e53' : 'transparent',
-                  }"
-                >
+                <li class="son-li" @click="pageJump(4)" :style="{
+                  backgroundColor:
+                    pageSelect == 4 ? '#303e53' : 'transparent',
+                }">
                   <p class="son-li-line" v-if="pageSelect == 4"></p>
-                  <div
-                    class="son-li-center"
-                    :style="{ marginLeft: pageSelect == 4 ? '-66px' : '32px' }"
-                  >
+                  <div class="son-li-center" :style="{ marginLeft: pageSelect == 4 ? '-66px' : '32px' }">
                     <div class="center-img-div">
-                      <img
-                        class="center-img"
-                        src="../assets/imgs/home/05.png"
-                      />
+                      <img class="center-img" src="../assets/imgs/home/05.png" />
                     </div>
                     <p class="center-font">出库</p>
                   </div>
                   <div class="son-li-right">
-                    <img
-                      class="right-img"
-                      src="../assets/imgs/home/right.png"
-                    />
+                    <img class="right-img" src="../assets/imgs/home/right.png" />
                   </div>
                 </li>
-                <li
-                  class="son-li"
-                  @click="pageJump(28)"
-                  :style="{
-                    backgroundColor:
-                      pageSelect == 28 ? '#303e53' : 'transparent',
-                  }"
-                >
+                <li class="son-li" @click="pageJump(28)" :style="{
+                  backgroundColor:
+                    pageSelect == 28 ? '#303e53' : 'transparent',
+                }">
                   <p class="son-li-line" v-if="pageSelect == 28"></p>
-                  <div
-                    class="son-li-center"
-                    :style="{ marginLeft: pageSelect == 28 ? '-38px' : '32px' }"
-                  >
+                  <div class="son-li-center" :style="{ marginLeft: pageSelect == 28 ? '-38px' : '32px' }">
                     <div class="center-img-div">
-                      <img
-                        class="center-img"
-                        src="../assets/imgs/home/04.png"
-                      />
+                      <img class="center-img" src="../assets/imgs/home/04.png" />
                     </div>
                     <p class="center-font">销售记录</p>
                   </div>
                   <div class="son-li-right">
-                    <img
-                      class="right-img"
-                      src="../assets/imgs/home/right.png"
-                    />
+                    <img class="right-img" src="../assets/imgs/home/right.png" />
                   </div>
                 </li>
               </ul>
@@ -278,182 +171,104 @@
                 <p class="dad-li-font">成品管理</p>
               </div>
               <ul class="aside-ul-son">
-                <li
-                  class="son-li"
-                  @click="pageJump(7)"
-                  :style="{
-                    backgroundColor:
-                      pageSelect == 7 ? '#303e53' : 'transparent',
-                  }"
-                >
+                <li class="son-li" @click="pageJump(7)" :style="{
+                  backgroundColor:
+                    pageSelect == 7 ? '#303e53' : 'transparent',
+                }">
                   <p class="son-li-line" v-if="pageSelect == 7"></p>
-                  <div
-                    class="son-li-center"
-                    :style="{ marginLeft: pageSelect == 7 ? '-66px' : '32px' }"
-                  >
+                  <div class="son-li-center" :style="{ marginLeft: pageSelect == 7 ? '-66px' : '32px' }">
                     <div class="center-img-div">
-                      <img
-                        class="center-img"
-                        src="../assets/imgs/home/01.png"
-                      />
+                      <img class="center-img" src="../assets/imgs/home/01.png" />
                     </div>
                     <p class="center-font">查询</p>
                   </div>
                   <div class="son-li-right">
-                    <img
-                      class="right-img"
-                      src="../assets/imgs/home/right.png"
-                    />
+                    <img class="right-img" src="../assets/imgs/home/right.png" />
                   </div>
                 </li>
 
-                <li
-                  class="son-li"
-                  @click="pageJump(6)"
-                  :style="{
-                    backgroundColor:
-                      pageSelect == 6 ? '#303e53' : 'transparent',
-                  }"
-                >
+                <li class="son-li" @click="pageJump(6)" :style="{
+                  backgroundColor:
+                    pageSelect == 6 ? '#303e53' : 'transparent',
+                }">
                   <p class="son-li-line" v-if="pageSelect == 6"></p>
-                  <div
-                    class="son-li-center"
-                    :style="{ marginLeft: pageSelect == 6 ? '-66px' : '32px' }"
-                  >
+                  <div class="son-li-center" :style="{ marginLeft: pageSelect == 6 ? '-66px' : '32px' }">
                     <div class="center-img-div">
-                      <img
-                        class="center-img"
-                        src="../assets/imgs/home/04.png"
-                      />
+                      <img class="center-img" src="../assets/imgs/home/04.png" />
                     </div>
                     <p class="center-font">入库</p>
                   </div>
                   <div class="son-li-right">
-                    <img
-                      class="right-img"
-                      src="../assets/imgs/home/right.png"
-                    />
+                    <img class="right-img" src="../assets/imgs/home/right.png" />
                   </div>
                 </li>
-                <li
-                  class="son-li"
-                  @click="pageJump(8)"
-                  :style="{
-                    backgroundColor:
-                      pageSelect == 8 ? '#303e53' : 'transparent',
-                  }"
-                >
+                <li class="son-li" @click="pageJump(8)" :style="{
+                  backgroundColor:
+                    pageSelect == 8 ? '#303e53' : 'transparent',
+                }">
                   <p class="son-li-line" v-if="pageSelect == 8"></p>
-                  <div
-                    class="son-li-center"
-                    :style="{ marginLeft: pageSelect == 8 ? '-66px' : '32px' }"
-                  >
+                  <div class="son-li-center" :style="{ marginLeft: pageSelect == 8 ? '-66px' : '32px' }">
                     <div class="center-img-div">
-                      <img
-                        class="center-img"
-                        src="../assets/imgs/home/05.png"
-                      />
+                      <img class="center-img" src="../assets/imgs/home/05.png" />
                     </div>
                     <p class="center-font">出库</p>
                   </div>
                   <div class="son-li-right">
-                    <img
-                      class="right-img"
-                      src="../assets/imgs/home/right.png"
-                    />
+                    <img class="right-img" src="../assets/imgs/home/right.png" />
                   </div>
                 </li>
-                <li
-                  class="son-li"
-                  @click="pageJump(29)"
-                  :style="{
-                    backgroundColor:
-                      pageSelect == 29 ? '#303e53' : 'transparent',
-                  }"
-                >
+                <li class="son-li" @click="pageJump(29)" :style="{
+                  backgroundColor:
+                    pageSelect == 29 ? '#303e53' : 'transparent',
+                }">
                   <p class="son-li-line" v-if="pageSelect == 29"></p>
-                  <div
-                    class="son-li-center"
-                    :style="{ marginLeft: pageSelect == 29 ? '-38px' : '32px' }"
-                  >
+                  <div class="son-li-center" :style="{ marginLeft: pageSelect == 29 ? '-38px' : '32px' }">
                     <div class="center-img-div">
-                      <img
-                        class="center-img"
-                        src="../assets/imgs/home/04.png"
-                      />
+                      <img class="center-img" src="../assets/imgs/home/04.png" />
                     </div>
                     <p class="center-font">销售记录</p>
                   </div>
                   <div class="son-li-right">
-                    <img
-                      class="right-img"
-                      src="../assets/imgs/home/right.png"
-                    />
+                    <img class="right-img" src="../assets/imgs/home/right.png" />
                   </div>
                 </li>
               </ul>
             </li>
 
-            <!-- <li class="dad-li" v-if="isMedia != 1 && systemAdmin == 1">
+            <li class="dad-li" v-if="isMedia != 1 && systemAdmin == 1">
               <div style="width: 100%">
                 <p class="dad-li-font">借入/借出</p>
               </div>
               <ul class="aside-ul-son">
-                <li
-                  class="son-li"
-                  @click="pageJump(22)"
-                  :style="{
-                    backgroundColor:
-                      pageSelect == 22 ? '#303e53' : 'transparent',
-                  }"
-                >
+                <li class="son-li" @click="pageJump(22)" :style="{
+                  backgroundColor:
+                    pageSelect == 22 ? '#303e53' : 'transparent',
+                }">
                   <p class="son-li-line" v-if="pageSelect == 22"></p>
-                  <div
-                    class="son-li-center"
-                    :style="{ marginLeft: pageSelect == 22 ? '-38px' : '32px' }"
-                  >
+                  <div class="son-li-center" :style="{ marginLeft: pageSelect == 22 ? '-38px' : '32px' }">
                     <div class="center-img-div">
-                      <img
-                        class="center-img"
-                        src="../assets/imgs/home/01.png"
-                      />
+                      <img class="center-img" src="../assets/imgs/home/01.png" />
                     </div>
                     <p class="center-font">借入记录</p>
                   </div>
                   <div class="son-li-right">
-                    <img
-                      class="right-img"
-                      src="../assets/imgs/home/right.png"
-                    />
+                    <img class="right-img" src="../assets/imgs/home/right.png" />
                   </div>
                 </li>
 
-                <li
-                  class="son-li"
-                  @click="pageJump(23)"
-                  :style="{
-                    backgroundColor:
-                      pageSelect == 23 ? '#303e53' : 'transparent',
-                  }"
-                >
+                <li class="son-li" @click="pageJump(23)" :style="{
+                  backgroundColor:
+                    pageSelect == 23 ? '#303e53' : 'transparent',
+                }">
                   <p class="son-li-line" v-if="pageSelect == 23"></p>
-                  <div
-                    class="son-li-center"
-                    :style="{ marginLeft: pageSelect == 23 ? '-38px' : '32px' }"
-                  >
+                  <div class="son-li-center" :style="{ marginLeft: pageSelect == 23 ? '-38px' : '32px' }">
                     <div class="center-img-div">
-                      <img
-                        class="center-img"
-                        src="../assets/imgs/home/04.png"
-                      />
+                      <img class="center-img" src="../assets/imgs/home/04.png" />
                     </div>
                     <p class="center-font">借出记录</p>
                   </div>
                   <div class="son-li-right">
-                    <img
-                      class="right-img"
-                      src="../assets/imgs/home/right.png"
-                    />
+                    <img class="right-img" src="../assets/imgs/home/right.png" />
                   </div>
                 </li>
               </ul>
@@ -464,61 +279,35 @@
                 <p class="dad-li-font">盘点管理</p>
               </div>
               <ul class="aside-ul-son">
-                <li
-                  class="son-li"
-                  @click="pageJump(24)"
-                  :style="{
-                    backgroundColor:
-                      pageSelect == 24 ? '#303e53' : 'transparent',
-                  }"
-                >
+                <li class="son-li" @click="pageJump(24)" :style="{
+                  backgroundColor:
+                    pageSelect == 24 ? '#303e53' : 'transparent',
+                }">
                   <p class="son-li-line" v-if="pageSelect == 24"></p>
-                  <div
-                    class="son-li-center"
-                    :style="{ marginLeft: pageSelect == 24 ? '-38px' : '32px' }"
-                  >
+                  <div class="son-li-center" :style="{ marginLeft: pageSelect == 24 ? '-38px' : '32px' }">
                     <div class="center-img-div">
-                      <img
-                        class="center-img"
-                        src="../assets/imgs/home/01.png"
-                      />
+                      <img class="center-img" src="../assets/imgs/home/01.png" />
                     </div>
                     <p class="center-font">新增盘点</p>
                   </div>
                   <div class="son-li-right">
-                    <img
-                      class="right-img"
-                      src="../assets/imgs/home/right.png"
-                    />
+                    <img class="right-img" src="../assets/imgs/home/right.png" />
                   </div>
                 </li>
 
-                <li
-                  class="son-li"
-                  @click="pageJump(25)"
-                  :style="{
-                    backgroundColor:
-                      pageSelect == 25 ? '#303e53' : 'transparent',
-                  }"
-                >
+                <li class="son-li" @click="pageJump(25)" :style="{
+                  backgroundColor:
+                    pageSelect == 25 ? '#303e53' : 'transparent',
+                }">
                   <p class="son-li-line" v-if="pageSelect == 25"></p>
-                  <div
-                    class="son-li-center"
-                    :style="{ marginLeft: pageSelect == 25 ? '-38px' : '32px' }"
-                  >
+                  <div class="son-li-center" :style="{ marginLeft: pageSelect == 25 ? '-38px' : '32px' }">
                     <div class="center-img-div">
-                      <img
-                        class="center-img"
-                        src="../assets/imgs/home/04.png"
-                      />
+                      <img class="center-img" src="../assets/imgs/home/04.png" />
                     </div>
                     <p class="center-font">盘点记录</p>
                   </div>
                   <div class="son-li-right">
-                    <img
-                      class="right-img"
-                      src="../assets/imgs/home/right.png"
-                    />
+                    <img class="right-img" src="../assets/imgs/home/right.png" />
                   </div>
                 </li>
               </ul>
@@ -529,155 +318,90 @@
                 <p class="dad-li-font">账单管理</p>
               </div>
               <ul class="aside-ul-son">
-                <li
-                  class="son-li"
-                  @click="pageJump(20)"
-                  :style="{
-                    backgroundColor:
-                      pageSelect == 20 ? '#303e53' : 'transparent',
-                  }"
-                >
+                <li class="son-li" @click="pageJump(20)" :style="{
+                  backgroundColor:
+                    pageSelect == 20 ? '#303e53' : 'transparent',
+                }">
                   <p class="son-li-line" v-if="pageSelect == 20"></p>
-                  <div
-                    class="son-li-center"
-                    :style="{ marginLeft: pageSelect == 20 ? '-38px' : '32px' }"
-                  >
+                  <div class="son-li-center" :style="{ marginLeft: pageSelect == 20 ? '-38px' : '32px' }">
                     <div class="center-img-div">
-                      <img
-                        class="center-img"
-                        src="../assets/imgs/home/01.png"
-                      />
+                      <img class="center-img" src="../assets/imgs/home/01.png" />
                     </div>
                     <p class="center-font">账单录入</p>
                   </div>
                   <div class="son-li-right">
-                    <img
-                      class="right-img"
-                      src="../assets/imgs/home/right.png"
-                    />
+                    <img class="right-img" src="../assets/imgs/home/right.png" />
                   </div>
                 </li>
 
-                <li
-                  class="son-li"
-                  @click="pageJump(21)"
-                  :style="{
-                    backgroundColor:
-                      pageSelect == 21 ? '#303e53' : 'transparent',
-                  }"
-                >
+                <li class="son-li" @click="pageJump(21)" :style="{
+                  backgroundColor:
+                    pageSelect == 21 ? '#303e53' : 'transparent',
+                }">
                   <p class="son-li-line" v-if="pageSelect == 21"></p>
-                  <div
-                    class="son-li-center"
-                    :style="{ marginLeft: pageSelect == 21 ? '-38px' : '32px' }"
-                  >
+                  <div class="son-li-center" :style="{ marginLeft: pageSelect == 21 ? '-38px' : '32px' }">
                     <div class="center-img-div">
-                      <img
-                        class="center-img"
-                        src="../assets/imgs/home/04.png"
-                      />
+                      <img class="center-img" src="../assets/imgs/home/04.png" />
                     </div>
                     <p class="center-font">账单管理</p>
                   </div>
                   <div class="son-li-right">
-                    <img
-                      class="right-img"
-                      src="../assets/imgs/home/right.png"
-                    />
+                    <img class="right-img" src="../assets/imgs/home/right.png" />
                   </div>
                 </li>
               </ul>
-            </li> -->
+            </li>
 
             <li class="dad-li" v-if="isMedia == 1 || systemAdmin == 1">
               <div style="width: 100%">
                 <p class="dad-li-font">订单管理</p>
               </div>
               <ul class="aside-ul-son">
-                <li
-                  class="son-li"
-                  @click="pageJump(19)"
-                  :style="{
-                    backgroundColor:
-                      pageSelect == 19 ? '#303e53' : 'transparent',
-                  }"
-                >
+                <li class="son-li" @click="pageJump(19)" :style="{
+                  backgroundColor:
+                    pageSelect == 19 ? '#303e53' : 'transparent',
+                }">
                   <p class="son-li-line" v-if="pageSelect == 19"></p>
-                  <div
-                    class="son-li-center"
-                    :style="{ marginLeft: pageSelect == 19 ? '-66px' : '32px' }"
-                  >
+                  <div class="son-li-center" :style="{ marginLeft: pageSelect == 19 ? '-66px' : '32px' }">
                     <div class="center-img-div">
-                      <img
-                        class="center-img"
-                        src="../assets/imgs/home/01.png"
-                      />
+                      <img class="center-img" src="../assets/imgs/home/01.png" />
                     </div>
                     <p class="center-font">查询</p>
                   </div>
                   <div class="son-li-right">
-                    <img
-                      class="right-img"
-                      src="../assets/imgs/home/right.png"
-                    />
+                    <img class="right-img" src="../assets/imgs/home/right.png" />
                   </div>
                 </li>
 
-                <li
-                  class="son-li"
-                  @click="pageJump(10)"
-                  :style="{
-                    backgroundColor:
-                      pageSelect == 10 ? '#303e53' : 'transparent',
-                  }"
-                >
+                <li class="son-li" @click="pageJump(10)" :style="{
+                  backgroundColor:
+                    pageSelect == 10 ? '#303e53' : 'transparent',
+                }">
                   <p class="son-li-line" v-if="pageSelect == 10"></p>
-                  <div
-                    class="son-li-center"
-                    :style="{ marginLeft: pageSelect == 10 ? '-38px' : '32px' }"
-                  >
+                  <div class="son-li-center" :style="{ marginLeft: pageSelect == 10 ? '-38px' : '32px' }">
                     <div class="center-img-div">
-                      <img
-                        class="center-img"
-                        src="../assets/imgs/home/13.png"
-                      />
+                      <img class="center-img" src="../assets/imgs/home/13.png" />
                     </div>
                     <p class="center-font">商品发货</p>
                   </div>
                   <div class="son-li-right">
-                    <img
-                      class="right-img"
-                      src="../assets/imgs/home/right.png"
-                    />
+                    <img class="right-img" src="../assets/imgs/home/right.png" />
                   </div>
                 </li>
 
-                <li
-                  class="son-li"
-                  @click="pageJump(11)"
-                  :style="{
-                    backgroundColor:
-                      pageSelect == 11 ? '#303e53' : 'transparent',
-                  }"
-                >
+                <li class="son-li" @click="pageJump(11)" :style="{
+                  backgroundColor:
+                    pageSelect == 11 ? '#303e53' : 'transparent',
+                }">
                   <p class="son-li-line" v-if="pageSelect == 11"></p>
-                  <div
-                    class="son-li-center"
-                    :style="{ marginLeft: pageSelect == 11 ? '-38px' : '32px' }"
-                  >
+                  <div class="son-li-center" :style="{ marginLeft: pageSelect == 11 ? '-38px' : '32px' }">
                     <div class="center-img-div">
-                      <img
-                        class="center-img"
-                        src="../assets/imgs/home/14.png"
-                      />
+                      <img class="center-img" src="../assets/imgs/home/14.png" />
                     </div>
                     <p class="center-font">退款审核</p>
                   </div>
                   <div class="son-li-right">
-                    <img
-                      class="right-img"
-                      src="../assets/imgs/home/right.png"
-                    />
+                    <img class="right-img" src="../assets/imgs/home/right.png" />
                   </div>
                 </li>
               </ul>
@@ -688,248 +412,140 @@
                 <p class="dad-li-font">小程序管理</p>
               </div>
               <ul class="aside-ul-son">
-                <li
-                  class="son-li"
-                  @click="pageJump(12)"
-                  :style="{
-                    backgroundColor:
-                      pageSelect == 12 ? '#303e53' : 'transparent',
-                  }"
-                >
+                <li class="son-li" @click="pageJump(12)" :style="{
+                  backgroundColor:
+                    pageSelect == 12 ? '#303e53' : 'transparent',
+                }">
                   <p class="son-li-line" v-if="pageSelect == 12"></p>
-                  <div
-                    class="son-li-center"
-                    :style="{ marginLeft: pageSelect == 12 ? '-38px' : '32px' }"
-                  >
+                  <div class="son-li-center" :style="{ marginLeft: pageSelect == 12 ? '-38px' : '32px' }">
                     <div class="center-img-div">
-                      <img
-                        class="center-img"
-                        src="../assets/imgs/home/17.png"
-                      />
+                      <img class="center-img" src="../assets/imgs/home/17.png" />
                     </div>
                     <p class="center-font">近期活动</p>
                   </div>
                   <div class="son-li-right">
-                    <img
-                      class="right-img"
-                      src="../assets/imgs/home/right.png"
-                    />
+                    <img class="right-img" src="../assets/imgs/home/right.png" />
                   </div>
                 </li>
 
-                <li
-                  class="son-li"
-                  @click="pageJump(17)"
-                  :style="{
-                    backgroundColor:
-                      pageSelect == 17 ? '#303e53' : 'transparent',
-                  }"
-                >
+                <li class="son-li" @click="pageJump(17)" :style="{
+                  backgroundColor:
+                    pageSelect == 17 ? '#303e53' : 'transparent',
+                }">
                   <p class="son-li-line" v-if="pageSelect == 17"></p>
-                  <div
-                    class="son-li-center"
-                    :style="{ marginLeft: pageSelect == 17 ? '-52px' : '32px' }"
-                  >
+                  <div class="son-li-center" :style="{ marginLeft: pageSelect == 17 ? '-52px' : '32px' }">
                     <div class="center-img-div">
-                      <img
-                        class="center-img"
-                        src="../assets/imgs/home/18.png"
-                      />
+                      <img class="center-img" src="../assets/imgs/home/18.png" />
                     </div>
                     <p class="center-font">优惠券</p>
                   </div>
                   <div class="son-li-right">
-                    <img
-                      class="right-img"
-                      src="../assets/imgs/home/right.png"
-                    />
+                    <img class="right-img" src="../assets/imgs/home/right.png" />
                   </div>
                 </li>
 
-                <li
-                  class="son-li"
-                  @click="pageJump(13)"
-                  :style="{
-                    backgroundColor:
-                      pageSelect == 13 ? '#303e53' : 'transparent',
-                  }"
-                >
+                <li class="son-li" @click="pageJump(13)" :style="{
+                  backgroundColor:
+                    pageSelect == 13 ? '#303e53' : 'transparent',
+                }">
                   <p class="son-li-line" v-if="pageSelect == 13"></p>
-                  <div
-                    class="son-li-center"
-                    :style="{ marginLeft: pageSelect == 13 ? '-66px' : '32px' }"
-                  >
+                  <div class="son-li-center" :style="{ marginLeft: pageSelect == 13 ? '-66px' : '32px' }">
                     <div class="center-img-div">
-                      <img
-                        class="center-img"
-                        src="../assets/imgs/home/19.png"
-                      />
+                      <img class="center-img" src="../assets/imgs/home/19.png" />
                     </div>
                     <p class="center-font">首页</p>
                   </div>
                   <div class="son-li-right">
-                    <img
-                      class="right-img"
-                      src="../assets/imgs/home/right.png"
-                    />
+                    <img class="right-img" src="../assets/imgs/home/right.png" />
                   </div>
                 </li>
-                <li
-                  class="son-li"
-                  @click="pageJump(14)"
-                  :style="{
-                    backgroundColor:
-                      pageSelect == 14 ? '#303e53' : 'transparent',
-                  }"
-                >
+                <li class="son-li" @click="pageJump(14)" :style="{
+                  backgroundColor:
+                    pageSelect == 14 ? '#303e53' : 'transparent',
+                }">
                   <p class="son-li-line" v-if="pageSelect == 14"></p>
-                  <div
-                    class="son-li-center"
-                    :style="{ marginLeft: pageSelect == 14 ? '-38px' : '32px' }"
-                  >
+                  <div class="son-li-center" :style="{ marginLeft: pageSelect == 14 ? '-38px' : '32px' }">
                     <div class="center-img-div">
-                      <img
-                        class="center-img"
-                        src="../assets/imgs/home/20.png"
-                      />
+                      <img class="center-img" src="../assets/imgs/home/20.png" />
                     </div>
                     <!-- 品牌/联名 -->
                     <p class="center-font">分类管理</p>
                   </div>
                   <div class="son-li-right">
-                    <img
-                      class="right-img"
-                      src="../assets/imgs/home/right.png"
-                    />
+                    <img class="right-img" src="../assets/imgs/home/right.png" />
                   </div>
                 </li>
 
-                <li
-                  class="son-li"
-                  @click="pageJump(18)"
-                  :style="{
-                    backgroundColor:
-                      pageSelect == 18 ? '#303e53' : 'transparent',
-                  }"
-                >
+                <li class="son-li" @click="pageJump(18)" :style="{
+                  backgroundColor:
+                    pageSelect == 18 ? '#303e53' : 'transparent',
+                }">
                   <p class="son-li-line" v-if="pageSelect == 18"></p>
-                  <div
-                    class="son-li-center"
-                    :style="{ marginLeft: pageSelect == 18 ? '-38px' : '32px' }"
-                  >
+                  <div class="son-li-center" :style="{ marginLeft: pageSelect == 18 ? '-38px' : '32px' }">
                     <div class="center-img-div">
-                      <img
-                        class="center-img"
-                        src="../assets/imgs/home/21.png"
-                      />
+                      <img class="center-img" src="../assets/imgs/home/21.png" />
                     </div>
                     <p class="center-font">专属定制</p>
                   </div>
                   <div class="son-li-right">
-                    <img
-                      class="right-img"
-                      src="../assets/imgs/home/right.png"
-                    />
+                    <img class="right-img" src="../assets/imgs/home/right.png" />
                   </div>
                 </li>
 
-                <li
-                  class="son-li"
-                  @click="pageJump(26)"
-                  :style="{
-                    backgroundColor:
-                      pageSelect == 26 ? '#303e53' : 'transparent',
-                  }"
-                >
+                <li class="son-li" @click="pageJump(26)" :style="{
+                  backgroundColor:
+                    pageSelect == 26 ? '#303e53' : 'transparent',
+                }">
                   <p class="son-li-line" v-if="pageSelect == 26"></p>
-                  <div
-                    class="son-li-center"
-                    :style="{ marginLeft: pageSelect == 26 ? '-25px' : '32px' }"
-                  >
+                  <div class="son-li-center" :style="{ marginLeft: pageSelect == 26 ? '-25px' : '32px' }">
                     <div class="center-img-div">
-                      <img
-                        class="center-img"
-                        src="../assets/imgs/home/21.png"
-                      />
+                      <img class="center-img" src="../assets/imgs/home/21.png" />
                     </div>
                     <p class="center-font">设计图管理</p>
                   </div>
                   <div class="son-li-right">
-                    <img
-                      class="right-img"
-                      src="../assets/imgs/home/right.png"
-                    />
+                    <img class="right-img" src="../assets/imgs/home/right.png" />
                   </div>
                 </li>
               </ul>
             </li>
 
-            <li
-              v-if="isMedia != 1 && systemAdmin == 1"
-              style="
-                width: 100%;
-                height: 1px;
-                margin-top: 20px;
-                background-color: #262e3d;
-              "
-            ></li>
-            <li
-              v-if="isMedia != 1 && systemAdmin == 1"
-              class="dad-li"
-              style="margin-top: 20px"
-            >
+            <li v-if="isMedia != 1 && systemAdmin == 1" style="
+                  width: 100%;
+                  height: 1px;
+                  margin-top: 20px;
+                  background-color: #262e3d;
+                "></li>
+            <li v-if="isMedia != 1 && systemAdmin == 1" class="dad-li" style="margin-top: 20px">
               <div style="width: 100%">
                 <p class="dad-li-font">系统设置</p>
               </div>
               <ul class="aside-ul-son">
-                <li
-                  class="son-li"
-                  @click="pageJump(5)"
-                  :style="{
-                    backgroundColor:
-                      pageSelect == 5 ? '#303e53' : 'transparent',
-                  }"
-                >
+                <li class="son-li" @click="pageJump(5)" :style="{
+                  backgroundColor:
+                    pageSelect == 5 ? '#303e53' : 'transparent',
+                }">
                   <p class="son-li-line" v-if="pageSelect == 5"></p>
-                  <div
-                    class="son-li-center"
-                    :style="{ marginLeft: pageSelect == 5 ? '-38px' : '32px' }"
-                  >
+                  <div class="son-li-center" :style="{ marginLeft: pageSelect == 5 ? '-38px' : '32px' }">
                     <div class="center-img-div">
-                      <img
-                        class="center-img"
-                        src="../assets/imgs/home/08.png"
-                      />
+                      <img class="center-img" src="../assets/imgs/home/08.png" />
                     </div>
                     <p class="center-font">用户管理</p>
                   </div>
                   <div class="son-li-right">
-                    <img
-                      class="right-img"
-                      src="../assets/imgs/home/right.png"
-                    />
+                    <img class="right-img" src="../assets/imgs/home/right.png" />
                   </div>
                 </li>
               </ul>
             </li>
           </ul>
         </el-aside>
-        <el-main
-          class="home-container-main"
-          id="mainContainer"
-          @scroll.native="containerScrollTop"
-        >
+        <el-main class="home-container-main" id="mainContainer" @scroll.native="containerScrollTop">
           <!-- 原材料库存查询 -->
-          <StockInquiry
-            v-if="pageSelect == 1"
-            :stockInquiryParam="stockInquiryParam"
-          >
+          <StockInquiry v-if="pageSelect == 1" :stockInquiryParam="stockInquiryParam">
           </StockInquiry>
           <!-- 成品库存查询 -->
-          <FinishedStockInquiry
-            :stockInquiryParam="stockInquiryParam"
-            v-if="pageSelect == 7"
-          ></FinishedStockInquiry>
+          <FinishedStockInquiry :stockInquiryParam="stockInquiryParam" v-if="pageSelect == 7"></FinishedStockInquiry>
 
           <!-- 入库管理 -->
           <StockManagement v-if="pageSelect == 3"></StockManagement>
@@ -943,9 +559,7 @@
           <!-- 成品入库管理 -->
           <ProductManagement v-if="pageSelect == 6"></ProductManagement>
           <!-- 成品出库管理 -->
-          <ProductDeliveryManagement
-            v-if="pageSelect == 8"
-          ></ProductDeliveryManagement>
+          <ProductDeliveryManagement v-if="pageSelect == 8"></ProductDeliveryManagement>
           <!-- 销售记录 -->
           <ProductSaleRecord v-if="pageSelect == 29"></ProductSaleRecord>
 
@@ -1550,6 +1164,7 @@ ul li {
   .every3 {
     width: 17%;
   }
+
   .every4 {
     width: 13%;
   }
@@ -1666,7 +1281,7 @@ ul li {
   }
 }
 
-.el-button + .el-button {
+.el-button+.el-button {
   margin-left: 30px;
 }
 
@@ -1729,7 +1344,7 @@ ul li {
   text-align: left;
 }
 
-.el-drawer__header > :first-child {
+.el-drawer__header> :first-child {
   flex: 1;
   outline: 0;
 }
