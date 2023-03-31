@@ -2,51 +2,36 @@
   <div class="upload-imgs">
     <div class="add" v-if="isUpdate == 1">
       <form enctype="multipart/form-data" style="width: 100px; height: 100px">
-        <input
-          @change="inputChange($event)"
-          type="file"
-          name="upload-images"
-          accept="image/*"
-          class="inputUpload"
-          multiple
-        />
+        <input @change="inputChange($event)" type="file" name="upload-images" accept="image/*" class="inputUpload"
+          multiple />
         <i class="el-icon-plus addIcon"></i>
       </form>
     </div>
 
-    <draggable
-      v-model="imageUrl"
-      item-key="index"
-      animation="300"
-      @update="datadragEnd"
-    >
+    <draggable v-model="imageUrl" item-key="index" animation="300" @update="datadragEnd">
       <transition-group style="display: flex; flex-wrap: wrap">
-        <div
-          v-for="(item, index) in imageUrl"
-          :key="item"
-          style="display: flex; margin-right: 10px"
-        >
+        <div v-for="(item, index) in imageUrl" :key="item" style="display: flex; margin-right: 10px">
           <div style="position: relative;cursor: pointer;">
-            <span
-              class="spanStyle"
-              @click="delImage(index)"
-              v-if="isUpdate == 1"
-              >x</span
-            >
-            <img
-              :src="baseUrl + '/file/' + item"
-              v-image-preview
-              style="width: 100px;height: 100px;border-radius: 5px;object-fit: cover;cursor: pointer;"
-            />
+            <span class="spanStyle" @click="delImage(index)" v-if="isUpdate == 1">x</span>
+            <video v-if="imgTypeFilter(item)" :src="baseUrl + (isDesign ? '/file/' : '/file/jewelry/') + item"
+              @click="showPlayVideoDialog(baseUrl + (isDesign ? '/file/' : '/file/jewelry/') + item)"
+              style="width: 100px;height: 100px;border-radius: 5px;object-fit: cover;cursor: pointer;"></video>
+            <img v-else :src="baseUrl + (isDesign ? '/file/' : '/file/jewelry/') + item" v-image-preview
+              style="width: 100px;height: 100px;border-radius: 5px;object-fit: cover;cursor: pointer;" />
           </div>
         </div>
       </transition-group>
     </draggable>
+
+    <!-- 播放视频弹窗 -->
+    <el-dialog title="视频预览" width="800px" :visible.sync="playVideoDialog" @close="closeDialog" center>
+      <video id="videoPlayRef" :src="playVideoUrl" controls style="width: 100%;height: 100%;object-fit: contain;"></video>
+    </el-dialog>
   </div>
 </template>
 
 <script>
-import { base_request_url } from "_req/http";
+import { base_img_url, base_request_url } from "_req/http";
 import { uploadPort } from "_req/api/common";
 import draggable from "vuedraggable";
 
@@ -58,6 +43,8 @@ export default {
     return {
       imageUrl: [],
       baseUrl: "",
+      playVideoDialog: false,
+      playVideoUrl: ''
     };
   },
   props: {
@@ -70,11 +57,12 @@ export default {
     imgType: {
       type: Number,
     },
+    isDesign: { type: String }
   },
   watch: {
     // immediate属性设置为true，代表在wacth里声明了imgUrl这个方法之后立即先去执行handler方法
     imgUrl: {
-      handler: function(newVal, oldVal) {
+      handler: function (newVal, oldVal) {
         console.log("上传图片组件");
         console.log(newVal);
         console.log(oldVal);
@@ -96,10 +84,32 @@ export default {
     // }
   },
   created() {
-    console.log("地址", base_request_url);
-    this.baseUrl = base_request_url;
+    if (this.isDesign === '是') {
+      this.baseUrl = base_request_url
+    } else {
+      this.baseUrl = base_img_url;
+    }
   },
   methods: {
+    // 查看视频
+    showPlayVideoDialog(url) {
+      if (url) {
+        this.playVideoUrl = url;
+        this.playVideoDialog = true;
+        this.$nextTick(() => {
+          let videoPlayRef = document.getElementById('videoPlayRef')
+          videoPlayRef.play();
+        });
+      }
+    },
+
+    // 关闭视频
+    closeDialog() {
+      let videoPlayRef = document.getElementById('videoPlayRef')
+      videoPlayRef.pause();
+    },
+
+    // 图片列表拖拽事件
     datadragEnd(evt) {
       evt.preventDefault();
       console.log("拖动前的索引 :" + evt.oldIndex);
@@ -109,6 +119,7 @@ export default {
         img: this.imageUrl,
       });
     },
+
     // 1、获取input上传file文件，inputChange
     // 2、大于2M压缩，否则直接上传
     // 压缩过程
@@ -125,22 +136,28 @@ export default {
       } else {
         console.log("文件", files);
         for (let i = 0; i < files.length; i++) {
-          // 文件大于2M，进行压缩上传
-          if (files[i].size / 1024 > 2050) {
-            console.log("压缩");
-            this.photoCompress2(
-              files[i],
-              {
-                // 调用压缩图片方法
-                quality: 0.7,
-              },
-              (base64Codes) => {
-                let bl = this.base64UrlToBlob2(base64Codes);
-                this.uploadLice2(bl); // 请求图片上传接口
-              }
-            );
+          console.log(files[i]);
+          // 非视频判断图片大小选择是否进行压缩上传
+          if (!this.imgTypeFilter(files[i].type.split('/')[1])) {
+            // 文件大于2M，进行压缩上传
+            if (files[i].size / 1024 > 2050) {
+              console.log("压缩");
+              this.photoCompress2(
+                files[i],
+                {
+                  // 调用压缩图片方法
+                  quality: 0.7,
+                },
+                (base64Codes) => {
+                  let bl = this.base64UrlToBlob2(base64Codes);
+                  this.uploadLice2(bl); // 请求图片上传接口
+                }
+              );
+            } else {
+              // 小于等于2M 原图上传
+              this.uploadLice2(files[i]);
+            }
           } else {
-            // 小于等于2M 原图上传
             this.uploadLice2(files[i]);
           }
         }
@@ -166,7 +183,7 @@ export default {
     canvasDataURL2(path, obj, callback) {
       let img = new Image();
       img.src = path;
-      img.onload = function() {
+      img.onload = function () {
         let that = this; // 指到img
         // 默认按比例压缩
         let w = that.width,
@@ -232,7 +249,8 @@ export default {
       console.log("圖片file", file);
 
       uploadPort({
-        file,
+        files: file,
+        location: 'jewelry'
       })
         .then((res) => {
           if (res.status == 200) {
@@ -244,7 +262,7 @@ export default {
           }
           console.log(res);
 
-          this.imageUrl.push(res.data.data.fileName);
+          this.imageUrl.push(res.data.data);
           this.$emit("imgChange", {
             img: this.imageUrl,
           });

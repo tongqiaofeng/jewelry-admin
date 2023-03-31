@@ -27,3 +27,8 @@ npm run lint
 ### Customize configuration
 
 See [Configuration Reference](https://cli.vuejs.org/config/).
+
+<!--
+珠宝相关图片上传及访问地址走base_img_url
+设计图图片访问走base_request_url
+ -->

@@ -37,7 +37,7 @@
                 <template slot-scope="scope">
                   <div class="num">
                     <el-input v-model="scope.row.number" @input="changeNum(scope.$index)"><i slot="suffix"
-                        style="color: #606266;margin-right:10%;font-style:normal;">{{
+                        class="el-input__icon" style="color: #606266;font-style:normal;">{{
                           scope.row.chargeUnit == "粒"
                           ? scope.row.chargeUnit
                           : scope.row.chargeUnit == "件"
@@ -53,7 +53,7 @@
                   <div class="num">
                     <!-- :readonly="true" -->
                     <el-input v-model="scope.row.weight" @input="changeWeight(scope.$index)"><i slot="suffix"
-                        style="color: #606266;margin-right:10%;font-style:normal;">{{
+                        class="el-input__icon" style="color: #606266;font-style:normal;">{{
                           scope.row.chargeUnit !== "粒"
                           ? scope.row.chargeUnit != "件"
                             ? scope.row.chargeUnit
@@ -303,7 +303,7 @@
               </el-form-item>
               <el-form-item label="其他支出费用" prop="otherExpenses">
                 <el-input v-model="deliveryData.otherExpenses" placeholder="请输入金额" clearable class="input-style">
-                  <i slot="suffix" style="color: #606266;margin-right:10%;font-style:normal;">HKD</i>
+                  <i slot="suffix" class="el-input__icon" style="color: #606266;font-style:normal;">HKD</i>
                 </el-input>
               </el-form-item>
             </el-form>
@@ -820,6 +820,7 @@ export default {
       this.chooseimgshowlist = -1;
       this.chooselistimg = "";
       this.deliveryData.stockInList = [];
+      this.deliveryData.params = '';
 
       this.$refs.deliveryForm.resetFields();
       this.$refs.priceMsgForm.resetFields();
@@ -1398,6 +1399,10 @@ export default {
   .el-input__suffix {
     width: 17px;
     right: 20px;
+  }
+
+  .el-input__icon {
+    line-height: 25px;
   }
 }
 </style>

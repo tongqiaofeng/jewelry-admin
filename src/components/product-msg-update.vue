@@ -9,187 +9,116 @@
         <el-tab-pane label="成品信息" name="first">
           <div style="display: flex;justify-content: flex-end;">
             <div style="padding-top: 6px;">
-              <img
-                style="cursor: pointer;"
-                title="修改成品信息"
-                src="../assets/imgs/home/update.png"
-                @click="updateDevice"
-              />
+              <img style="cursor: pointer;" title="修改成品信息" src="../assets/imgs/home/update.png" @click="updateDevice" />
             </div>
           </div>
           <div class="font-div">
             <div class="div-one">
-              <div
-                class="one-left"
-                :style="{
-                  color:
-                    isUpdate == 0
-                      ? '#606266'
-                      : productUpdateMsg.isUpdate == 0
+              <div class="one-left" :style="{
+                color:
+                  isUpdate == 0
+                    ? '#606266'
+                    : productUpdateMsg.isUpdate == 0
                       ? '#3d82fe'
                       : '#606266',
-                  fontWeight:
-                    isUpdate == 0
-                      ? 'normal'
-                      : productUpdateMsg.isUpdate == 0
+                fontWeight:
+                  isUpdate == 0
+                    ? 'normal'
+                    : productUpdateMsg.isUpdate == 0
                       ? 'bold'
                       : 'normal',
-                }"
-              >
+              }">
                 唯一编号
               </div>
               <div class="one-right">
-                <el-input
-                  v-model="productUpdateMsg.productNumber"
-                  :readonly="
-                    isUpdate == 0
-                      ? true
-                      : productUpdateMsg.isUpdate == 0
+                <el-input v-model="productUpdateMsg.productNumber" :readonly="
+                  isUpdate == 0
+                    ? true
+                    : productUpdateMsg.isUpdate == 0
                       ? false
                       : true
-                  "
-                >
+                ">
                 </el-input>
               </div>
             </div>
             <div class="div-one">
-              <div
-                class="one-left"
-                :style="{
-                  color: isUpdate == 0 ? '#606266' : '#3d82fe',
-                  fontWeight: isUpdate == 0 ? 'normal' : 'bold',
-                }"
-              >
+              <div class="one-left" :style="{
+                color: isUpdate == 0 ? '#606266' : '#3d82fe',
+                fontWeight: isUpdate == 0 ? 'normal' : 'bold',
+              }">
                 成品名称
               </div>
               <div class="one-right">
-                <el-input
-                  v-model="productUpdateMsg.productName"
-                  :readonly="isUpdate == 0 ? true : false"
-                >
+                <el-input v-model="productUpdateMsg.productName" :readonly="isUpdate == 0 ? true : false">
                 </el-input>
               </div>
             </div>
 
             <div class="div-one">
-              <div
-                class="one-left"
-                :style="{
-                  color: isUpdate == 0 ? '#606266' : '#3d82fe',
-                  fontWeight: isUpdate == 0 ? 'normal' : 'bold',
-                }"
-              >
+              <div class="one-left" :style="{
+                color: isUpdate == 0 ? '#606266' : '#3d82fe',
+                fontWeight: isUpdate == 0 ? 'normal' : 'bold',
+              }">
                 标签
               </div>
               <div class="one-right">
-                <el-select
-                  style="width: 100%;"
-                  v-model="labelSelList"
-                  :disabled="isUpdate == 0 ? true : false"
-                  placeholder="可输入创建选择/直接多选"
-                  multiple
-                  filterable
-                  allow-create
-                >
-                  <el-option
-                    v-for="item in productLabelList"
-                    :key="item"
-                    :label="item"
-                    :value="item"
-                  >
+                <el-select style="width: 100%;" v-model="labelSelList" :disabled="isUpdate == 0 ? true : false"
+                  placeholder="可输入创建选择/直接多选" multiple filterable allow-create>
+                  <el-option v-for="item in productLabelList" :key="item" :label="item" :value="item">
                   </el-option>
                 </el-select>
               </div>
             </div>
 
             <div class="div-one">
-              <div
-                class="one-left"
-                :style="{
-                  color: isUpdate == 0 ? '#606266' : '#3d82fe',
-                  fontWeight: isUpdate == 0 ? 'normal' : 'bold',
-                }"
-              >
+              <div class="one-left" :style="{
+                color: isUpdate == 0 ? '#606266' : '#3d82fe',
+                fontWeight: isUpdate == 0 ? 'normal' : 'bold',
+              }">
                 品牌系列
               </div>
               <div class="one-right">
-                <el-select
-                  style="width: 100%;"
-                  v-model="productUpdateMsg.brandSeries"
-                  :disabled="isUpdate == 0 ? true : false"
-                  placeholder="可输入创建选择/直接多选"
-                  multiple
-                  filterable
-                  allow-create
-                >
-                  <el-option
-                    v-for="item in brandSeriesList"
-                    :key="item"
-                    :label="item"
-                    :value="item"
-                  >
+                <el-select style="width: 100%;" v-model="productUpdateMsg.brandSeries"
+                  :disabled="isUpdate == 0 ? true : false" placeholder="可输入创建选择/直接多选" multiple filterable allow-create>
+                  <el-option v-for="item in brandSeriesList" :key="item" :label="item" :value="item">
                   </el-option>
                 </el-select>
               </div>
             </div>
             <div class="div-one">
-              <div
-                class="one-left"
-                :style="{
-                  color: isUpdate == 0 ? '#606266' : '#3d82fe',
-                  fontWeight: isUpdate == 0 ? 'normal' : 'bold',
-                }"
-              >
+              <div class="one-left" :style="{
+                color: isUpdate == 0 ? '#606266' : '#3d82fe',
+                fontWeight: isUpdate == 0 ? 'normal' : 'bold',
+              }">
                 联名系列
               </div>
               <div class="one-right">
-                <el-select
-                  style="width: 100%;"
-                  v-model="productUpdateMsg.coBrandedSeries"
-                  :disabled="isUpdate == 0 ? true : false"
-                  placeholder="可输入创建选择/直接多选"
-                  multiple
-                  filterable
-                  allow-create
-                >
-                  <el-option
-                    v-for="item in jointlyList"
-                    :key="item"
-                    :label="item"
-                    :value="item"
-                  >
+                <el-select style="width: 100%;" v-model="productUpdateMsg.coBrandedSeries"
+                  :disabled="isUpdate == 0 ? true : false" placeholder="可输入创建选择/直接多选" multiple filterable allow-create>
+                  <el-option v-for="item in jointlyList" :key="item" :label="item" :value="item">
                   </el-option>
                 </el-select>
               </div>
             </div>
 
             <div class="div-one">
-              <div
-                class="one-left"
-                :style="{
-                  color: isUpdate == 0 ? '#606266' : '#3d82fe',
-                  fontWeight: isUpdate == 0 ? 'normal' : 'bold',
-                }"
-              >
+              <div class="one-left" :style="{
+                color: isUpdate == 0 ? '#606266' : '#3d82fe',
+                fontWeight: isUpdate == 0 ? 'normal' : 'bold',
+              }">
                 设计图名称
               </div>
               <div class="one-right">
-                <el-input
-                  @focus="showDesign"
-                  v-model="productUpdateMsg.designName"
-                  :readonly="isUpdate == 0 ? true : false"
-                >
+                <el-input @focus="showDesign" v-model="productUpdateMsg.designName"
+                  :readonly="isUpdate == 0 ? true : false">
                 </el-input>
               </div>
             </div>
             <div class="div-one">
-              <div
-                class="one-left"
-                :style="{
-                  color: '#606266',
-                  fontWeight: 'normal',
-                }"
-              >
+              <div class="one-left" :style="{
+                color: '#606266',
+                fontWeight: 'normal',
+              }">
                 设计师名称
               </div>
               <div class="one-right">
@@ -199,70 +128,41 @@
             </div>
 
             <div class="div-one">
-              <div
-                class="one-left"
-                :style="{
-                  color: isUpdate == 0 ? '#606266' : '#3d82fe',
-                  fontWeight: isUpdate == 0 ? 'normal' : 'bold',
-                }"
-              >
+              <div class="one-left" :style="{
+                color: isUpdate == 0 ? '#606266' : '#3d82fe',
+                fontWeight: isUpdate == 0 ? 'normal' : 'bold',
+              }">
                 参数
               </div>
               <div class="one-right">
-                <el-input
-                  type="textarea"
-                  v-model="productUpdateMsg.params"
-                  :readonly="isUpdate == 0 ? true : false"
-                >
+                <el-input type="textarea" v-model="productUpdateMsg.params" :readonly="isUpdate == 0 ? true : false">
                 </el-input>
               </div>
             </div>
             <div class="div-one">
-              <div
-                class="one-left"
-                :style="{
-                  color: isUpdate == 0 ? '#606266' : '#3d82fe',
-                  fontWeight: isUpdate == 0 ? 'normal' : 'bold',
-                }"
-              >
+              <div class="one-left" :style="{
+                color: isUpdate == 0 ? '#606266' : '#3d82fe',
+                fontWeight: isUpdate == 0 ? 'normal' : 'bold',
+              }">
                 证书编号
               </div>
               <div class="one-right">
-                <el-input
-                  v-model="productUpdateMsg.certificateNumber"
-                  :readonly="isUpdate == 0 ? true : false"
-                >
+                <el-input v-model="productUpdateMsg.certificateNumber" :readonly="isUpdate == 0 ? true : false">
                 </el-input>
               </div>
             </div>
             <div class="div-one">
-              <div
-                class="one-left"
-                :style="{
-                  color: isUpdate == 0 ? '#606266' : '#3d82fe',
-                  fontWeight: isUpdate == 0 ? 'normal' : 'bold',
-                }"
-              >
+              <div class="one-left" :style="{
+                color: isUpdate == 0 ? '#606266' : '#3d82fe',
+                fontWeight: isUpdate == 0 ? 'normal' : 'bold',
+              }">
                 搭配推荐
               </div>
               <div class="one-right">
-                <el-select
-                  style="width: 100%;height: 100px;"
-                  v-model="productUpdateMsg.collocationIdStr"
-                  multiple
-                  filterable
-                  remote
-                  reserve-keyword
-                  placeholder="可输入成品名称选择搭配推荐"
-                  :remote-method="remoteProductMethod"
-                  :loading="loadingProduct"
-                >
-                  <el-option
-                    v-for="item in productOptionList"
-                    :key="item.id"
-                    :label="item.productName"
-                    :value="item.id"
-                  >
+                <el-select style="width: 100%;height: 100px;" v-model="productUpdateMsg.collocationIdStr" multiple
+                  filterable remote reserve-keyword placeholder="可输入成品名称选择搭配推荐" :remote-method="remoteProductMethod"
+                  :loading="loadingProduct">
+                  <el-option v-for="item in productOptionList" :key="item.id" :label="item.productName" :value="item.id">
                   </el-option>
                 </el-select>
               </div>
@@ -270,93 +170,53 @@
           </div>
           <p class="font-title-style">图片信息</p>
           <div>
-            <p
-              :style="{
-                color: isUpdate == 0 ? '#606266' : '#3d82fe',
-                fontWeight: isUpdate == 0 ? 'normal' : 'bold',
-                margin: 0,
-                width: '90px',
-              }"
-            >
+            <p :style="{
+              color: isUpdate == 0 ? '#606266' : '#3d82fe',
+              fontWeight: isUpdate == 0 ? 'normal' : 'bold',
+              margin: 0,
+              width: '90px',
+            }">
               成品图片：
             </p>
-            <div
-              class="upload-imgs"
-              style="margin: 10px 0;"
-              v-if="productUpdateMsg.img != '' || isUpdate == 1"
-            >
-              <UploadImg
-                :imgUrl="productimgList"
-                :isUpdate="isUpdate"
-                @imgChange="productImgUrlChange"
-              ></UploadImg>
+            <div class="upload-imgs" style="margin: 10px 0;" v-if="productUpdateMsg.img != '' || isUpdate == 1">
+              <UploadImg :imgUrl="productimgList" :isUpdate="isUpdate" @imgChange="productImgUrlChange"></UploadImg>
             </div>
-            <p
-              v-if="productUpdateMsg.img == '' && isUpdate == 0"
-              style="margin-left: 10px;font-size: 13px;"
-            >
+            <p v-if="productUpdateMsg.img == '' && isUpdate == 0" style="margin-left: 10px;font-size: 13px;">
               无成品图片
             </p>
           </div>
           <div>
-            <p
-              :style="{
-                color: isUpdate == 0 ? '#606266' : '#3d82fe',
-                fontWeight: isUpdate == 0 ? 'normal' : 'bold',
-                margin: 0,
-                width: '90px',
-              }"
-            >
+            <p :style="{
+              color: isUpdate == 0 ? '#606266' : '#3d82fe',
+              fontWeight: isUpdate == 0 ? 'normal' : 'bold',
+              margin: 0,
+              width: '90px',
+            }">
               详情图片：
             </p>
-            <div
-              class="upload-imgs"
-              style="margin: 10px 0;"
-              v-if="productUpdateMsg.detailImg != '' || isUpdate == 1"
-            >
-              <UploadImg
-                :imgUrl="detailImgList"
-                :isUpdate="isUpdate"
-                @imgChange="detailImgUrlChange"
-              ></UploadImg>
+            <div class="upload-imgs" style="margin: 10px 0;" v-if="productUpdateMsg.detailImg != '' || isUpdate == 1">
+              <UploadImg :imgUrl="detailImgList" :isUpdate="isUpdate" @imgChange="detailImgUrlChange"></UploadImg>
             </div>
-            <p
-              v-if="productUpdateMsg.detailImg == '' && isUpdate == 0"
-              style="margin-left: 10px;font-size: 13px;"
-            >
+            <p v-if="productUpdateMsg.detailImg == '' && isUpdate == 0" style="margin-left: 10px;font-size: 13px;">
               无详情图片
             </p>
           </div>
           <div>
-            <p
-              :style="{
-                color: '#606266',
-                fontWeight: 'normal',
-                margin: 0,
-                width: '90px',
-              }"
-            >
+            <p :style="{
+              color: '#606266',
+              fontWeight: 'normal',
+              margin: 0,
+              width: '90px',
+            }">
               设计图片：
             </p>
             <div class="upload-imgs" style="margin: 10px 0;">
-              <div
-                v-if="productUpdateMsg.designImg != ''"
-                style="display:flex;position:relative;flex-wrap: wrap;"
-              >
-                <div
-                  v-for="(imgurl, index) of imgListFilter(
-                    productUpdateMsg.designImg
-                  )"
-                  :key="index"
-                  style="margin-left:10px;position:relative;"
-                >
-                  <img
-                    v-if="imgurl !== '' && imgurl !== null"
-                    :src="imgurl"
-                    width="100px"
-                    height="100px"
-                    style="border-radius:5px;object-fit:cover;"
-                  />
+              <div v-if="productUpdateMsg.designImg != ''" style="display:flex;position:relative;flex-wrap: wrap;">
+                <div v-for="(imgurl, index) of imgListFilter(
+                  productUpdateMsg.designImg
+                )" :key="index" style="margin-left:10px;position:relative;">
+                  <img v-if="imgurl !== '' && imgurl !== null" :src="imgurl" width="100px" height="100px"
+                    style="border-radius:5px;object-fit:cover;" />
                 </div>
               </div>
               <p v-else style="margin-left: 10px;font-size: 13px;">
@@ -365,14 +225,8 @@
             </div>
           </div>
           <p class="font-title-style">原材料信息</p>
-          <el-table
-            style="width: 100%;"
-            :data="productUpdateMsg.materialList"
-            tooltip-effect="dark"
-            border
-            highlight-current-row
-            @row-dblclick="checkMaterialDetails"
-          >
+          <el-table style="width: 100%;" :data="productUpdateMsg.materialList" tooltip-effect="dark" border
+            highlight-current-row @row-dblclick="checkMaterialDetails">
             <el-table-column align="center" prop="name" label="名称">
             </el-table-column>
             <el-table-column align="center" prop="number" label="数量">
@@ -381,21 +235,14 @@
           <p class="font-title-style">备注信息</p>
           <div class="font-div">
             <div class="div-one-note" id="one-note">
-              <div
-                class="one-left"
-                :style="{
-                  color: isUpdate == 0 ? '#606266' : '#3d82fe',
-                  fontWeight: isUpdate == 0 ? 'normal' : 'bold',
-                }"
-              >
+              <div class="one-left" :style="{
+                color: isUpdate == 0 ? '#606266' : '#3d82fe',
+                fontWeight: isUpdate == 0 ? 'normal' : 'bold',
+              }">
                 产品备注
               </div>
               <div class="one-right">
-                <el-input
-                  type="textarea"
-                  v-model="productUpdateMsg.note"
-                  :readonly="isUpdate == 0 ? true : false"
-                >
+                <el-input type="textarea" v-model="productUpdateMsg.note" :readonly="isUpdate == 0 ? true : false">
                 </el-input>
               </div>
             </div>
@@ -404,381 +251,243 @@
         <el-tab-pane label="价格信息" name="fourth">
           <div style="display: flex;justify-content: flex-end;">
             <div style="padding-top: 6px;">
-              <img
-                style="cursor: pointer;"
-                title="修改价格信息"
-                src="../assets/imgs/home/update.png"
-                @click="updateDevice"
-              />
+              <img style="cursor: pointer;" title="修改价格信息" src="../assets/imgs/home/update.png" @click="updateDevice" />
             </div>
           </div>
           <div class="font-div">
             <div class="div-one">
-              <div
-                class="one-left"
-                :style="{
-                  color: isUpdate == 0 ? '#606266' : '#3d82fe',
-                  fontWeight: isUpdate == 0 ? 'normal' : 'bold',
-                }"
-              >
+              <div class="one-left" :style="{
+                color: isUpdate == 0 ? '#606266' : '#3d82fe',
+                fontWeight: isUpdate == 0 ? 'normal' : 'bold',
+              }">
                 裸石成本(HKD)
               </div>
               <div class="one-right">
-                <el-input
-                  @input="priceAndRateChange"
-                  :readonly="isUpdate == 0 ? true : false"
-                  v-model="productUpdateMsg.costPrice"
-                  clearable
-                ></el-input>
+                <el-input @input="priceAndRateChange" :readonly="isUpdate == 0 ? true : false"
+                  v-model="productUpdateMsg.costPrice" clearable></el-input>
               </div>
             </div>
             <div class="div-one">
-              <div
-                class="one-left"
-                :style="{
-                  color: isUpdate == 0 ? '#606266' : '#3d82fe',
-                  fontWeight: isUpdate == 0 ? 'normal' : 'bold',
-                }"
-              >
+              <div class="one-left" :style="{
+                color: isUpdate == 0 ? '#606266' : '#3d82fe',
+                fontWeight: isUpdate == 0 ? 'normal' : 'bold',
+              }">
                 加工费(CNY)
               </div>
               <div class="one-right">
-                <el-input
-                  @input="priceAndRateChange"
-                  :readonly="isUpdate == 0 ? true : false"
-                  v-model="productUpdateMsg.processCost"
-                  clearable
-                >
+                <el-input @input="priceAndRateChange" :readonly="isUpdate == 0 ? true : false"
+                  v-model="productUpdateMsg.processCost" clearable>
                 </el-input>
               </div>
             </div>
 
             <div class="div-one">
-              <div
-                class="one-left"
-                :style="{
-                  color: isUpdate == 0 ? '#606266' : '#3d82fe',
-                  fontWeight: isUpdate == 0 ? 'normal' : 'bold',
-                }"
-              >
+              <div class="one-left" :style="{
+                color: isUpdate == 0 ? '#606266' : '#3d82fe',
+                fontWeight: isUpdate == 0 ? 'normal' : 'bold',
+              }">
                 其他费用(HKD)
               </div>
               <div class="one-right">
-                <el-input
-                  @input="priceAndRateChange"
-                  :readonly="isUpdate == 0 ? true : false"
-                  v-model="productUpdateMsg.stockInOtherExpenses"
-                  clearable
-                ></el-input>
+                <el-input @input="priceAndRateChange" :readonly="isUpdate == 0 ? true : false"
+                  v-model="productUpdateMsg.stockInOtherExpenses" clearable></el-input>
               </div>
             </div>
             <div class="div-one">
-              <div
-                class="one-left"
-                :style="{
-                  color: isUpdate == 0 ? '#606266' : '#3d82fe',
-                  fontWeight: isUpdate == 0 ? 'normal' : 'bold',
-                }"
-              >
+              <div class="one-left" :style="{
+                color: isUpdate == 0 ? '#606266' : '#3d82fe',
+                fontWeight: isUpdate == 0 ? 'normal' : 'bold',
+              }">
                 港币兑人民币汇率
               </div>
               <div class="one-right">
-                <el-input
-                  @input="priceAndRateChange"
-                  :readonly="isUpdate == 0 ? true : false"
-                  v-model="productUpdateMsg.totalHkToCnRate"
-                  clearable
-                >
+                <el-input @input="priceAndRateChange" :readonly="isUpdate == 0 ? true : false"
+                  v-model="productUpdateMsg.totalHkToCnRate" clearable>
                 </el-input>
               </div>
             </div>
             <div class="div-one">
-              <div
-                class="one-left"
-                :style="{
-                  color: isUpdate == 0 ? '#606266' : '#3d82fe',
-                  fontWeight: isUpdate == 0 ? 'normal' : 'bold',
-                }"
-              >
+              <div class="one-left" :style="{
+                color: isUpdate == 0 ? '#606266' : '#3d82fe',
+                fontWeight: isUpdate == 0 ? 'normal' : 'bold',
+              }">
                 成本港币金额
               </div>
               <div class="one-right">
-                <el-input
-                  :readonly="isUpdate == 0 ? true : false"
-                  v-model="productUpdateMsg.totalHkPrice"
-                  clearable
-                >
+                <el-input :readonly="isUpdate == 0 ? true : false" v-model="productUpdateMsg.totalHkPrice" clearable>
                 </el-input>
               </div>
             </div>
             <div class="div-one">
-              <div
-                class="one-left"
-                :style="{
-                  color: isUpdate == 0 ? '#606266' : '#3d82fe',
-                  fontWeight: isUpdate == 0 ? 'normal' : 'bold',
-                }"
-              >
+              <div class="one-left" :style="{
+                color: isUpdate == 0 ? '#606266' : '#3d82fe',
+                fontWeight: isUpdate == 0 ? 'normal' : 'bold',
+              }">
                 成本人民币金额
               </div>
               <div class="one-right">
-                <el-input
-                  :readonly="isUpdate == 0 ? true : false"
-                  v-model="productUpdateMsg.totalCnPrice"
-                  clearable
-                >
+                <el-input :readonly="isUpdate == 0 ? true : false" v-model="productUpdateMsg.totalCnPrice" clearable>
                 </el-input>
               </div>
             </div>
             <div class="div-one">
-              <div
-                class="one-left"
-                :style="{
-                  color: isUpdate == 0 ? '#606266' : '#3d82fe',
-                  fontWeight: isUpdate == 0 ? 'normal' : 'bold',
-                }"
-              >
+              <div class="one-left" :style="{
+                color: isUpdate == 0 ? '#606266' : '#3d82fe',
+                fontWeight: isUpdate == 0 ? 'normal' : 'bold',
+              }">
                 建议批发价(HKD)
               </div>
               <div class="one-right">
-                <el-input
-                  :readonly="isUpdate == 0 ? true : false"
-                  v-model="productUpdateMsg.adviceWholesalePrice"
-                  clearable
-                >
+                <el-input :readonly="isUpdate == 0 ? true : false" v-model="productUpdateMsg.adviceWholesalePrice"
+                  clearable>
                 </el-input>
               </div>
             </div>
             <div class="div-one">
-              <div
-                class="one-left"
-                :style="{
-                  color: isUpdate == 0 ? '#606266' : '#3d82fe',
-                  fontWeight: isUpdate == 0 ? 'normal' : 'bold',
-                }"
-              >
+              <div class="one-left" :style="{
+                color: isUpdate == 0 ? '#606266' : '#3d82fe',
+                fontWeight: isUpdate == 0 ? 'normal' : 'bold',
+              }">
                 建议零售价(HKD)
               </div>
               <div class="one-right">
-                <el-input
-                  :readonly="isUpdate == 0 ? true : false"
-                  v-model="productUpdateMsg.adviseSellPrice"
-                  clearable
-                >
+                <el-input :readonly="isUpdate == 0 ? true : false" v-model="productUpdateMsg.adviseSellPrice" clearable>
                 </el-input>
               </div>
             </div>
 
             <div class="div-one">
-              <div
-                class="one-left"
-                :style="{
-                  color: isUpdate == 0 ? '#606266' : '#3d82fe',
-                  fontWeight: isUpdate == 0 ? 'normal' : 'bold',
-                }"
-              >
+              <div class="one-left" :style="{
+                color: isUpdate == 0 ? '#606266' : '#3d82fe',
+                fontWeight: isUpdate == 0 ? 'normal' : 'bold',
+              }">
                 最低销售价(CNY)
               </div>
               <div class="one-right">
-                <el-input
-                  :readonly="isUpdate == 0 ? true : false"
-                  v-model="productUpdateMsg.lowestSellPrice"
-                  clearable
-                >
+                <el-input :readonly="isUpdate == 0 ? true : false" v-model="productUpdateMsg.lowestSellPrice" clearable>
                 </el-input>
               </div>
             </div>
 
             <div class="div-one">
-              <div
-                class="one-left"
-                :style="{
-                  color: isUpdate == 0 ? '#606266' : '#3d82fe',
-                  fontWeight: isUpdate == 0 ? 'normal' : 'bold',
-                }"
-              >
+              <div class="one-left" :style="{
+                color: isUpdate == 0 ? '#606266' : '#3d82fe',
+                fontWeight: isUpdate == 0 ? 'normal' : 'bold',
+              }">
                 代理价(CNY)
               </div>
               <div class="one-right">
-                <el-input
-                  :readonly="isUpdate == 0 ? true : false"
-                  v-model="productUpdateMsg.agentPrice"
-                  clearable
-                >
+                <el-input :readonly="isUpdate == 0 ? true : false" v-model="productUpdateMsg.agentPrice" clearable>
                 </el-input>
               </div>
             </div>
             <div class="div-one">
               <!-- 建议柜台最低 -->
-              <div
-                class="one-left"
-                :style="{
-                  color: isUpdate == 0 ? '#606266' : '#3d82fe',
-                  fontWeight: isUpdate == 0 ? 'normal' : 'bold',
-                }"
-              >
+              <div class="one-left" :style="{
+                color: isUpdate == 0 ? '#606266' : '#3d82fe',
+                fontWeight: isUpdate == 0 ? 'normal' : 'bold',
+              }">
                 销售价(CNY)
               </div>
               <div class="one-right">
-                <el-input
-                  :readonly="isUpdate == 0 ? true : false"
-                  v-model="productUpdateMsg.counterLowestSellPrice"
-                  clearable
-                >
+                <el-input :readonly="isUpdate == 0 ? true : false" v-model="productUpdateMsg.counterLowestSellPrice"
+                  clearable>
                 </el-input>
               </div>
             </div>
             <div class="div-one">
-              <div
-                class="one-left"
-                :style="{
-                  color: isUpdate == 0 ? '#606266' : '#3d82fe',
-                  fontWeight: isUpdate == 0 ? 'normal' : 'bold',
-                }"
-              >
+              <div class="one-left" :style="{
+                color: isUpdate == 0 ? '#606266' : '#3d82fe',
+                fontWeight: isUpdate == 0 ? 'normal' : 'bold',
+              }">
                 标签价(CNY)
               </div>
               <div class="one-right">
-                <el-input
-                  :readonly="isUpdate == 0 ? true : false"
-                  v-model="productUpdateMsg.tagPrice"
-                  clearable
-                >
+                <el-input :readonly="isUpdate == 0 ? true : false" v-model="productUpdateMsg.tagPrice" clearable>
                 </el-input>
               </div>
             </div>
           </div>
         </el-tab-pane>
-        <el-tab-pane
-          label="销售信息"
-          name="third"
-          v-if="productUpdateMsg.state == 3"
-        >
+        <el-tab-pane label="销售信息" name="third" v-if="productUpdateMsg.state == 3">
           <div style="display: flex;justify-content: flex-end;">
             <div style="padding-top: 6px;">
-              <img
-                style="cursor: pointer;"
-                title="修改销售信息"
-                src="../assets/imgs/home/update.png"
-                @click="updateDevice"
-              />
+              <img style="cursor: pointer;" title="修改销售信息" src="../assets/imgs/home/update.png" @click="updateDevice" />
             </div>
           </div>
           <div class="font-div">
             <div class="div-one">
-              <div
-                class="one-left"
-                :style="{
-                  color: isUpdate == 0 ? '#606266' : '#3d82fe',
-                  fontWeight: isUpdate == 0 ? 'normal' : 'bold',
-                }"
-              >
+              <div class="one-left" :style="{
+                color: isUpdate == 0 ? '#606266' : '#3d82fe',
+                fontWeight: isUpdate == 0 ? 'normal' : 'bold',
+              }">
                 销售发票号
               </div>
               <div class="one-right">
-                <el-input
-                  :readonly="isUpdate == 0 ? true : false"
-                  v-model="productUpdateMsg.sellBillNumber"
-                  clearable
-                >
+                <el-input :readonly="isUpdate == 0 ? true : false" v-model="productUpdateMsg.sellBillNumber" clearable>
                 </el-input>
               </div>
             </div>
 
             <div class="div-one">
-              <div
-                class="one-left"
-                :style="{
-                  color: isUpdate == 0 ? '#606266' : '#3d82fe',
-                  fontWeight: isUpdate == 0 ? 'normal' : 'bold',
-                }"
-              >
+              <div class="one-left" :style="{
+                color: isUpdate == 0 ? '#606266' : '#3d82fe',
+                fontWeight: isUpdate == 0 ? 'normal' : 'bold',
+              }">
                 销售员
               </div>
               <div class="one-right">
-                <el-input
-                  :readonly="isUpdate == 0 ? true : false"
-                  v-model="productUpdateMsg.solder"
-                  clearable
-                >
+                <el-input :readonly="isUpdate == 0 ? true : false" v-model="productUpdateMsg.solder" clearable>
                 </el-input>
               </div>
             </div>
             <div class="div-one">
-              <div
-                class="one-left"
-                :style="{
-                  color: isUpdate == 0 ? '#606266' : '#3d82fe',
-                  fontWeight: isUpdate == 0 ? 'normal' : 'bold',
-                }"
-              >
+              <div class="one-left" :style="{
+                color: isUpdate == 0 ? '#606266' : '#3d82fe',
+                fontWeight: isUpdate == 0 ? 'normal' : 'bold',
+              }">
                 销售组
               </div>
               <div class="one-right">
-                <el-autocomplete
-                  :readonly="isUpdate == 0 ? true : false"
-                  v-model="productUpdateMsg.group"
-                  :fetch-suggestions="groupQuery"
-                  placeholder="请选择/输入销售组"
-                  @select="handleGroupSelect"
-                ></el-autocomplete>
+                <el-autocomplete :readonly="isUpdate == 0 ? true : false" v-model="productUpdateMsg.group"
+                  :fetch-suggestions="groupQuery" placeholder="请选择/输入销售组" @select="handleGroupSelect"></el-autocomplete>
               </div>
             </div>
             <div class="div-one">
-              <div
-                class="one-left"
-                :style="{
-                  color: isUpdate == 0 ? '#606266' : '#3d82fe',
-                  fontWeight: isUpdate == 0 ? 'normal' : 'bold',
-                }"
-              >
+              <div class="one-left" :style="{
+                color: isUpdate == 0 ? '#606266' : '#3d82fe',
+                fontWeight: isUpdate == 0 ? 'normal' : 'bold',
+              }">
                 顾客姓名
               </div>
               <div class="one-right">
-                <el-input
-                  :readonly="isUpdate == 0 ? true : false"
-                  v-model="productUpdateMsg.customer"
-                  clearable
-                >
+                <el-input :readonly="isUpdate == 0 ? true : false" v-model="productUpdateMsg.customer" clearable>
                 </el-input>
               </div>
             </div>
             <div class="div-one">
-              <div
-                class="one-left"
-                :style="{
-                  color: isUpdate == 0 ? '#606266' : '#3d82fe',
-                  fontWeight: isUpdate == 0 ? 'normal' : 'bold',
-                }"
-              >
+              <div class="one-left" :style="{
+                color: isUpdate == 0 ? '#606266' : '#3d82fe',
+                fontWeight: isUpdate == 0 ? 'normal' : 'bold',
+              }">
                 顾客类型
               </div>
               <div class="one-right">
-                <el-autocomplete
-                  :readonly="isUpdate == 0 ? true : false"
-                  v-model="productUpdateMsg.customerType"
-                  :fetch-suggestions="customerTypeQuery"
-                  placeholder="请选择/输入类型"
-                  @select="handleModelSelect"
-                ></el-autocomplete>
+                <el-autocomplete :readonly="isUpdate == 0 ? true : false" v-model="productUpdateMsg.customerType"
+                  :fetch-suggestions="customerTypeQuery" placeholder="请选择/输入类型"
+                  @select="handleModelSelect"></el-autocomplete>
               </div>
             </div>
             <div class="div-one">
-              <div
-                class="one-left"
-                :style="{
-                  color: isUpdate == 0 ? '#606266' : '#3d82fe',
-                  fontWeight: isUpdate == 0 ? 'normal' : 'bold',
-                }"
-              >
+              <div class="one-left" :style="{
+                color: isUpdate == 0 ? '#606266' : '#3d82fe',
+                fontWeight: isUpdate == 0 ? 'normal' : 'bold',
+              }">
                 出售币种
               </div>
               <div class="one-right">
-                <el-radio-group
-                  @change="currencyChange"
-                  v-model="productUpdateMsg.saleCurrency"
-                  :disabled="isUpdate == 0 ? true : false"
-                >
+                <el-radio-group @change="currencyChange" v-model="productUpdateMsg.saleCurrency"
+                  :disabled="isUpdate == 0 ? true : false">
                   <el-radio label="CNY">CNY</el-radio>
                   <el-radio label="EUR">EUR</el-radio>
                   <el-radio label="USD">USD</el-radio>
@@ -787,118 +496,76 @@
               </div>
             </div>
             <div class="div-one">
-              <div
-                class="one-left"
-                :style="{
-                  color: isUpdate == 0 ? '#606266' : '#3d82fe',
-                  fontWeight: isUpdate == 0 ? 'normal' : 'bold',
-                }"
-              >
+              <div class="one-left" :style="{
+                color: isUpdate == 0 ? '#606266' : '#3d82fe',
+                fontWeight: isUpdate == 0 ? 'normal' : 'bold',
+              }">
                 出售金额
               </div>
               <div class="one-right">
-                <el-input
-                  @input="currencyChange"
-                  :readonly="isUpdate == 0 ? true : false"
-                  v-model="productUpdateMsg.saleMoney"
-                  clearable
-                >
+                <el-input @input="currencyChange" :readonly="isUpdate == 0 ? true : false"
+                  v-model="productUpdateMsg.saleMoney" clearable>
                 </el-input>
               </div>
             </div>
             <div class="div-one">
-              <div
-                class="one-left"
-                :style="{
-                  color: isUpdate == 0 ? '#606266' : '#3d82fe',
-                  fontWeight: isUpdate == 0 ? 'normal' : 'bold',
-                }"
-              >
+              <div class="one-left" :style="{
+                color: isUpdate == 0 ? '#606266' : '#3d82fe',
+                fontWeight: isUpdate == 0 ? 'normal' : 'bold',
+              }">
                 外币兑港币汇率
               </div>
               <div class="one-right">
-                <el-input
-                  @input="totalHkRateChange"
-                  :readonly="isUpdate == 0 ? true : false"
-                  v-model="productUpdateMsg.totalToHkRate"
-                  clearable
-                >
+                <el-input @input="totalHkRateChange" :readonly="isUpdate == 0 ? true : false"
+                  v-model="productUpdateMsg.totalToHkRate" clearable>
                 </el-input>
               </div>
             </div>
             <div class="div-one">
-              <div
-                class="one-left"
-                :style="{
-                  color: isUpdate == 0 ? '#606266' : '#3d82fe',
-                  fontWeight: isUpdate == 0 ? 'normal' : 'bold',
-                }"
-              >
+              <div class="one-left" :style="{
+                color: isUpdate == 0 ? '#606266' : '#3d82fe',
+                fontWeight: isUpdate == 0 ? 'normal' : 'bold',
+              }">
                 出售港币金额
               </div>
               <div class="one-right">
-                <el-input
-                  :readonly="isUpdate == 0 ? true : false"
-                  v-model="productUpdateMsg.sellTotalHkPrice"
-                  clearable
-                >
+                <el-input :readonly="isUpdate == 0 ? true : false" v-model="productUpdateMsg.sellTotalHkPrice" clearable>
                 </el-input>
               </div>
             </div>
             <div class="div-one">
-              <div
-                class="one-left"
-                :style="{
-                  color: isUpdate == 0 ? '#606266' : '#3d82fe',
-                  fontWeight: isUpdate == 0 ? 'normal' : 'bold',
-                }"
-              >
+              <div class="one-left" :style="{
+                color: isUpdate == 0 ? '#606266' : '#3d82fe',
+                fontWeight: isUpdate == 0 ? 'normal' : 'bold',
+              }">
                 其他支出费用(HKD)
               </div>
               <div class="one-right">
-                <el-input
-                  :readonly="isUpdate == 0 ? true : false"
-                  v-model="productUpdateMsg.otherExpenses"
-                  clearable
-                >
+                <el-input :readonly="isUpdate == 0 ? true : false" v-model="productUpdateMsg.otherExpenses" clearable>
                 </el-input>
               </div>
             </div>
             <div class="div-one">
-              <div
-                class="one-left"
-                :style="{
-                  color: isUpdate == 0 ? '#606266' : '#3d82fe',
-                  fontWeight: isUpdate == 0 ? 'normal' : 'bold',
-                }"
-              >
+              <div class="one-left" :style="{
+                color: isUpdate == 0 ? '#606266' : '#3d82fe',
+                fontWeight: isUpdate == 0 ? 'normal' : 'bold',
+              }">
                 领货人
               </div>
               <div class="one-right">
-                <el-input
-                  :readonly="isUpdate == 0 ? true : false"
-                  v-model="productUpdateMsg.receiver"
-                  clearable
-                >
+                <el-input :readonly="isUpdate == 0 ? true : false" v-model="productUpdateMsg.receiver" clearable>
                 </el-input>
               </div>
             </div>
             <div class="div-one-note">
-              <div
-                class="one-left"
-                :style="{
-                  color: isUpdate == 0 ? '#606266' : '#3d82fe',
-                  fontWeight: isUpdate == 0 ? 'normal' : 'bold',
-                }"
-              >
+              <div class="one-left" :style="{
+                color: isUpdate == 0 ? '#606266' : '#3d82fe',
+                fontWeight: isUpdate == 0 ? 'normal' : 'bold',
+              }">
                 出库备注
               </div>
               <div class="one-right">
-                <el-input
-                  type="textarea"
-                  v-model="productUpdateMsg.outNote"
-                  :readonly="isUpdate == 0 ? true : false"
-                >
+                <el-input type="textarea" v-model="productUpdateMsg.outNote" :readonly="isUpdate == 0 ? true : false">
                 </el-input>
               </div>
             </div>
@@ -909,12 +576,12 @@
             <p class="font-title-style" style="margin-top: 0;">
               成品状态：{{
                 productUpdateMsg.state == 0
-                  ? "库存中"
-                  : productUpdateMsg.state == 1
+                ? "库存中"
+                : productUpdateMsg.state == 1
                   ? "运输中"
                   : productUpdateMsg.state == 2
-                  ? "加工完成"
-                  : "已出售"
+                    ? "加工完成"
+                    : "已出售"
               }}
             </p>
           </div>
@@ -925,32 +592,16 @@
         </el-tab-pane>
       </el-tabs>
 
-      <div
-        v-show="isUpdate == 1"
-        style="position: fixed;right: 30px;bottom: 50px;"
-      >
-        <el-button
-          style="width: 150px;"
-          type="primary"
-          @click="inventoryLookSure"
-          v-preventClick
-          >修 改</el-button
-        >
+      <div v-show="isUpdate == 1" style="position: fixed;right: 30px;bottom: 50px;">
+        <el-button style="width: 150px;" type="primary" @click="inventoryLookSure" v-preventClick>修 改</el-button>
       </div>
     </div>
     <div v-else>
       <designSelectUpdate @designSel="designSel"></designSelectUpdate>
     </div>
-    <el-dialog
-      v-if="dialogMaterialDetailsVisible"
-      title="材料信息"
-      :visible.sync="dialogMaterialDetailsVisible"
-      :close-on-press-escape="false"
-      :close-on-click-modal="false"
-      :modal-append-to-body="false"
-      :append-to-body="false"
-      style="margin-top:20px"
-    >
+    <el-dialog v-if="dialogMaterialDetailsVisible" title="材料信息" :visible.sync="dialogMaterialDetailsVisible"
+      :close-on-press-escape="false" :close-on-click-modal="false" :modal-append-to-body="false" :append-to-body="false"
+      style="margin-top:20px">
       <div id="invenSome">
         <el-tabs style="margin-top: 20px;" v-model="activeName">
           <el-tab-pane label="材料信息" name="ff">
@@ -1058,25 +709,11 @@
             </div>
             <p class="font-title-style">图片信息</p>
             <div class="upload-imgs" style="margin: 10px 0;">
-              <div
-                style="display:flex;position:relative;"
-                id="delImg"
-                class="delImg"
-              >
-                <div
-                  v-for="(imgurl, index) of imgList"
-                  :key="index"
-                  style="margin-left:10px;position:relative;"
-                >
-                  <img
-                    v-if="imgurl !== '' && imgurl !== null"
-                    :src="
-                      imgurl.length < 42 ? axiosUrl + '/file/' + imgurl : imgurl
-                    "
-                    width="100px"
-                    height="100px"
-                    style="border-radius:5px;object-fit:cover;"
-                  />
+              <div style="display:flex;position:relative;" id="delImg" class="delImg">
+                <div v-for="(imgurl, index) of imgList" :key="index" style="margin-left:10px;position:relative;">
+                  <img v-if="imgurl !== '' && imgurl !== null" :src="
+                    imgurl.length < 42 ? axiosImgUrl + '/file/jewelry/' + imgurl : imgurl
+                  " width="100px" height="100px" style="border-radius:5px;object-fit:cover;" />
                 </div>
               </div>
             </div>
@@ -1112,10 +749,7 @@
                   计价单位
                 </div>
                 <div class="one-right">
-                  <el-radio-group
-                    v-model="materialMsg.chargeUnit"
-                    :disabled="true"
-                  >
+                  <el-radio-group v-model="materialMsg.chargeUnit" :disabled="true">
                     <el-radio label="粒">粒</el-radio>
                     <el-radio label="ct">ct</el-radio>
                     <el-radio label="g">g</el-radio>
@@ -1135,10 +769,7 @@
                   币种
                 </div>
                 <div class="one-right">
-                  <el-radio-group
-                    v-model="materialMsg.currency"
-                    :disabled="true"
-                  >
+                  <el-radio-group v-model="materialMsg.currency" :disabled="true">
                     <el-radio label="CNY">CNY</el-radio>
                     <el-radio label="EUR">EUR</el-radio>
                     <el-radio label="USD">USD</el-radio>
@@ -1153,8 +784,8 @@
                 <div class="one-right">
                   {{
                     materialMsg.chargeUnit == "粒"
-                      ? materialMsg.number + " " + materialMsg.chargeUnit
-                      : materialMsg.number
+                    ? materialMsg.number + " " + materialMsg.chargeUnit
+                    : materialMsg.number
                   }}
                 </div>
               </div>
@@ -1165,8 +796,8 @@
                 <div class="one-right">
                   {{
                     materialMsg.chargeUnit != "粒"
-                      ? materialMsg.weight + " " + materialMsg.chargeUnit
-                      : "--"
+                    ? materialMsg.weight + " " + materialMsg.chargeUnit
+                    : "--"
                   }}
                 </div>
               </div>
@@ -1249,14 +880,14 @@
             <p class="font-title-style" style="margin-top: 0;">
               材料状态：{{
                 materialMsg.state == 0
-                  ? "库存中"
-                  : materialMsg.state == 1
+                ? "库存中"
+                : materialMsg.state == 1
                   ? "加工中"
                   : materialMsg.state == 2
-                  ? "加工完成"
-                  : materialMsg.state == 3
-                  ? "已出售"
-                  : ""
+                    ? "加工完成"
+                    : materialMsg.state == 3
+                      ? "已出售"
+                      : ""
               }}
             </p>
             <div>
@@ -1276,7 +907,7 @@ import UploadImg from "@/components/upload-img.vue";
 import Note from "@/components/note.vue";
 import designSelectUpdate from "@/components/design-select-update.vue";
 
-import { base_request_url } from "_req/http";
+import { base_request_url, base_img_url } from "_req/http";
 import {
   stockMaterialInfoPort,
   productSavePort,
@@ -1296,6 +927,7 @@ export default {
   data() {
     return {
       axiosUrl: "",
+      axiosImgUrl: '',
       productUpdateMsg: {},
       activeStockName: "first",
       dialogMaterialDetailsVisible: false,
@@ -1318,6 +950,7 @@ export default {
   },
   created() {
     this.axiosUrl = base_request_url;
+    this.axiosImgUrl = base_img_url;
     this.getBrandAndJointly();
     this.productUpdateMsg = this.updateProductMsg;
 
@@ -1439,14 +1072,14 @@ export default {
       ) {
         this.productUpdateMsg.totalCnPrice = (
           this.productUpdateMsg.costPrice *
-            this.productUpdateMsg.totalHkToCnRate +
+          this.productUpdateMsg.totalHkToCnRate +
           this.productUpdateMsg.stockInOtherExpenses *
-            this.productUpdateMsg.totalHkToCnRate +
+          this.productUpdateMsg.totalHkToCnRate +
           Number(this.productUpdateMsg.processCost)
         ).toFixed(0);
         this.productUpdateMsg.totalHkPrice = (
           this.productUpdateMsg.processCost /
-            this.productUpdateMsg.totalHkToCnRate +
+          this.productUpdateMsg.totalHkToCnRate +
           Number(this.productUpdateMsg.stockInOtherExpenses) +
           Number(this.productUpdateMsg.costPrice)
         ).toFixed(0);
@@ -1612,18 +1245,18 @@ export default {
           if (this.productUpdateMsg.totalToHkRate >= 1) {
             this.productUpdateMsg.sellTotalHkPrice = Number(
               this.productUpdateMsg.saleMoney *
-                this.productUpdateMsg.totalToHkRate
+              this.productUpdateMsg.totalToHkRate
             ).toFixed(0);
           } else {
             this.productUpdateMsg.sellTotalHkPrice = Number(
               this.productUpdateMsg.saleMoney /
-                this.productUpdateMsg.totalToHkRate
+              this.productUpdateMsg.totalToHkRate
             ).toFixed(0);
           }
         } else {
           this.productUpdateMsg.sellTotalHkPrice = Number(
             this.productUpdateMsg.saleMoney *
-              this.productUpdateMsg.totalToHkRate
+            this.productUpdateMsg.totalToHkRate
           ).toFixed(0);
         }
       }
@@ -1660,6 +1293,7 @@ export default {
     width: 55vw;
   }
 }
+
 .font-title-style {
   margin-top: 20px;
   margin-bottom: 10px;
@@ -1673,23 +1307,27 @@ export default {
   border: 1px solid #ccc;
   border-bottom: none;
   font-size: 14px;
+
   .div-one-note {
     height: 100px;
     display: flex;
     line-height: 100px;
     border-bottom: 1px solid #ccc;
+
     .one-left {
       width: 160px;
       border-right: 1px solid #ccc;
       text-align: center;
       background-color: #f2f2f2;
     }
+
     .one-right {
       // width: 373px;
       flex: 1;
       padding-left: 10px;
     }
   }
+
   .div-one {
     // height: 34px;
     display: flex;
@@ -1726,9 +1364,11 @@ export default {
 .upload-imgs {
   position: relative;
   display: flex;
+
   .delImg {
     margin: 0 10px 10px 0;
   }
+
   .add {
     width: 100px;
     height: 100px;

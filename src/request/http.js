@@ -2,8 +2,12 @@ import axios from "axios";
 import store from "../store";
 import { Message } from "element-ui";
 
+// 正式服
 // const base_request_url = "https://hk.wistechx.cn/JewelleryStockApi";
-const base_request_url = "http://192.168.0.164:8086/app/jewellery/api";
+// const base_img_url = "https://cn.api.wistechx.cn:8686/FileServer/api";
+// 本地
+const base_request_url = "http://192.168.0.164:8090/app/jewellery/api";
+const base_img_url = "http://192.168.0.164:8088/api";
 
 // const base_request_url = 'https://hk.wistechx.cn/app/jewellery/api'
 // const base_request_url = 'http://hexx.natapp1.cc/app/jewellery/api'
@@ -26,20 +30,14 @@ axios.interceptors.request.use(
         config.headers.common["token"] = store.state.token;
       }
     }
-
-    // switch (config.url) {
-    // 	case '/warehouseStockTotalGet':
-    // 		config.baseURL = base_new_url;
-    // 		break;
-    // 	case '/stockMaterialList':
-    // 		config.baseURL = base_new_url;
-    // 		break;
-    // 	case '/materialSave':
-    // 		config.baseURL = base_new_url;
-    // 		break;
-    // 	default:
-    // 		config.baseURL = base_request_url;
-    // }
+    console.log(config.url);
+    switch (config.url) {
+      case "/file/upload":
+        config.baseURL = base_img_url;
+        break;
+      default:
+        config.baseURL = base_request_url;
+    }
 
     return config;
   },
@@ -58,7 +56,7 @@ axios.interceptors.response.use(
       if (response.data.code) {
         switch (response.data.code) {
           case 404:
-            Message.warning("接口不存在，请刷新重试");
+            Message.error("接口不存在，请刷新重试");
             break;
           case 500:
             Message.error("服务异常，请稍后刷新重试");
@@ -67,7 +65,7 @@ axios.interceptors.response.use(
             Message.error("服务异常，请稍后刷新重试");
             break;
           default:
-            Message.warning(response.data.data);
+            Message.error(response.data.data);
             return Promise.reject(response);
         }
       }
@@ -79,7 +77,7 @@ axios.interceptors.response.use(
     if (error.data.code) {
       switch (error.data.code) {
         case 404:
-          Message.warning("接口不存在，请刷新重试");
+          Message.error("接口不存在，请刷新重试");
           break;
         case 500:
           Message.error("服务异常，请稍后刷新重试");
@@ -88,7 +86,7 @@ axios.interceptors.response.use(
           Message.error("服务异常，请稍后刷新重试");
           break;
         default:
-          Message.warning(error.data.data);
+          Message.error(error.data.data);
           return Promise.reject(error);
       }
     }
@@ -181,4 +179,4 @@ export function axiosDelete(url, params = {}) {
   });
 }
 
-export { base_request_url };
+export { base_request_url, base_img_url };

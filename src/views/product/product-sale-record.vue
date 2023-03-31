@@ -1,7 +1,7 @@
 <template>
-  <div class="sell-record" id="sellRecord">
+  <div id="sellRecord">
     <!-- <h1>出售记录</h1> -->
-    <div v-if="pageSel === 0">
+    <div v-if="pageSel === 0" class="sell-record">
       <el-form :inline="true" style="text-align: left;">
         <el-form-item label="仓库/加工厂：">
           <el-select v-model="storageId" clearable placeholder="可多选" style="width: 150px;" :popper-append-to-body="false">
@@ -51,10 +51,8 @@
                 }}</span>
               </div>
               <div style="margin-left: 30px; font-size: 16px; color: #000">
-                客户名称：<span style="font-size: 14px; color: #666">{{ item.customer
-                }}{{
-  item.customerType ? " - " + item.customerType : ""
-}}</span>
+                客户名称：<span style="font-size: 14px; color: #666">
+                  {{ item.customer }}{{ item.customerType ? " - " + item.customerType : "" }}</span>
               </div>
             </div>
             <div>
@@ -67,7 +65,7 @@
             <el-table-column align="center" prop="materialName" label="图片">
               <template slot-scope="scope">
                 <div>
-                  <img :src="axiosUrl + '/file/' + imgFilter(scope.row.img)"
+                  <img :src="axiosUrl + '/file/jewelry/' + imgFilter(scope.row.img)"
                     style="width: 100px;height: 100px;object-fit: cover;" />
                 </div>
               </template>
@@ -79,21 +77,21 @@
             <el-table-column align="center" label="裸石成本" prop="costPrice">
               <template slot-scope="scope">
                 <div>
-                  <span>{{ scope.row.costPrice + " HKD" }}</span>
+                  <span>{{ formatNumberRgx(scope.row.costPrice) + " HKD" }}</span>
                 </div>
               </template>
             </el-table-column>
             <el-table-column align="center" prop="processCost" label="加工费">
               <template slot-scope="scope">
                 <div>
-                  <span>{{ scope.row.processCost + " CNY" }}</span>
+                  <span>{{ formatNumberRgx(scope.row.processCost) + " CNY" }}</span>
                 </div>
               </template>
             </el-table-column>
             <el-table-column align="center" label="其他费用" prop="stockInOtherExpenses">
               <template slot-scope="scope">
                 <div>
-                  <span>{{ scope.row.stockInOtherExpenses + " HKD" }}</span>
+                  <span>{{ formatNumberRgx(scope.row.stockInOtherExpenses) + " HKD" }}</span>
                 </div>
               </template>
             </el-table-column>
@@ -164,7 +162,7 @@
         </template>
       </el-dialog>
     </div>
-    <div v-else-if="pageSel === 1">
+    <div v-else-if="pageSel === 1" class="sell-record">
       <saleProductRecordUpdate :updateSaleRecordMsg="updateSaleRecordMsg" @updateSaleSure="updateSaleSure">
       </saleProductRecordUpdate>
     </div>
@@ -176,7 +174,7 @@
 </template>
 
 <script>
-import { base_request_url } from "_req/http";
+import { base_img_url } from "_req/http";
 import {
   productSellOrderPort,
   productSellDetailRevokePort,
@@ -214,7 +212,7 @@ export default {
     };
   },
   created() {
-    this.axiosUrl = base_request_url;
+    this.axiosUrl = base_img_url;
     this.getWarehouseFactoryList();
     this.getSellOrderList();
   },

@@ -21,59 +21,25 @@
             </el-select>
           </el-form-item> -->
           <el-form-item label="产品类别：">
-            <el-select
-              v-model="productType"
-              placeholder="请选择"
-              @change="keywordChange"
-              :popper-append-to-body="false"
-            >
-              <el-option
-                v-for="item in productTypeList"
-                :key="item.id"
-                :label="item.name"
-                :value="item.id"
-              >
+            <el-select v-model="productType" placeholder="请选择" @change="keywordChange" :popper-append-to-body="false">
+              <el-option v-for="item in productTypeList" :key="item.id" :label="item.name" :value="item.id">
               </el-option>
             </el-select>
           </el-form-item>
           <el-form-item label="销售组：">
-            <el-select
-              v-model="group"
-              placeholder="请选择"
-              @change="keywordChange"
-              :popper-append-to-body="false"
-            >
+            <el-select v-model="group" placeholder="请选择" @change="keywordChange" :popper-append-to-body="false">
               <el-option label="全部" value="全部"> </el-option>
-              <el-option
-                v-for="item in groupList"
-                :key="item.name"
-                :label="item.name"
-                :value="item.name"
-              >
+              <el-option v-for="item in groupList" :key="item.name" :label="item.name" :value="item.name">
               </el-option>
             </el-select>
           </el-form-item>
           <el-form-item label="销售时间：">
-            <el-date-picker
-              v-model="time"
-              type="monthrange"
-              range-separator="至"
-              start-placeholder="开始月份"
-              end-placeholder="结束月份"
-              format="yyyy-MM"
-              value-format="yyyy-MM"
-              @change="keywordChange"
-              clearable
-            >
+            <el-date-picker v-model="time" type="monthrange" range-separator="至" start-placeholder="开始月份"
+              end-placeholder="结束月份" format="yyyy-MM" value-format="yyyy-MM" @change="keywordChange" clearable>
             </el-date-picker>
           </el-form-item>
           <el-form-item>
-            <el-button
-              style="margin-left: 10px;"
-              type="primary"
-              @click="getSalesList"
-              >查 询</el-button
-            >
+            <el-button style="margin-left: 10px;" type="primary" @click="getSalesList">查 询</el-button>
           </el-form-item>
         </el-form>
         <div>
@@ -83,10 +49,7 @@
       <el-tabs v-model="activeTabName" @tab-click="handleClick">
         <el-tab-pane label="可结算" name="first">
           <div>
-            <div
-              class="total-style"
-              v-if="salesList.length > 0 && currencySel == 1"
-            >
+            <div class="total-style" v-if="salesList.length > 0 && currencySel == 1">
               <div class="style-every">总数量：{{ total }}</div>
               <div class="style-every">
                 人民币销售额：{{ formatNumberRgx(totalSaleMoney) + " CNY" }}
@@ -95,10 +58,7 @@
                 总利润：{{ formatNumberRgx(totalProfit) + " CNY" }}
               </div>
             </div>
-            <div
-              class="total-style"
-              v-if="salesList.length > 0 && currencySel == 2"
-            >
+            <div class="total-style" v-if="salesList.length > 0 && currencySel == 2">
               <div class="style-every">总数量：{{ total }}</div>
               <div class="style-every">
                 港币销售额：{{ formatNumberRgx(totalSaleMoney) + " HKD" }}
@@ -107,25 +67,12 @@
                 总利润：{{ formatNumberRgx(totalProfit) + " HKD" }}
               </div>
             </div>
-            <el-table
-              style="width: 100%;"
-              border
-              ref="multipleTable"
-              :data="salesList"
-              tooltip-effect="dark"
-              @row-click="handleDeviceListChange"
-              @row-dblclick="dblDeviceListChange"
-              @expand-change="onExpandChange"
-              :row-key="getRowKeys"
-              :expand-row-keys="expandRowKeys"
-            >
+            <el-table style="width: 100%;" border ref="multipleTable" :data="salesList" tooltip-effect="dark"
+              @row-click="handleDeviceListChange" @row-dblclick="dblDeviceListChange" @expand-change="onExpandChange"
+              :row-key="getRowKeys" :expand-row-keys="expandRowKeys">
               <el-table-column type="expand">
                 <template slot-scope="props">
-                  <el-form
-                    label-width="135px"
-                    label-position="left"
-                    class="demo-table-expand"
-                  >
+                  <el-form label-width="135px" label-position="left" class="demo-table-expand">
                     <el-form-item label="最低售价：">
                       <span>{{
                         formatNumberRgx(props.row.lowestSellPrice) + " CNY"
@@ -134,48 +81,44 @@
                     <el-form-item label="建议批发价：">
                       <span>{{
                         formatNumberRgx(props.row.adviceWholesalePrice) +
-                          " " +
-                          scope.row.type ==
+                        " " +
+                        scope.row.type ==
                         "成品"
-                          ? "HKD"
-                          : scope.row.saleCurrency
+                        ? "HKD"
+                        : scope.row.saleCurrency
                       }}</span>
                     </el-form-item>
                     <el-form-item label="建议零售价：">
                       <span>{{
                         formatNumberRgx(props.row.adviseSellPrice) +
-                          " " +
-                          scope.row.type ==
+                        " " +
+                        scope.row.type ==
                         "成品"
-                          ? "HKD"
-                          : scope.row.saleCurrency
+                        ? "HKD"
+                        : scope.row.saleCurrency
                       }}</span>
                     </el-form-item>
                     <el-form-item label="利润：">
-                      <div
-                        :style="{
-                          color: props.row.profit < 0 ? 'red' : '#666',
-                        }"
-                      >
+                      <div :style="{
+                        color: props.row.profit < 0 ? 'red' : '#666',
+                      }">
                         {{
                           props.row.profit == 0
-                            ? "--"
-                            : formatNumberRgx(props.row.profit) +
-                              " " +
-                              (currencySel == 1 ? "CNY" : "HKD")
+                          ? "--"
+                          : formatNumberRgx(props.row.profit) +
+                          " " +
+                          (currencySel == 1 ? "CNY" : "HKD")
                         }}
                       </div>
                     </el-form-item>
                     <el-form-item label="利润率：">
-                      <div
-                        :style="{
-                          color: props.row.profitRate < 0 ? 'red' : '#666',
-                        }"
-                      >
+                      <div :style="{
+                        color: props.row.profitRate < 0 ? 'red' : '#666',
+                      }">
                         {{
                           props.row.profitRate == 0
-                            ? "--"
-                            : props.row.profitRate + "%"
+                          ? "--"
+                          : props.row.profitRate + "%"
                         }}
                       </div>
                     </el-form-item>
@@ -192,64 +135,34 @@
                 </template>
               </el-table-column>
 
-              <el-table-column
-                prop="productNumber"
-                align="center"
-                label="统一编号"
-              >
+              <el-table-column prop="productNumber" align="center" label="统一编号">
               </el-table-column>
               <el-table-column align="center" label="图片" width="120px">
                 <template slot-scope="scope">
                   <div>
-                    <img
-                      v-if="scope.row.img != ''"
-                      :src="
-                        axiosUrl + '/file/' + imgListFilter(scope.row.img)[0]
-                      "
-                      style="width: 100px;height: 100px;object-fit: cover;"
-                    />
+                    <img v-if="scope.row.img != ''" :src="
+                      axiosUrl + '/file/jewelry/' + imgListFilter(scope.row.img)[0]
+                    " style="width: 100px;height: 100px;object-fit: cover;" />
                   </div>
                 </template>
               </el-table-column>
-              <el-table-column
-                align="center"
-                prop="productName"
-                label="产品名称"
-              >
+              <el-table-column align="center" prop="productName" label="产品名称">
               </el-table-column>
 
               <el-table-column align="center" prop="type" label="产品类别">
               </el-table-column>
-              <el-table-column
-                width="150px"
-                align="center"
-                prop="params"
-                label="参数"
-              >
+              <el-table-column width="150px" align="center" prop="params" label="参数">
                 <template slot-scope="scope">
                   <div>
-                    <el-tooltip
-                      class="item"
-                      effect="light"
-                      :content="scope.row.params"
-                      placement="bottom"
-                    >
+                    <el-tooltip class="item" effect="light" :content="scope.row.params" placement="bottom">
                       <div class="tooltipFlow">{{ scope.row.params }}</div>
                     </el-tooltip>
                   </div>
                 </template>
               </el-table-column>
-              <el-table-column
-                align="center"
-                prop="stockInTime"
-                label="入库时间"
-              >
+              <el-table-column align="center" prop="stockInTime" label="入库时间">
               </el-table-column>
-              <el-table-column
-                prop="stockOutTime"
-                align="center"
-                label="销售时间"
-              >
+              <el-table-column prop="stockOutTime" align="center" label="销售时间">
               </el-table-column>
               <el-table-column align="center" label="成本">
                 <template slot-scope="scope">
@@ -264,28 +177,20 @@
                   <div>
                     {{
                       formatNumberRgx(scope.row.saleMoney) +
-                        " " +
-                        scope.row.saleCurrency
+                      " " +
+                      scope.row.saleCurrency
                     }}
                   </div>
                 </template>
               </el-table-column>
-              <el-table-column
-                label="人民币出库价"
-                align="center"
-                v-if="currencySel == 1"
-              >
+              <el-table-column label="人民币出库价" align="center" v-if="currencySel == 1">
                 <template slot-scope="scope">
                   <div>
                     {{ formatNumberRgx(scope.row.saleCnyOrHkdMoney) + " CNY" }}
                   </div>
                 </template>
               </el-table-column>
-              <el-table-column
-                label="港币出库价"
-                align="center"
-                v-if="currencySel == 2"
-              >
+              <el-table-column label="港币出库价" align="center" v-if="currencySel == 2">
                 <template slot-scope="scope">
                   <div>
                     {{ formatNumberRgx(scope.row.saleCnyOrHkdMoney) + " HKD" }}
@@ -298,12 +203,8 @@
             </el-table>
             <div style="width: 100%;height: 50px;">
               <div style="margin:15px 0;position:absolute;right:6%;">
-                <el-pagination
-                  @current-change="handleCurrentChange"
-                  :current-page="page"
-                  layout="total, prev, pager, next, jumper"
-                  :total="total"
-                >
+                <el-pagination @current-change="handleCurrentChange" :current-page="page"
+                  layout="total, prev, pager, next, jumper" :total="total">
                 </el-pagination>
               </div>
             </div>
@@ -314,22 +215,11 @@
             <div class="total-style" v-if="salesList.length > 0">
               <div class="style-every">总数量：{{ total }}</div>
             </div>
-            <el-table
-              style="width: 100%;"
-              ref="multipleTable"
-              :data="salesList"
-              tooltip-effect="dark"
-              @row-click="handleDeviceListChange"
-              @row-dblclick="dblDeviceListChange"
-              border
-            >
+            <el-table style="width: 100%;" ref="multipleTable" :data="salesList" tooltip-effect="dark"
+              @row-click="handleDeviceListChange" @row-dblclick="dblDeviceListChange" border>
               <el-table-column type="expand">
                 <template slot-scope="props">
-                  <el-form
-                    label-width="97px"
-                    label-position="left"
-                    class="demo-table-expand"
-                  >
+                  <el-form label-width="97px" label-position="left" class="demo-table-expand">
                     <el-form-item label="最低售价：">
                       <span>{{
                         formatNumberRgx(props.row.lowestSellPrice) + " CNY"
@@ -346,30 +236,26 @@
                       }}</span>
                     </el-form-item>
                     <el-form-item label="利润：">
-                      <div
-                        :style="{
-                          color: props.row.profit < 0 ? 'red' : '#666',
-                        }"
-                      >
+                      <div :style="{
+                        color: props.row.profit < 0 ? 'red' : '#666',
+                      }">
                         {{
                           props.row.profit == 0
-                            ? "--"
-                            : formatNumberRgx(props.row.profit) +
-                              " " +
-                              (currencySel == 1 ? "CNY" : "HKD")
+                          ? "--"
+                          : formatNumberRgx(props.row.profit) +
+                          " " +
+                          (currencySel == 1 ? "CNY" : "HKD")
                         }}
                       </div>
                     </el-form-item>
                     <el-form-item label="利润率：">
-                      <div
-                        :style="{
-                          color: props.row.profitRate < 0 ? 'red' : '#666',
-                        }"
-                      >
+                      <div :style="{
+                        color: props.row.profitRate < 0 ? 'red' : '#666',
+                      }">
                         {{
                           props.row.profitRate == 0
-                            ? "--"
-                            : props.row.profitRate + "%"
+                          ? "--"
+                          : props.row.profitRate + "%"
                         }}
                       </div>
                     </el-form-item>
@@ -386,64 +272,34 @@
                 </template>
               </el-table-column>
 
-              <el-table-column
-                prop="productNumber"
-                align="center"
-                label="统一编号"
-              >
+              <el-table-column prop="productNumber" align="center" label="统一编号">
               </el-table-column>
               <el-table-column align="center" label="图片" width="120px">
                 <template slot-scope="scope">
                   <div>
-                    <img
-                      v-if="scope.row.img != ''"
-                      :src="
-                        axiosUrl + '/file/' + imgListFilter(scope.row.img)[0]
-                      "
-                      style="width: 100px;height: 100px;object-fit: cover;"
-                    />
+                    <img v-if="scope.row.img != ''" :src="
+                      axiosUrl + '/file/jewelry/' + imgListFilter(scope.row.img)[0]
+                    " style="width: 100px;height: 100px;object-fit: cover;" />
                   </div>
                 </template>
               </el-table-column>
-              <el-table-column
-                align="center"
-                prop="productName"
-                label="产品名称"
-              >
+              <el-table-column align="center" prop="productName" label="产品名称">
               </el-table-column>
 
               <el-table-column align="center" prop="type" label="产品类别">
               </el-table-column>
-              <el-table-column
-                width="150px"
-                align="center"
-                prop="params"
-                label="参数"
-              >
+              <el-table-column width="150px" align="center" prop="params" label="参数">
                 <template slot-scope="scope">
                   <div>
-                    <el-tooltip
-                      class="item"
-                      effect="light"
-                      :content="scope.row.params"
-                      placement="bottom"
-                    >
+                    <el-tooltip class="item" effect="light" :content="scope.row.params" placement="bottom">
                       <div class="tooltipFlow">{{ scope.row.params }}</div>
                     </el-tooltip>
                   </div>
                 </template>
               </el-table-column>
-              <el-table-column
-                align="center"
-                prop="stockInTime"
-                label="入库时间"
-              >
+              <el-table-column align="center" prop="stockInTime" label="入库时间">
               </el-table-column>
-              <el-table-column
-                prop="stockOutTime"
-                align="center"
-                label="销售时间"
-              >
+              <el-table-column prop="stockOutTime" align="center" label="销售时间">
               </el-table-column>
               <el-table-column align="center" label="成本">
                 <template slot-scope="scope">
@@ -458,28 +314,20 @@
                   <div>
                     {{
                       formatNumberRgx(scope.row.saleMoney) +
-                        " " +
-                        scope.row.saleCurrency
+                      " " +
+                      scope.row.saleCurrency
                     }}
                   </div>
                 </template>
               </el-table-column>
-              <el-table-column
-                label="人民币出库价"
-                align="center"
-                v-if="currencySel == 1"
-              >
+              <el-table-column label="人民币出库价" align="center" v-if="currencySel == 1">
                 <template slot-scope="scope">
                   <div>
                     {{ formatNumberRgx(scope.row.saleCnyOrHkdMoney) + " CNY" }}
                   </div>
                 </template>
               </el-table-column>
-              <el-table-column
-                label="港币出库价"
-                align="center"
-                v-if="currencySel == 2"
-              >
+              <el-table-column label="港币出库价" align="center" v-if="currencySel == 2">
                 <template slot-scope="scope">
                   <div>
                     {{ formatNumberRgx(scope.row.saleCnyOrHkdMoney) + " HKD" }}
@@ -492,29 +340,17 @@
             </el-table>
             <div style="width: 100%;height: 50px;">
               <div style="margin:15px 0;position:absolute;right:6%;">
-                <el-pagination
-                  @current-change="handleCurrentChange"
-                  :current-page="page"
-                  layout="total, prev, pager, next, jumper"
-                  :total="total"
-                >
+                <el-pagination @current-change="handleCurrentChange" :current-page="page"
+                  layout="total, prev, pager, next, jumper" :total="total">
                 </el-pagination>
               </div>
             </div>
           </div>
         </el-tab-pane>
       </el-tabs>
-      <el-dialog
-        v-if="dialogDelSalesVisible"
-        title="撤销销售"
-        :visible.sync="dialogDelSalesVisible"
-        :close-on-press-escape="false"
-        :close-on-click-modal="false"
-        :modal-append-to-body="false"
-        :append-to-body="false"
-        style="margin-top:20px"
-        id="delSale"
-      >
+      <el-dialog v-if="dialogDelSalesVisible" title="撤销销售" :visible.sync="dialogDelSalesVisible"
+        :close-on-press-escape="false" :close-on-click-modal="false" :modal-append-to-body="false" :append-to-body="false"
+        style="margin-top:20px" id="delSale">
         <div class="del-style">
           确定撤销该销售记录吗？撤销后不可修改
         </div>
@@ -525,21 +361,15 @@
       </el-dialog>
 
       <div v-if="dialogMaterialMsgUpdateVisible">
-        <materialMsgUpdate
-          :dialogMaterialMsgUpdateVisible="dialogMaterialMsgUpdateVisible"
-          :updateMaterialMsg="materialCheckDetail"
-          @sureUpdateMaterial="sureUpdateMaterial"
-        ></materialMsgUpdate>
+        <materialMsgUpdate :dialogMaterialMsgUpdateVisible="dialogMaterialMsgUpdateVisible"
+          :updateMaterialMsg="materialCheckDetail" @sureUpdateMaterial="sureUpdateMaterial"></materialMsgUpdate>
       </div>
     </div>
 
     <!-- 修改成品信息 -->
     <div v-else>
-      <productMsgUpdate
-        :dialogProductMsgUpdateVisible="dialogProductMsgUpdateVisible"
-        :updateProductMsg="inventoryCheckDetail"
-        @sureUpdateProduct="sureUpdateProduct"
-      ></productMsgUpdate>
+      <productMsgUpdate :dialogProductMsgUpdateVisible="dialogProductMsgUpdateVisible"
+        :updateProductMsg="inventoryCheckDetail" @sureUpdateProduct="sureUpdateProduct"></productMsgUpdate>
     </div>
   </div>
 </template>
@@ -547,7 +377,7 @@
 <script>
 import { labelMixins, brandJointlyMixins, groupMixins } from "@/mixins";
 
-import { base_request_url } from "_req/http";
+import { base_img_url } from "_req/http";
 import { productInfoPort, stockMaterialInfoPort } from "_req/api/common";
 
 import { reportExportPort, salesReportPort } from "_req/api/admin";
@@ -612,7 +442,7 @@ export default {
     };
   },
   created() {
-    this.axiosUrl = base_request_url;
+    this.axiosUrl = base_img_url;
     this.getSalesList();
   },
   methods: {
@@ -799,13 +629,16 @@ export default {
     font-size: 16px;
   }
 }
+
 .upload-imgs {
   display: flex;
   margin-bottom: 10px;
   position: relative;
+
   .delImg {
     margin-left: 10px;
   }
+
   .add {
     width: 100px;
     height: 100px;
@@ -855,15 +688,18 @@ export default {
     z-index: 1;
   }
 }
+
 .delImg {
   margin-left: 10px;
 }
+
 .stock-pending-container {
   padding: 20px;
   background-color: #fff;
   border-radius: 6px;
   text-align: left;
 }
+
 .font-title-style {
   margin-top: 20px;
   margin-bottom: 10px;
@@ -924,6 +760,7 @@ export default {
     padding: 0 20px;
   }
 }
+
 .stock-pending-container {
   .el-dialog__body {
     height: 600px;

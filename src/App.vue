@@ -118,5 +118,13 @@ export default {
       overflow-y: hidden;
     }
   }
+
+  #recordDialog {
+    .el-dialog__body {
+      height: 350px;
+      padding-top: 20px;
+      overflow-y: scroll;
+    }
+  }
 }
 </style>

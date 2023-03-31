@@ -85,7 +85,7 @@
                         右侧选择产品
                       </div>
                       <div v-else>
-                        <img :src="axiosUrl + '/file/' + showImgData.img" style="width: 100px;height:100px;" />
+                        <img :src="axiosImgUrl + '/file/jewelry/' + showImgData.img" style="width: 100px;height:100px;" />
                       </div>
                     </div>
                     <div v-if="imgAndUrlData.relationType === '1'">
@@ -119,7 +119,8 @@
                       </div>
                       <div class="url">
                         <div v-if="imgAndUrlData.relationType === '0'">
-                          <img v-if="item.id" :src="axiosUrl + '/file/' + item.img" style="width: 100px;height:100px;" />
+                          <img v-if="item.id" :src="axiosImgUrl + '/file/jewelry/' + item.img"
+                            style="width: 100px;height:100px;" />
                           <div v-else>
                             右侧选择产品
                           </div>
@@ -188,8 +189,9 @@
             <el-table-column align="center" prop="designName" label="图片">
               <template slot-scope="scope">
                 <div>
-                  <span v-if="scope.row.img == '' || scope.row.img == null">---</span>
-                  <img v-else :src="axiosUrl + '/file/' + imgFilter(scope.row.img)" width="50px" height="50px" />
+                  <span v-if="!scope.row.img">---</span>
+                  <img v-else :src="axiosImgUrl + '/file/jewelry/' + imgFilter(scope.row.img)" width="50px"
+                    height="50px" />
                 </div>
               </template>
             </el-table-column>
@@ -264,7 +266,7 @@
 </template>
 
 <script>
-import { base_request_url } from "_req/http";
+import { base_request_url, base_img_url } from "_req/http";
 import {
   warehouseFactoryPort,
   productListPort,
@@ -300,6 +302,7 @@ export default {
       producibleDesignList: [],
 
       axiosUrl: "",
+      axiosImgUrl: '',
 
       pageSel: 0,
 
@@ -346,6 +349,7 @@ export default {
       }
     }
     this.axiosUrl = base_request_url;
+    this.axiosImgUrl = base_img_url;
     this.warehouseCheck();
     this.getWarehouseFactoryList();
     this.getproducibleDesignList();
@@ -561,15 +565,6 @@ export default {
         .catch((err) => {
           console.log(err);
         });
-    },
-    imgFilter(img) {
-      let url =
-        img == "" || img == null
-          ? ""
-          : img.indexOf("|") == -1
-            ? img
-            : img.split("|")[0];
-      return url;
     },
   },
 };

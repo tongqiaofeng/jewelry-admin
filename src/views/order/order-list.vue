@@ -4,38 +4,17 @@
     <div style="text-align: left;">
       <el-form inline>
         <el-form-item label="状态：">
-          <el-select
-            v-model="orderStatus"
-            placeholder="请选择"
-            style="width: 150px;"
-            :popper-append-to-body="false"
-          >
-            <el-option
-              v-for="flag in statusList"
-              :key="flag.value"
-              :label="flag.label"
-              :value="flag.value"
-            ></el-option>
+          <el-select v-model="orderStatus" placeholder="请选择" style="width: 150px;" :popper-append-to-body="false">
+            <el-option v-for="flag in statusList" :key="flag.value" :label="flag.label" :value="flag.value"></el-option>
           </el-select>
         </el-form-item>
         <el-form-item label="下单时间">
-          <el-date-picker
-            v-model="checkTime"
-            type="daterange"
-            range-separator="至"
-            start-placeholder="开始日期"
-            end-placeholder="结束日期"
-            format="yyyy-MM-dd"
-            value-format="yyyy-MM-dd"
-          >
+          <el-date-picker v-model="checkTime" type="daterange" range-separator="至" start-placeholder="开始日期"
+            end-placeholder="结束日期" format="yyyy-MM-dd" value-format="yyyy-MM-dd">
           </el-date-picker>
         </el-form-item>
         <el-form-item>
-          <el-input
-            style="width: 350px;"
-            v-model="keyword"
-            placeholder="可输入订单编号、收货人、联系电话进行搜索"
-          ></el-input>
+          <el-input style="width: 350px;" v-model="keyword" placeholder="可输入订单编号、收货人、联系电话进行搜索"></el-input>
         </el-form-item>
         <el-form-item>
           <el-button type="primary" @click="searchClick">搜索</el-button>
@@ -120,10 +99,7 @@
           <el-table-column align="center" prop="pic" label="图片">
             <template slot-scope="scope">
               <div>
-                <img
-                  :src="axiosUrl + '/file/' + imgFilter(scope.row.img)"
-                  style="width: 100px; height: 100px"
-                />
+                <img :src="axiosUrl + '/file/jewelry/' + imgFilter(scope.row.img)" style="width: 100px; height: 100px" />
               </div>
             </template>
           </el-table-column>
@@ -143,12 +119,7 @@
               </div>
             </template>
           </el-table-column>
-          <el-table-column
-            align="center"
-            prop="status"
-            label="商品状态"
-            v-if="orderStatus == 1"
-          >
+          <el-table-column align="center" prop="status" label="商品状态" v-if="orderStatus == 1">
             <template slot-scope="scope">
               <div>
                 {{ scope.row.status === null ? "待发货" : "已申请退款" }}
@@ -158,60 +129,29 @@
         </el-table>
       </div>
       <div style="margin-top:15px;text-align: right;">
-        <el-pagination
-          @current-change="handleCurrentChange"
-          :current-page="page"
-          layout="total, prev, pager, next, jumper"
-          :total="total"
-        >
+        <el-pagination @current-change="handleCurrentChange" :current-page="page"
+          layout="total, prev, pager, next, jumper" :total="total">
         </el-pagination>
       </div>
-      <el-dialog
-        title="商品发货"
-        :visible.sync="dialogShipmentsVisible"
-        v-if="dialogShipmentsVisible"
-        width="500px"
-        id="productLog"
-      >
-        <el-form
-          ref="logisticsRef"
-          label-width="80px"
-          :model="logisticsData"
-          :rules="logisticsRules"
-        >
+      <el-dialog title="商品发货" :visible.sync="dialogShipmentsVisible" v-if="dialogShipmentsVisible" width="500px"
+        id="productLog">
+        <el-form ref="logisticsRef" label-width="80px" :model="logisticsData" :rules="logisticsRules">
           <el-form-item label="快递公司" prop="logisticsCompanyId">
-            <el-select
-              v-model="logisticsData.logisticsCompanyId"
-              placeholder="请选择快递公司"
-              style="width: 100%"
-            >
-              <el-option
-                v-for="item in logisticsCompanyList"
-                :key="item.id"
-                :label="item.name"
-                :value="item.id"
-              >
+            <el-select v-model="logisticsData.logisticsCompanyId" placeholder="请选择快递公司" style="width: 100%">
+              <el-option v-for="item in logisticsCompanyList" :key="item.id" :label="item.name" :value="item.id">
               </el-option>
             </el-select>
           </el-form-item>
           <el-form-item label="快递单号" prop="logOrderNo">
-            <el-input
-              v-model="logisticsData.logOrderNo"
-              placeholder="请输入快递单号"
-            ></el-input>
+            <el-input v-model="logisticsData.logOrderNo" placeholder="请输入快递单号"></el-input>
           </el-form-item>
           <el-form-item label="物流运费" prop="deliveryCost">
-            <el-input
-              v-model="logisticsData.deliveryCost"
-              placeholder="请输入物流运费"
-            ></el-input>
+            <el-input v-model="logisticsData.deliveryCost" placeholder="请输入物流运费"></el-input>
           </el-form-item>
         </el-form>
         <div slot="footer">
           <el-button @click="dialogShipmentsVisible = false">取 消</el-button>
-          <el-button type="primary" @click="shipmentsSure('logisticsRef')"
-            >确 定</el-button
-          >
+          <el-button type="primary" @click="shipmentsSure('logisticsRef')">确 定</el-button>
         </div>
       </el-dialog>
     </div>
@@ -219,7 +159,7 @@
 </template>
 
 <script>
-import { base_request_url } from "_req/http";
+import { base_img_url } from "_req/http";
 import {
   deliverGoodsPort,
   orderListPort,
@@ -299,7 +239,7 @@ export default {
     };
   },
   created() {
-    this.axiosUrl = base_request_url;
+    this.axiosUrl = base_img_url;
     this.getOrderList();
     this.getLogisticsCompanyList();
   },

@@ -57,7 +57,6 @@
 </template>
 
 <script>
-import { base_request_url } from "_req/http";
 import {
   webConfigListPort,
   webConfigSortPort,
@@ -69,7 +68,6 @@ export default {
   components: { imgAndUrl },
   data() {
     return {
-      axiosUrl: "",
       pageSel: 0,
 
       seriesImgList: [],
@@ -80,7 +78,6 @@ export default {
     };
   },
   created() {
-    this.axiosUrl = base_request_url;
     this.getList(0);
   },
   methods: {

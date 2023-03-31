@@ -58,18 +58,18 @@
       <div v-for="item in seriesImgList" :key="item.id">
         <!-- 整体图+路径  竖着布局就好 -->
         <div v-if="item.viewType === 0">
-          <img :src="axiosUrl + '/file/' + item.backgroundImg" />
+          <img :src="axiosUrl + '/file/jewelry/' + item.backgroundImg" />
         </div>
         <!-- 标题图+背景图+路径  需做判断 -->
         <div v-else>
           <!-- 有标题图就展示 -->
-          <img v-if="item.titleImg" :src="axiosUrl + '/file/' + item.titleImg" />
+          <img v-if="item.titleImg" :src="axiosUrl + '/file/jewelry/' + item.titleImg" />
           <!-- 有背景图就设置背景 -->
           <div :style="{
             background:
               'url(' +
               axiosUrl +
-              '/file/' +
+              '/file/jewelry/' +
               item.backgroundImg +
               ') no-repeat',
           }">
@@ -98,7 +98,7 @@
 </template>
 
 <script>
-import { base_request_url } from "_req/http";
+import { base_img_url } from "_req/http";
 import {
   webConfigListPort,
   webConfigSortPort,
@@ -122,7 +122,7 @@ export default {
     };
   },
   created() {
-    this.axiosUrl = base_request_url;
+    this.axiosUrl = base_img_url;
     this.getList(0);
   },
   methods: {

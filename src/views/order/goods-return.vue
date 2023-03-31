@@ -1,19 +1,11 @@
 <template>
   <div class="refund-container">
     <!-- 退货确认 -->
-    <div
-      v-if="unAuditReturnList.length == 0"
-      class="no-data"
-      style="margin: 0;"
-    >
+    <div v-if="unAuditReturnList.length == 0" class="no-data" style="margin: 0;">
       {{ returnMsg }}
     </div>
     <div v-else class="refund-list">
-      <div
-        v-for="(item, index) in unAuditReturnList"
-        :key="index"
-        class="list-every"
-      >
+      <div v-for="(item, index) in unAuditReturnList" :key="index" class="list-every">
         <div class="every-top">
           <div class="top-left">
             <div class="div-one">
@@ -59,84 +51,49 @@
           </div>
         </div>
         <el-table stripe :data="item.detailList" style="width: 100%">
-          <el-table-column
-            align="center"
-            prop="returnMsg.createTime"
-            label="退款申请时间"
-          >
+          <el-table-column align="center" prop="returnMsg.createTime" label="退款申请时间">
           </el-table-column>
           <el-table-column align="center" prop="pic" label="图片">
             <template slot-scope="scope">
               <div>
-                <img
-                  :src="axiosUrl + '/file/' + imgFilter(scope.row.img)"
-                  style="width: 100px; height: 100px"
-                />
+                <img :src="axiosUrl + '/file/jewelry/' + imgFilter(scope.row.img)" style="width: 100px; height: 100px" />
               </div>
             </template>
           </el-table-column>
           <el-table-column align="center" prop="productName" label="商品信息">
           </el-table-column>
-          <el-table-column
-            align="center"
-            prop="returnMsg.phone"
-            label="联系电话"
-          >
+          <el-table-column align="center" prop="returnMsg.phone" label="联系电话">
           </el-table-column>
-          <el-table-column
-            align="center"
-            prop="returnMsg.productStatus"
-            label="收货状态"
-          >
+          <el-table-column align="center" prop="returnMsg.productStatus" label="收货状态">
             <template slot-scope="scope">
               <div>
                 {{
                   scope.row.returnMsg.productStatus == 0
-                    ? "买家已收到货"
-                    : "买家未收到货"
+                  ? "买家已收到货"
+                  : "买家未收到货"
                 }}
               </div>
             </template>
           </el-table-column>
-          <el-table-column
-            align="center"
-            prop="returnMsg.productStatus"
-            label="申请类型"
-          >
+          <el-table-column align="center" prop="returnMsg.productStatus" label="申请类型">
             <template slot-scope="scope">
               <div>
                 {{ scope.row.returnMsg.type == 0 ? "仅退款" : "退货退款" }}
               </div>
             </template>
           </el-table-column>
-          <el-table-column
-            align="center"
-            prop="returnMsg.refundAmount"
-            label="申请退款金额"
-          >
+          <el-table-column align="center" prop="returnMsg.refundAmount" label="申请退款金额">
             <template slot-scope="scope">
               <div>
                 {{ "CNY " + formatNumberRgx(scope.row.returnMsg.refundAmount) }}
               </div>
             </template>
           </el-table-column>
-          <el-table-column
-            align="center"
-            prop="returnMsg.reason"
-            label="退货退款原因"
-          >
+          <el-table-column align="center" prop="returnMsg.reason" label="退货退款原因">
           </el-table-column>
-          <el-table-column
-            align="center"
-            prop="returnMsg.note"
-            label="详细说明"
-          >
+          <el-table-column align="center" prop="returnMsg.note" label="详细说明">
           </el-table-column>
-          <el-table-column
-            align="center"
-            prop="returnMsg.status"
-            label="审核状态"
-          >
+          <el-table-column align="center" prop="returnMsg.status" label="审核状态">
             <template slot-scope="scope">
               <div>
                 {{
@@ -152,62 +109,30 @@
           <el-table-column align="center" label="操作">
             <template slot-scope="scope">
               <div>
-                <el-button
-                  v-show="scope.row.returnMsg.status == 0"
-                  type="text"
-                  class="handle-button"
-                  @click="auditMoney(scope.row.returnMsg)"
-                  >审核</el-button
-                >
-                <el-button
-                  v-show="scope.row.returnMsg.payStatus == 0"
-                  type="text"
-                  class="handle-button"
-                  @click="returnMoney(scope.row.returnMsg)"
-                  >退款</el-button
-                >
+                <el-button v-show="scope.row.returnMsg.status == 0" type="text" class="handle-button"
+                  @click="auditMoney(scope.row.returnMsg)">审核</el-button>
+                <el-button v-show="scope.row.returnMsg.payStatus == 0" type="text" class="handle-button"
+                  @click="returnMoney(scope.row.returnMsg)">退款</el-button>
               </div>
             </template>
           </el-table-column>
         </el-table>
       </div>
       <div style="margin-top:15px;text-align: right;">
-        <el-pagination
-          @current-change="handleCurrentChange"
-          :current-page="page"
-          layout="total, prev, pager, next, jumper"
-          :total="total"
-        >
+        <el-pagination @current-change="handleCurrentChange" :current-page="page"
+          layout="total, prev, pager, next, jumper" :total="total">
         </el-pagination>
       </div>
-      <el-dialog
-        title="退款审核"
-        :visible.sync="dialogRefundVisible"
-        width="500px"
-        id="productLog"
-      >
+      <el-dialog title="退款审核" :visible.sync="dialogRefundVisible" width="500px" id="productLog">
         <el-form label-width="125px">
           <el-form-item label="是否通过退款申请">
-            <el-switch
-              v-model="status"
-              active-value="1"
-              inactive-value="-1"
-            ></el-switch>
+            <el-switch v-model="status" active-value="1" inactive-value="-1"></el-switch>
           </el-form-item>
           <el-form-item label="是否同时发起退款">
-            <el-switch
-              v-model="isRefund"
-              active-value="1"
-              inactive-value="0"
-            ></el-switch>
+            <el-switch v-model="isRefund" active-value="1" inactive-value="0"></el-switch>
           </el-form-item>
           <el-form-item label="备注">
-            <el-input
-              type="textarea"
-              :rows="4"
-              v-model="auditReason"
-              placeholder="请输入备注"
-            ></el-input>
+            <el-input type="textarea" :rows="4" v-model="auditReason" placeholder="请输入备注"></el-input>
           </el-form-item>
         </el-form>
         <div slot="footer">
@@ -215,12 +140,7 @@
           <el-button type="primary" @click="auditMoneySure">确 定</el-button>
         </div>
       </el-dialog>
-      <el-dialog
-        title="确定退款"
-        :visible.sync="dialogReturnVisible"
-        width="500px"
-        id="returnMoney"
-      >
+      <el-dialog title="确定退款" :visible.sync="dialogReturnVisible" width="500px" id="returnMoney">
         <div>
           <div style="font-size: 16px;">
             确定退款给顾客？
@@ -239,7 +159,7 @@
 </template>
 
 <script>
-import { base_request_url } from "_req/http";
+import { base_img_url } from "_req/http";
 import { refundPort, auditReturnPort, unAuditReturnPort } from "_req/api/order";
 
 export default {
@@ -260,7 +180,7 @@ export default {
     };
   },
   created() {
-    this.axiosUrl = base_request_url;
+    this.axiosUrl = base_img_url;
     this.getUnAuditReturnList();
   },
   methods: {

@@ -9,14 +9,14 @@
     </div>
     <div style="position:relative;" v-if="imageUrl">
       <span class="spanStyle" @click="delImage">x</span>
-      <img :src="baseUrl + '/file/' + imageUrl" v-image-preview width="100px" height="100px"
+      <img :src="baseUrl + '/file/jewelry/' + imageUrl" v-image-preview width="100px" height="100px"
         style="border-radius:5px;object-fit:cover;" />
     </div>
   </div>
 </template>
 
 <script>
-import { base_request_url } from "_req/http";
+import { base_img_url } from "_req/http";
 import { uploadPort } from "_req/api/common";
 
 export default {
@@ -34,7 +34,7 @@ export default {
     },
   },
   created() {
-    this.baseUrl = base_request_url;
+    this.baseUrl = base_img_url;
     console.log("父组件", this.imgUrl);
   },
   methods: {
@@ -53,23 +53,29 @@ export default {
         return;
       } else {
         console.log(file);
-        // 文件大于2M，进行压缩上传
-        if (file.size / 1024 > 2050) {
-          this.photoCompress2(
-            file,
-            {
-              // 调用压缩图片方法
-              quality: 0.7,
-            },
-            (base64Codes) => {
-              let bl = this.base64UrlToBlob2(base64Codes);
-              this.uploadLice2(bl); // 请求图片上传接口
-            }
-          );
+        if (!this.imgTypeFilter(file.type.split('/')[1])) {
+          // 文件大于2M，进行压缩上传
+          if (file.size / 1024 > 2050) {
+            this.photoCompress2(
+              file,
+              {
+                // 调用压缩图片方法
+                quality: 0.7,
+              },
+              (base64Codes) => {
+                let bl = this.base64UrlToBlob2(base64Codes);
+                this.uploadLice2(bl); // 请求图片上传接口
+              }
+            );
+          } else {
+            // 小于等于2M 原图上传
+            this.uploadLice2(file);
+          }
         } else {
-          // 小于等于2M 原图上传
           this.uploadLice2(file);
         }
+
+
       }
     },
     /*压缩图片
@@ -158,7 +164,8 @@ export default {
       console.log("圖片file", file);
 
       uploadPort({
-        file,
+        files: file,
+        location: 'jewelry'
       })
         .then((res) => {
           if (res.status == 200) {
@@ -170,7 +177,7 @@ export default {
           }
           console.log(res);
 
-          this.imageUrl = res.data.data.fileName;
+          this.imageUrl = res.data.data;
           this.$emit("imgChange", this.imageUrl);
         })
         .catch((err) => {

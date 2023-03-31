@@ -511,11 +511,11 @@
             </li>
 
             <li v-if="isMedia != 1 && systemAdmin == 1" style="
-                  width: 100%;
-                  height: 1px;
-                  margin-top: 20px;
-                  background-color: #262e3d;
-                "></li>
+                          width: 100%;
+                          height: 1px;
+                          margin-top: 20px;
+                          background-color: #262e3d;
+                        "></li>
             <li v-if="isMedia != 1 && systemAdmin == 1" class="dad-li" style="margin-top: 20px">
               <div style="width: 100%">
                 <p class="dad-li-font">系统设置</p>

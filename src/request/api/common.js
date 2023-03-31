@@ -41,7 +41,7 @@ export const warehouseFactoryPort = (p) => post("/warehouseFactoryList", p);
 export const customerTypeListPort = () => get("/customerTypeListGet ");
 
 // 上传图片
-export const uploadPort = (p) => post("/upload", p, true);
+export const uploadPort = (p) => post("/file/upload", p, true);
 
 // 获取销售单详情
 export const sellOrderGetPort = (p) => get("/sellOrderGet", p);

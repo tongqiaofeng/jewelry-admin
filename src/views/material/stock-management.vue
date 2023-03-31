@@ -4,49 +4,24 @@
     <div class="user-edit">
       <el-tabs v-model="activeName">
         <el-tab-pane label="材料信息" name="first">
-          <el-form
-            :model="stockInFormData"
-            :rules="stockInRules"
-            ref="stockInForm"
-            label-width="134px"
-            class="demo-ruleForm"
-          >
+          <el-form :model="stockInFormData" :rules="stockInRules" ref="stockInForm" label-width="134px"
+            class="demo-ruleForm">
             <el-row :gutter="10">
               <el-col :span="12">
                 <el-form-item label="材料名称：" prop="materialId">
-                  <el-select
-                    v-model="stockInFormData.materialId"
-                    placeholder="请选择"
-                    class="input-style"
-                    :popper-append-to-body="false"
-                  >
-                    <el-option
-                      v-for="item in materialList"
-                      :key="item.id"
-                      :label="item.name"
-                      :value="item.id"
-                      @click.native="materialChange(item)"
-                    >
+                  <el-select v-model="stockInFormData.materialId" placeholder="请选择" class="input-style"
+                    :popper-append-to-body="false">
+                    <el-option v-for="item in materialList" :key="item.id" :label="item.name" :value="item.id"
+                      @click.native="materialChange(item)">
                     </el-option>
                   </el-select>
                 </el-form-item>
               </el-col>
               <el-col :span="12">
                 <el-form-item label="仓库/加工厂：" prop="storageId">
-                  <el-select
-                    v-model="storageMsg"
-                    placeholder="请选择"
-                    class="input-style"
-                    @change="storageChange"
-                    :popper-append-to-body="false"
-                    value-key="id"
-                  >
-                    <el-option
-                      v-for="item in warehouseFactoryList"
-                      :key="item.id"
-                      :label="item.name"
-                      :value="item"
-                    >
+                  <el-select v-model="storageMsg" placeholder="请选择" class="input-style" @change="storageChange"
+                    :popper-append-to-body="false" value-key="id">
+                    <el-option v-for="item in warehouseFactoryList" :key="item.id" :label="item.name" :value="item">
                     </el-option>
                   </el-select>
                 </el-form-item>
@@ -55,65 +30,42 @@
 
             <el-row :gutter="10">
               <el-col :span="12">
-                <el-form-item
-                  :label="
-                    stockInFormData.materialId == 11
-                      ? '证书编号：'
-                      : '统一编号：'
-                  "
-                  prop="productNumber"
-                >
-                  <el-input
-                    v-model="stockInFormData.productNumber"
-                    placeholder="请输入"
-                  ></el-input>
+                <el-form-item :label="
+                  stockInFormData.materialId == 11
+                    ? '证书编号：'
+                    : '统一编号：'
+                " prop="productNumber">
+                  <el-input v-model="stockInFormData.productNumber" placeholder="请输入"></el-input>
                 </el-form-item>
               </el-col>
               <el-col :span="12">
                 <el-form-item label="盒子编号：" prop="boxNumber">
-                  <el-input
-                    v-model="stockInFormData.boxNumber"
-                    placeholder="请输入"
-                  ></el-input>
+                  <el-input v-model="stockInFormData.boxNumber" placeholder="请输入"></el-input>
                 </el-form-item>
               </el-col>
             </el-row>
-            <div
-              style="width: 95%;height: 1px;margin: 5px auto 27px auto;border-bottom: 1px dashed #DCDFE6;"
-            ></div>
+            <div style="width: 95%;height: 1px;margin: 5px auto 27px auto;border-bottom: 1px dashed #DCDFE6;"></div>
             <el-row :gutter="10" v-show="certificateshow == false">
               <el-col :span="12">
                 <el-form-item label="形状：" prop="shape">
-                  <el-input
-                    v-model="stockInFormData.shape"
-                    placeholder="请输入"
-                  ></el-input>
+                  <el-input v-model="stockInFormData.shape" placeholder="请输入"></el-input>
                 </el-form-item>
               </el-col>
               <el-col :span="12">
                 <el-form-item label="尺寸/毫米：" prop="size">
-                  <el-input
-                    v-model="stockInFormData.size"
-                    placeholder="请输入"
-                  ></el-input>
+                  <el-input v-model="stockInFormData.size" placeholder="请输入"></el-input>
                 </el-form-item>
               </el-col>
             </el-row>
             <el-row :gutter="10" v-show="certificateshow == false">
               <el-col :span="12">
                 <el-form-item label="产地：" prop="productArea">
-                  <el-input
-                    v-model="stockInFormData.productArea"
-                    placeholder="请输入"
-                  ></el-input>
+                  <el-input v-model="stockInFormData.productArea" placeholder="请输入"></el-input>
                 </el-form-item>
               </el-col>
               <el-col :span="12">
                 <el-form-item label="颜色：" prop="color">
-                  <el-input
-                    v-model="stockInFormData.color"
-                    placeholder="请输入"
-                  ></el-input>
+                  <el-input v-model="stockInFormData.color" placeholder="请输入"></el-input>
                 </el-form-item>
               </el-col>
             </el-row>
@@ -121,18 +73,12 @@
             <el-row :gutter="10" v-show="certificateshow == false">
               <el-col :span="12">
                 <el-form-item label="品质：" prop="quality">
-                  <el-input
-                    v-model="stockInFormData.quality"
-                    placeholder="请输入"
-                  ></el-input>
+                  <el-input v-model="stockInFormData.quality" placeholder="请输入"></el-input>
                 </el-form-item>
               </el-col>
               <el-col :span="12">
                 <el-form-item label="品质细分：" prop="subsection">
-                  <el-input
-                    v-model="stockInFormData.subsection"
-                    placeholder="请输入"
-                  ></el-input>
+                  <el-input v-model="stockInFormData.subsection" placeholder="请输入"></el-input>
                 </el-form-item>
               </el-col>
             </el-row>
@@ -140,94 +86,45 @@
             <el-row :gutter="10" v-show="certificateshow == false">
               <el-col :span="12">
                 <el-form-item label="配对：" prop="paired">
-                  <el-input
-                    v-model="stockInFormData.paired"
-                    placeholder="请输入"
-                  ></el-input>
+                  <el-input v-model="stockInFormData.paired" placeholder="请输入"></el-input>
                 </el-form-item>
               </el-col>
               <el-col :span="12">
                 <el-form-item label="证书编号：" prop="certificateNumber">
-                  <el-input
-                    v-model="stockInFormData.certificateNumber"
-                    placeholder="多个证书编号，用逗号隔开"
-                  ></el-input>
+                  <el-input v-model="stockInFormData.certificateNumber" placeholder="多个证书编号，用逗号隔开"></el-input>
                 </el-form-item>
               </el-col>
             </el-row>
-            <div
-              style="width: 95%;height: 1px;margin: 5px auto 27px auto;border-bottom: 1px dashed #DCDFE6;"
-            ></div>
+            <div style="width: 95%;height: 1px;margin: 5px auto 27px auto;border-bottom: 1px dashed #DCDFE6;"></div>
             <el-form-item label="图片：" prop="imgurls">
               <div>
-                <UploadImg
-                  :imgUrl="stockInFormData.imgurls"
-                  :isUpdate="1"
-                  @imgChange="materialImgUrlChange"
-                ></UploadImg>
+                <UploadImg :imgUrl="stockInFormData.imgurls" :isUpdate="1" @imgChange="materialImgUrlChange"></UploadImg>
               </div>
             </el-form-item>
-            <el-form-item
-              label="加工厂库存状态："
-              required
-              v-if="storageMsg.type == 1"
-            >
-              <el-select
-                v-model="stockInFormData.isProcessing"
-                placeholder="请选择"
-                :popper-append-to-body="false"
-              >
+            <el-form-item label="加工厂库存状态：" required v-if="storageMsg.type == 1">
+              <el-select v-model="stockInFormData.isProcessing" placeholder="请选择" :popper-append-to-body="false">
                 <el-option label="库存中" value="0"> </el-option>
                 <el-option label="加工中" value="1"> </el-option>
               </el-select>
             </el-form-item>
             <el-form-item label="入库时间：" prop="stockInTime">
-              <el-date-picker
-                class="input-style"
-                v-model="stockInFormData.stockInTime"
-                type="date"
-                placeholder="请选择"
-                value-format="yyyy-MM-dd"
-                format="yyyy-MM-dd"
-              >
+              <el-date-picker class="input-style" v-model="stockInFormData.stockInTime" type="date" placeholder="请选择"
+                value-format="yyyy-MM-dd" format="yyyy-MM-dd">
               </el-date-picker>
             </el-form-item>
             <el-form-item label="产品备注：" prop="note">
-              <el-input
-                type="textarea"
-                v-model="stockInFormData.note"
-                placeholder="请输入"
-              ></el-input>
+              <el-input type="textarea" v-model="stockInFormData.note" placeholder="请输入"></el-input>
             </el-form-item>
           </el-form>
         </el-tab-pane>
         <el-tab-pane label="价格信息" name="second">
-          <el-form
-            :model="stockInFormData"
-            :rules="stockInRules"
-            ref="stockPriceForm"
-            label-width="135px"
-            class="demo-ruleForm"
-          >
-            <el-form-item
-              label="发票号："
-              prop="billNumber"
-              v-if="certificateshow == false"
-            >
-              <el-input
-                v-model="stockInFormData.billNumber"
-                placeholder="请输入"
-              ></el-input>
+          <el-form :model="stockInFormData" :rules="stockInRules" ref="stockPriceForm" label-width="135px"
+            class="demo-ruleForm">
+            <el-form-item label="发票号：" prop="billNumber" v-if="certificateshow == false">
+              <el-input v-model="stockInFormData.billNumber" placeholder="请输入"></el-input>
             </el-form-item>
-            <el-form-item
-              label="计价单位："
-              prop="chargeUnit"
-              v-show="certificateshow == false"
-            >
-              <el-radio-group
-                v-model="stockInFormData.chargeUnit"
-                @change="chargeUnitfun"
-              >
+            <el-form-item label="计价单位：" prop="chargeUnit" v-show="certificateshow == false">
+              <el-radio-group v-model="stockInFormData.chargeUnit" @change="chargeUnitfun">
                 <el-radio label="粒"></el-radio>
                 <el-radio label="ct"></el-radio>
                 <el-radio label="g"></el-radio>
@@ -237,21 +134,13 @@
             <el-row :gutter="10" v-show="certificateshow == false">
               <el-col :span="10">
                 <el-form-item label="单价：" prop="unitPrice">
-                  <el-input
-                    style="width: 100%;"
-                    v-model="stockInFormData.unitPrice"
-                    placeholder="请输入"
-                    @input="priceTotal"
-                  ></el-input>
+                  <el-input style="width: 100%;" v-model="stockInFormData.unitPrice" placeholder="请输入"
+                    @input="priceTotal"></el-input>
                 </el-form-item>
               </el-col>
               <el-col :span="14">
                 <el-form-item label="" prop="currency" label-width="0">
-                  <el-radio-group
-                    style="margin-left: 10px;"
-                    v-model="stockInFormData.currency"
-                    @change="currencyChange"
-                  >
+                  <el-radio-group style="margin-left: 10px;" v-model="stockInFormData.currency" @change="currencyChange">
                     <el-radio label="CNY">CNY</el-radio>
                     <el-radio label="EUR">EUR</el-radio>
                     <el-radio label="USD">USD</el-radio>
@@ -263,36 +152,21 @@
             <el-row :gutter="10">
               <el-col :span="20" v-show="numberorweight == true">
                 <el-form-item label="总数量：" prop="number">
-                  <el-input-number
-                    style="width: 100%;"
-                    :controls="false"
-                    v-model="stockInFormData.number"
-                    placeholder="请输入"
-                    @input="priceTotal"
-                  >
+                  <el-input-number style="width: 100%;" :controls="false" v-model="stockInFormData.number"
+                    placeholder="请输入" @input="priceTotal">
                   </el-input-number>
                 </el-form-item>
               </el-col>
               <el-col :span="20" v-show="numberorweight == false">
                 <el-form-item label="总数量：" prop="number">
-                  <el-input-number
-                    style="width: 100%;"
-                    :controls="false"
-                    v-model="stockInFormData.number"
-                    placeholder="请输入"
-                    @input="priceTotal"
-                  >
+                  <el-input-number style="width: 100%;" :controls="false" v-model="stockInFormData.number"
+                    placeholder="请输入" @input="priceTotal">
                   </el-input-number>
                 </el-form-item>
                 <el-form-item label="总重量：" prop="weight">
                   <div style="display: flex;">
-                    <el-input-number
-                      style="width: 100%;"
-                      :controls="false"
-                      v-model="stockInFormData.weight"
-                      placeholder="请输入"
-                      @input="priceTotal"
-                    >
+                    <el-input-number style="width: 100%;" :controls="false" v-model="stockInFormData.weight"
+                      placeholder="请输入" @input="priceTotal">
                     </el-input-number>
                     <div style="font-size: 16px;margin-left: 5px;">
                       {{ stockInFormData.chargeUnit }}
@@ -301,111 +175,61 @@
                 </el-form-item>
               </el-col>
             </el-row>
-            <el-form-item
-              label="总价："
-              prop="totalPrice"
-              v-show="certificateshow == false"
-            >
-              <el-input
-                v-model="stockInFormData.totalPrice"
-                placeholder="请输入"
-                @input="totalPriceChange"
-                @focus="focustotal"
-                @change="totalChange"
-                ><i
-                  slot="suffix"
-                  style="color: #606266;margin-right:5%;font-style:normal;"
-                  >{{ stockInFormData.currency }}</i
-                ></el-input
-              >
+            <el-form-item label="总价：" prop="totalPrice" v-show="certificateshow == false">
+              <el-input v-model="stockInFormData.totalPrice" placeholder="请输入" @input="totalPriceChange"
+                @focus="focustotal" @change="totalChange"><i slot="suffix" class="el-input__icon"
+                  style="color: #606266;font-style:normal;">{{ stockInFormData.currency }}</i></el-input>
             </el-form-item>
             <el-row :gutter="10" v-show="certificateshow == false">
               <el-col :span="12">
                 <el-form-item label="外币兑港币汇率" prop="totalHkRate">
-                  <el-input
-                    @input="totalHkRateChange"
-                    v-model="stockInFormData.totalHkRate"
-                    placeholder="请输入"
-                  ></el-input>
+                  <el-input @input="totalHkRateChange" v-model="stockInFormData.totalHkRate" placeholder="请输入"></el-input>
                 </el-form-item>
               </el-col>
               <el-col :span="12">
                 <el-form-item label="总价港币金额" prop="totalHkPrice">
-                  <el-input
-                    v-model="stockInFormData.totalHkPrice"
-                    placeholder="请输入"
-                    @change="totalChange"
-                  ></el-input>
+                  <el-input v-model="stockInFormData.totalHkPrice" placeholder="请输入" @change="totalChange"></el-input>
                 </el-form-item>
               </el-col>
             </el-row>
 
-            <div
-              style="width: 95%;height: 1px;margin: 5px auto 27px auto;border-bottom: 1px dashed #DCDFE6;"
-            ></div>
+            <div style="width: 95%;height: 1px;margin: 5px auto 27px auto;border-bottom: 1px dashed #DCDFE6;"></div>
 
             <el-row :gutter="10" v-show="certificateshow == false">
               <el-col :span="12">
-                <el-form-item
-                  :label="'建议批发单价' + '(' + stockInFormData.currency + ')'"
-                  prop="adviceWholesalePrice"
-                >
-                  <el-input
-                    v-model="stockInFormData.adviceWholesalePrice"
-                    placeholder="请输入"
-                  ></el-input>
+                <el-form-item :label="'建议批发单价' + '(' + stockInFormData.currency + ')'" prop="adviceWholesalePrice">
+                  <el-input v-model="stockInFormData.adviceWholesalePrice" placeholder="请输入"></el-input>
                 </el-form-item>
               </el-col>
 
               <el-col :span="12">
-                <el-form-item
-                  :label="'建议零售单价' + '(' + stockInFormData.currency + ')'"
-                  prop="adviseSellPrice"
-                >
-                  <el-input
-                    v-model="stockInFormData.adviseSellPrice"
-                    placeholder="请输入"
-                  ></el-input>
+                <el-form-item :label="'建议零售单价' + '(' + stockInFormData.currency + ')'" prop="adviseSellPrice">
+                  <el-input v-model="stockInFormData.adviseSellPrice" placeholder="请输入"></el-input>
                 </el-form-item>
               </el-col>
             </el-row>
             <el-row :gutter="10" v-show="certificateshow == false">
               <el-col :span="12">
                 <el-form-item label="最低销售单价(CNY)" prop="lowestSellPrice">
-                  <el-input
-                    v-model="stockInFormData.lowestSellPrice"
-                    placeholder="请输入"
-                  ></el-input>
+                  <el-input v-model="stockInFormData.lowestSellPrice" placeholder="请输入"></el-input>
                 </el-form-item>
               </el-col>
               <el-col :span="12">
                 <el-form-item label="代理单价(CNY)" prop="agentPrice">
-                  <el-input
-                    v-model="stockInFormData.agentPrice"
-                    placeholder="请输入"
-                  ></el-input>
+                  <el-input v-model="stockInFormData.agentPrice" placeholder="请输入"></el-input>
                 </el-form-item>
               </el-col>
             </el-row>
             <el-row :gutter="10" v-show="certificateshow == false">
               <el-col :span="12">
                 <!-- 建议柜台最低销售价 -->
-                <el-form-item
-                  label="销售单价(CNY)"
-                  prop="counterLowestSellPrice"
-                >
-                  <el-input
-                    v-model="stockInFormData.counterLowestSellPrice"
-                    placeholder="请输入销售单价"
-                  ></el-input>
+                <el-form-item label="销售单价(CNY)" prop="counterLowestSellPrice">
+                  <el-input v-model="stockInFormData.counterLowestSellPrice" placeholder="请输入销售单价"></el-input>
                 </el-form-item>
               </el-col>
               <el-col :span="12">
                 <el-form-item label="标签单价(CNY)" prop="tagPrice">
-                  <el-input
-                    v-model="stockInFormData.tagPrice"
-                    placeholder="请输入标签金额"
-                  ></el-input>
+                  <el-input v-model="stockInFormData.tagPrice" placeholder="请输入标签金额"></el-input>
                 </el-form-item>
               </el-col>
             </el-row>
@@ -417,24 +241,14 @@
       </el-tabs>
       <div style="margin-top: 30px;text-align: right;">
         <el-button @click="resetForm">重 置</el-button>
-        <el-button
-          style="width: 120px;"
-          type="primary"
-          @click="stockInAdd"
-          v-preventClick
-          >提 交
+        <el-button style="width: 120px;" type="primary" @click="stockInAdd" v-preventClick>提 交
         </el-button>
       </div>
     </div>
     <div class="user-table">
       <p class="title-font">原材料库存</p>
-      <el-table
-        :data="productList"
-        tooltip-effect="dark"
-        border
-        @row-click="inventoryLook"
-        @row-dblclick="dblLookInventory"
-      >
+      <el-table :data="productList" tooltip-effect="dark" border @row-click="inventoryLook"
+        @row-dblclick="dblLookInventory">
         <el-table-column align="center" prop="materialName" label="材料名称">
         </el-table-column>
         <el-table-column align="center" prop="productNumber" label="统一编号">
@@ -444,8 +258,8 @@
             <div>
               <span>{{
                 scope.row.currency != ""
-                  ? scope.row.unitPrice + " " + scope.row.currency
-                  : "--"
+                ? scope.row.unitPrice + " " + scope.row.currency
+                : "--"
               }}</span>
             </div>
           </template>
@@ -455,10 +269,10 @@
             <div>
               <span>{{
                 scope.row.currency != ""
-                  ? formatNumberRgx(scope.row.totalPrice) +
-                    " " +
-                    scope.row.currency
-                  : "--"
+                ? formatNumberRgx(scope.row.totalPrice) +
+                " " +
+                scope.row.currency
+                : "--"
               }}</span>
             </div>
           </template>
@@ -472,50 +286,34 @@
         </el-table-column>
       </el-table>
 
-      <el-dialog
-        title="删除材料"
-        :visible.sync="dialogInventoryDeleteVisible"
-        :close-on-press-escape="false"
-        :close-on-click-modal="false"
-        :modal-append-to-body="false"
-        :append-to-body="false"
-        id="delInven"
-      >
+      <el-dialog title="删除材料" :visible.sync="dialogInventoryDeleteVisible" :close-on-press-escape="false"
+        :close-on-click-modal="false" :modal-append-to-body="false" :append-to-body="false" id="delInven">
         <div style="text-align: center;">
           <p style="margin: 30px 0 0 0;font-size: 16px;color: #4e4e4e;">
             确定删除该材料？删除后不可修改
           </p>
         </div>
         <div slot="footer">
-          <el-button @click="dialogInventoryDeleteVisible = false"
-            >取 消</el-button
-          >
-          <el-button type="primary" @click="inventoryDeleteSure" v-preventClick
-            >确 定</el-button
-          >
+          <el-button @click="dialogInventoryDeleteVisible = false">取 消</el-button>
+          <el-button type="primary" @click="inventoryDeleteSure" v-preventClick>确 定</el-button>
         </div>
       </el-dialog>
 
       <div v-if="dialogMaterialMsgUpdateVisible">
-        <materialMsgUpdate
-          :dialogMaterialMsgUpdateVisible="dialogMaterialMsgUpdateVisible"
-          :updateMaterialMsg="inventoryCheckDetail"
-          @sureUpdateMaterial="sureUpdateMaterial"
-        ></materialMsgUpdate>
+        <materialMsgUpdate :dialogMaterialMsgUpdateVisible="dialogMaterialMsgUpdateVisible"
+          :updateMaterialMsg="inventoryCheckDetail" @sureUpdateMaterial="sureUpdateMaterial"></materialMsgUpdate>
       </div>
     </div>
   </div>
 </template>
 
 <script>
-import { base_request_url } from "_req/http";
 import {
   stockMaterialInfoPort,
   materialSavePort,
   materialListPort,
   stockMaterialPort,
   warehouseFactoryPort,
-  uploadPort,
 } from "_req/api/common";
 
 import { materialDeletePort } from "_req/api/material";
@@ -533,7 +331,6 @@ export default {
   data() {
     return {
       isShow: false,
-      axiosUrl: "",
       warehouseFactoryList: [],
       materialList: [],
       storageMsg: {},
@@ -644,7 +441,6 @@ export default {
     };
   },
   created() {
-    this.axiosUrl = base_request_url;
     this.getMaterialList();
     this.getWarehouseFactoryList();
   },
@@ -961,135 +757,6 @@ export default {
     materialImgUrlChange(data) {
       console.log("原材料图片", data);
       this.stockInFormData.imgurls = data.img;
-    },
-
-    // 上传图片
-    inputChange(e) {
-      console.log(e);
-      let files = e.target.files;
-      let that = this;
-      if (files === undefined) {
-        return;
-      }
-
-      for (let i = 0; i < files.length; i++) {
-        console.log(files[i]);
-        if (files[i].size / 1024 > 1025) {
-          // 文件大于1M（根据需求更改），进行压缩上传
-          this.photoCompress(
-            files[i],
-            {
-              // 调用压缩图片方法
-              quality: 0.7,
-            },
-            (base64Codes) => {
-              // console.log("压缩后：" + base.length / 1024 + " " + base);
-              let bl = that.base64UrlToBlob(base64Codes);
-              that.uploadLice(bl); // 请求图片上传接口
-            }
-          );
-        } else {
-          // 小于等于1M 原图上传
-          this.uploadLice(files[i]);
-        }
-      }
-
-      e.target.value = "";
-    },
-    // base64 转 Blob 格式 和file格式
-    base64UrlToBlob(urlData) {
-      let arr = urlData.split(","),
-        mime = arr[0].match(/:(.*?);/)[1], // 去掉url的头，并转化为byte
-        bstr = atob(arr[1]), // 处理异常,将ascii码小于0的转换为大于0
-        n = bstr.length,
-        u8arr = new Uint8Array(n);
-      while (n--) {
-        u8arr[n] = bstr.charCodeAt(n);
-      }
-      // 转blob
-      // return new Blob([u8arr], {type: mime})
-      let filename = Date.parse(new Date()) + ".jpg";
-      // 转file
-      return new File([u8arr], filename, {
-        type: mime,
-      });
-    },
-    /*压缩图片*/
-    photoCompress(file, obj, callback) {
-      let ready = new FileReader();
-      /* 开始读取指定File对象中的内容. 读取操作完成时,返回一个URL格式的字符串. */
-      ready.readAsDataURL(file);
-      ready.onload = (event) => {
-        // 文件读取成功
-        let res = event.target.result;
-        this.canvasDataURL(res, obj, callback); // 开始压缩
-      };
-    },
-    /* 利用canvas数据化图片进行压缩 */
-    /* 图片转base64 */
-    canvasDataURL(path, obj, callback) {
-      let img = new Image();
-      img.src = path;
-      img.onload = function() {
-        let that = this; // 指到img
-        // 默认按比例压缩
-        let w = that.width,
-          h = that.height,
-          scale = w / h;
-        w = obj.width || w;
-        h = obj.height || w / scale;
-        let quality = 0.7; // 默认图片质量为0.7
-        // 生成canvas
-        let canvas = document.createElement("canvas");
-        let ctx = canvas.getContext("2d");
-
-        // 创建属性节点
-        let anw = document.createAttribute("width");
-        anw.nodeValue = w;
-        let anh = document.createAttribute("height");
-        anh.nodeValue = h;
-        canvas.setAttributeNode(anw);
-        canvas.setAttributeNode(anh);
-        // 铺底色
-        ctx.fillStyle = "#fff";
-        ctx.fillRect(0, 0, w, h);
-        ctx.drawImage(that, 0, 0, w, h);
-
-        // 图像质量
-        if (obj.quality && obj.quality >= 1 && obj.quality < 0) {
-          quality = obj.quality;
-        }
-        // quality值越小，所绘制出的图像越模糊
-        let base64 = canvas.toDataURL("image/jpeg", quality);
-        // 回调函数返回base64的值
-        callback(base64);
-      };
-    },
-    //  返回file文件，调用接口执行上传
-    uploadLice(file) {
-      uploadPort({
-        file,
-      }).then((res) => {
-        if (res.status == 200) {
-          this.$message.success({
-            message: "图片上传成功",
-            showClose: true,
-            duration: 2000,
-          });
-        }
-        console.log(res);
-        let imgurl = res.data.data.fileName;
-
-        if (this.imgList.indexOf(imgurl) == -1) {
-          this.imgList.push(imgurl);
-        }
-      });
-    },
-    // 删除图片
-    delImage(index) {
-      if (this.isUpdate == 1) {
-        this.imgList.splice(index, 1);
-      }
     },
 
     // 获取原材料名称列表

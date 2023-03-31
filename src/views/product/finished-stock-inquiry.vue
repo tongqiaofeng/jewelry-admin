@@ -83,7 +83,7 @@
               <el-table-column align="center" prop="materialName" label="图片">
                 <template slot-scope="scope">
                   <div>
-                    <img :src="axiosUrl + '/file/' + imgFilter(scope.row.img)" alt=""
+                    <img :src="axiosUrl + '/file/jewelry/' + imgFilter(scope.row.img)"
                       style="width: 100px;height: 100px;object-fit: cover;" />
                   </div>
                 </template>
@@ -202,7 +202,7 @@
           <el-table-column align="center" prop="materialName" label="图片">
             <template slot-scope="scope">
               <div>
-                <img :src="axiosUrl + '/file/' + imgFilter(scope.row.img)" alt=""
+                <img :src="axiosUrl + '/file/jewelry/' + imgFilter(scope.row.img)" alt=""
                   style="width: 100px;height: 100px;object-fit: cover;" />
               </div>
             </template>
@@ -293,7 +293,7 @@
           <p style="margin: 0;">返回</p>
         </div>
         <div class="add-left">
-          <el-form :model="deliveryData" :rules="deliveryRules" ref="topDataRef" label-width="106px">
+          <el-form :model="deliveryData" :rules="deliveryRules" ref="topDataRef" label-width="125px">
             <el-form-item label="出库类型：" prop="type">
               <el-select v-model="deliveryData.type" class="input-style" @change="typeChange"
                 :popper-append-to-body="false">
@@ -301,6 +301,7 @@
                 </el-option>
               </el-select>
             </el-form-item>
+
             <el-form-item label="目的地：" prop="endStorageId" v-if="deliveryData.type == 0">
               <el-select v-model="deliveryData.endStorageId" placeholder="请选择目的地" class="input-style"
                 :popper-append-to-body="false">
@@ -308,88 +309,87 @@
                 </el-option>
               </el-select>
             </el-form-item>
+
             <el-form-item label="销售发票号：" prop="sellBillNumber" v-if="deliveryData.type == 1">
               <el-input v-model="deliveryData.sellBillNumber" placeholder="请输入" clearable class="input-style"></el-input>
             </el-form-item>
-            <el-row :gutter="10" v-if="deliveryData.type == 1">
-              <el-col :span="12">
-                <el-form-item label="销售员：" prop="solder">
-                  <el-input v-model="deliveryData.solder" placeholder="请输入销售员" clearable class="input-style"></el-input>
-                </el-form-item>
-              </el-col>
-              <el-col :span="12">
-                <el-form-item label="销售组：" prop="group">
-                  <el-autocomplete class="input-style" v-model="deliveryData.group" :fetch-suggestions="groupQuery"
-                    placeholder="请选择/输入销售组" @select="handleGroupSelect"></el-autocomplete>
-                </el-form-item>
-              </el-col>
-            </el-row>
-            <el-row :gutter="10" v-if="deliveryData.type == 1">
-              <el-col :span="12">
-                <el-form-item label="顾客姓名：" prop="customer">
-                  <el-input v-model="deliveryData.customer" placeholder="请输入顾客姓名" clearable
-                    class="input-style"></el-input>
-                </el-form-item>
-              </el-col>
-              <el-col :span="12">
-                <el-form-item label="顾客类型：" prop="customerType">
-                  <el-autocomplete class="input-style" v-model="deliveryData.customerType"
-                    :fetch-suggestions="customerTypeQuery" placeholder="请选择/输入类型"
-                    @select="handleModelSelect"></el-autocomplete>
-                </el-form-item>
-              </el-col>
-            </el-row>
-            <el-form-item label="出售币种：" v-if="deliveryData.type == 1" prop="saleCurrency">
+
+            <el-form-item label="销售员：" prop="solder" v-if="deliveryData.type == 1">
+              <el-input v-model="deliveryData.solder" placeholder="请输入销售员" clearable class="input-style"></el-input>
+            </el-form-item>
+
+            <el-form-item label="销售组：" prop="group" v-if="deliveryData.type == 1">
+              <el-autocomplete class="input-style" v-model="deliveryData.group" :fetch-suggestions="groupQuery"
+                placeholder="请选择/输入销售组" @select="handleGroupSelect"></el-autocomplete>
+            </el-form-item>
+
+            <el-form-item label="顾客姓名：" prop="customer" v-if="deliveryData.type == 1">
+              <el-input v-model="deliveryData.customer" placeholder="请输入顾客姓名" clearable class="input-style"></el-input>
+            </el-form-item>
+
+            <el-form-item label="顾客类型：" prop="customerType" v-if="deliveryData.type == 1">
+              <el-autocomplete class="input-style" v-model="deliveryData.customerType"
+                :fetch-suggestions="customerTypeQuery" placeholder="请选择/输入类型"
+                @select="handleModelSelect"></el-autocomplete>
+            </el-form-item>
+
+            <el-form-item label="出售币种：" prop="saleCurrency" v-if="deliveryData.type == 1">
               <el-radio-group v-model="deliveryData.saleCurrency" @change="currencyChange">
                 <el-radio label="CNY">CNY</el-radio>
                 <el-radio label="EUR">EUR</el-radio>
                 <el-radio label="USD">USD</el-radio>
                 <el-radio label="HKD">HKD</el-radio>
               </el-radio-group>
-            </el-form-item></el-form>
+            </el-form-item>
+            <el-form-item label="外币兑港币汇率：" prop="totalToHkRate" v-if="deliveryData.type == 1">
+              <el-input @input="totalHkRateChange" v-model="deliveryData.totalToHkRate" placeholder="请输入" clearable
+                class="input-style"></el-input>
+            </el-form-item>
+          </el-form>
 
-          <el-collapse accordion v-if="deliveryData.stockOutList.length > 0">
-            <el-collapse-item v-for="item in deliveryData.stockOutList" :key="item.id">
-              <template slot="title">
-                {{ item.productName + " " + item.productNumber
-                }}<i @click="delNum(item.id)" class="el-icon-delete"
-                  style="margin-left: 10px;font-size: 20px;color: red;"></i>
+          <el-table :data="deliveryData.stockOutList" v-if="deliveryData.stockOutList.length > 0" :key="9">
+            <el-table-column align="center" prop="productName" label="产品名称">
+            </el-table-column>
+            <el-table-column align="center" prop="productNumber" label="统一编号">
+            </el-table-column>
+            <el-table-column align="center" label="出售外币金额" v-if="deliveryData.type == 1">
+              <template slot-scope="scope">
+                <div>
+                  <el-input @input="moneyChange" @change="totalChange(scope.row)" v-model="scope.row.saleMoney"
+                    placeholder="请输入" clearable>
+                    <i slot="suffix" class="el-input__icon" style="color: #606266;font-style:normal;">{{
+                      deliveryData.saleCurrency
+                    }}</i>
+                  </el-input>
+                </div>
               </template>
-              <div>
-                <el-form label-width="124px" id="left">
-                  <el-form-item label="出售外币金额：" v-if="deliveryData.type == 1" :rules="[
-                    {
-                      required: true,
-                      message: '请输入出售金额',
-                      trigger: 'blur',
-                    },
-                  ]">
-                    <el-input @input="moneyChange" @change="totalChange(item)" v-model="item.saleMoney"
-                      placeholder="请输入出售金额" clearable class="input-style"><i slot="suffix"
-                        style="color: #606266;margin-right:10%;font-style:normal;">{{ deliveryData.saleCurrency
-                        }}</i></el-input>
-                  </el-form-item>
-                  <el-form-item label="外币兑港币汇率：" v-if="deliveryData.type == 1">
-                    <el-input @input="totalHkRateChange" v-model="deliveryData.totalToHkRate" placeholder="请输入" clearable
-                      class="input-style"></el-input>
-                  </el-form-item>
-                  <el-form-item label="出售港币金额：" v-if="deliveryData.type == 1">
-                    <el-input v-model="item.sellTotalHkPrice" placeholder="请输入" clearable class="input-style"></el-input>
-                  </el-form-item>
+            </el-table-column>
 
-                  <el-form-item label="其他支出费用：" v-if="deliveryData.type == 1">
-                    <el-input @change="totalChange(item)" v-model="item.otherExpenses" placeholder="请输入金额" clearable
-                      class="input-style">
-                      <i slot="suffix" style="color: #606266;margin-right:10%;font-style:normal;">HKD</i>
-                    </el-input>
-                  </el-form-item>
-                  <el-form-item label="货物转移记录：">
-                    <Note :note="item.transferRemarks" @noteContent="noteProListContent"></Note>
-                  </el-form-item>
-                </el-form>
-              </div>
-            </el-collapse-item>
-          </el-collapse>
+            <el-table-column align="center" label="出售港币金额" v-if="deliveryData.type == 1">
+              <template slot-scope="scope">
+                <div>
+                  <el-input v-model="scope.row.sellTotalHkPrice" placeholder="请输入" clearable></el-input>
+                </div>
+              </template>
+            </el-table-column>
+            <el-table-column align="center" label="其他支出费用" v-if="deliveryData.type == 1">
+              <template slot-scope="scope">
+                <div>
+                  <el-input v-model="scope.row.otherExpenses" placeholder="请输入" clearable>
+                    <i slot="suffix" class="el-input__icon" style="color: #606266;font-style:normal;">HKD</i>
+                  </el-input>
+                </div>
+              </template>
+            </el-table-column>
+
+            <el-table-column align="center" width="120px" label="操作">
+              <template slot-scope="scope">
+                <div style="display: flex;justify-content: center;">
+                  <el-button type="text" @click="recordDetail(scope.row)">转移详情</el-button>
+                </div>
+              </template>
+            </el-table-column>
+          </el-table>
 
           <el-form style="margin-top: 40px;" :model="deliveryData" :rules="deliveryRules" ref="deliveryForm"
             label-width="124px">
@@ -417,13 +417,25 @@
     <div v-if="pageSel == 1">
       <ProductUpdate :updateProductMsg="deviceDetail" @sureUpdateProduct="sureUpdateProduct"></ProductUpdate>
     </div>
+
+    <el-dialog title="货物转移记录" v-if="dialogRecordVisible" :visible.sync="dialogRecordVisible"
+      :close-on-press-escape="false" :close-on-click-modal="false" :modal-append-to-body="false" :append-to-body="false"
+      id="recordDialog">
+      <div style="text-align: center;">
+        <Note :note="recordMsg" @noteContent="noteProListContent"></Note>
+      </div>
+      <div slot="footer">
+        <el-button @click="dialogRecordVisible = false">取 消</el-button>
+        <el-button type="primary" @click="recordMsgSure" v-preventClick>确 定</el-button>
+      </div>
+    </el-dialog>
   </div>
 </template>
 
 <script>
 import { customerTypeMixins, groupMixins } from "@/mixins";
 
-import { base_request_url } from "_req/http";
+import { base_img_url } from "_req/http";
 import {
   productInfoPort,
   warehouseFactoryPort,
@@ -508,20 +520,12 @@ export default {
         group: "",
         customer: "",
         customerType: "",
-        saleMoney: "",
-        phoneNumber: "",
 
         saleCurrency: "CNY",
         stockOutTime: "",
         receiver: "",
         outNote: "",
         stockOutList: [],
-
-        processCost: "",
-        lowestSellPrice: "",
-        adviseSellPrice: "",
-        tagPrice: "",
-        adviceWholesalePrice: "",
 
         totalToHkRate: "",
         sellBillNumber: "",
@@ -600,11 +604,15 @@ export default {
       pagePro: 1,
       totalPro: 0,
       pageSel: 0,
+
+      recordMsg: '',
+      dialogRecordVisible: false,
+      recordNewMsg: [],
     };
   },
 
   created() {
-    this.axiosUrl = base_request_url;
+    this.axiosUrl = base_img_url;
     this.cliHeight = document.body.clientHeight - 185;
     this.warehouseKeywordCheck();
     this.warehouseStockCheck();
@@ -621,9 +629,24 @@ export default {
         this.getWarehouseProduct();
       }
     },
-    // 出库产品 货物转移记录
+
+    // 货物转移
+    recordDetail(item) {
+      console.log(item);
+      this.recordMsg = item.transferRemarks;
+      this.dialogRecordVisible = true;
+    },
+    recordMsgSure() {
+      console.log(this.recordNewMsg);
+      this.deliveryData.stockOutList[0].transferRemarks = this.recordNewMsg;
+      console.log(this.deliveryData.stockOutList);
+
+      this.dialogRecordVisible = false;
+    },
+    // 待出库清单  货物转移记录
     noteProListContent(val) {
-      this.deliveryData.stockOutList[0].transferRemarks = val;
+      console.log("货物转移记录变化赋值", val);
+      this.recordNewMsg = val;
     },
 
     // 出库类型变化
@@ -637,6 +660,23 @@ export default {
         if (valid) {
           this.$refs[formName].validate((valid) => {
             if (valid) {
+              if (this.deliveryData.type == 1) {
+                for (const pro of this.deliveryData.stockOutList) {
+                  console.log(pro);
+                  if (!pro.saleMoney) {
+                    this.$message.error({
+                      message:
+                        pro.productName +
+                        " " +
+                        pro.productNumber +
+                        "出售外币金额为空，请填写",
+                      duration: 3000,
+                    });
+                    return;
+                  }
+                }
+              }
+
               for (const item of this.deliveryData.stockOutList) {
                 item.transferRemarks = JSON.stringify(item.transferRemarks);
               }
@@ -695,13 +735,14 @@ export default {
 
         this.deliveryData.stockOutList.push({
           id: val.id,
-          designName: val.designName,
           productName: val.productName,
           productNumber: val.productNumber,
-          number: 1,
           transferRemarks: val.transferRemarks
             ? JSON.parse(val.transferRemarks)
             : [],
+          saleMoney: "",
+          sellTotalHkPrice: "",
+          otherExpenses: "",
         });
 
         this.siteSel = 2;

@@ -11,7 +11,8 @@
                 <template slot-scope="scope">
                   <div>
                     <span v-if="scope.row.img == '' || scope.row.img == null">---</span>
-                    <img v-else :src="axiosUrl + '/file/' + imgFilter(scope.row.img)" width="50px" height="50px" />
+                    <img v-else :src="axiosUrl + '/file/jewelry/' + imgFilter(scope.row.img)" width="50px"
+                      height="50px" />
                   </div>
                 </template>
               </el-table-column>
@@ -68,7 +69,7 @@
             <template slot-scope="scope">
               <div>
                 <span v-if="scope.row.img == '' || scope.row.img == null">---</span>
-                <img v-else :src="axiosUrl + '/file/' + imgFilter(scope.row.img)" width="50px" height="50px" />
+                <img v-else :src="axiosUrl + '/file/jewelry/' + imgFilter(scope.row.img)" width="50px" height="50px" />
               </div>
             </template>
           </el-table-column>
@@ -103,7 +104,7 @@
 </template>
 
 <script>
-import { base_request_url } from "_req/http";
+import { base_img_url } from "_req/http";
 import { warehouseFactoryPort, productListPort } from "_req/api/common";
 import {
   recommendProductPort,
@@ -137,7 +138,7 @@ export default {
     };
   },
   created() {
-    this.axiosUrl = base_request_url;
+    this.axiosUrl = base_img_url;
     this.getActivityList();
     this.getWarehouseFactoryList();
   },
@@ -277,15 +278,6 @@ export default {
         .catch((err) => {
           console.log(err);
         });
-    },
-    imgFilter(img) {
-      let url =
-        img == "" || img == null
-          ? ""
-          : img.indexOf("|") == -1
-            ? img
-            : img.split("|")[0];
-      return url;
     },
   },
 };
